@@ -13,6 +13,7 @@ load_dotenv()
 
 JIRA_URL = os.getenv("JIRA_URL", "").rstrip("/")
 JIRA_TOKEN = os.getenv("JIRA_TOKEN")
+JIRA_ASSIGNEE = os.getenv("JIRA_ASSIGNEE", "").strip()
 EXPORT_DIR = Path(os.getenv("JIRA_EXPORT_DIR", "exports"))
 LOG_DIR = Path(os.getenv("JIRA_LOG_DIR", "logs"))
 
@@ -86,18 +87,30 @@ def check_connection():
     return data
 
 
+def escape_jql_value(value):
+    return value.replace("\\", "\\\\").replace('"', '\\"')
+
+
+def get_assignee_jql():
+    if JIRA_ASSIGNEE:
+        return f'assignee = "{escape_jql_value(JIRA_ASSIGNEE)}"'
+
+    return "assignee = currentUser()"
+
+
 def build_focus_jql():
     """
     JQL для задач, которые требуют фокуса.
 
     Логика:
-    1. Задача назначена на текущего пользователя.
+    1. Задача назначена на JIRA_ASSIGNEE или на текущего пользователя.
     2. Задача не завершена.
     3. Задача важная, срочная, просроченная, скоро подходит срок,
        давно не обновлялась или помечена label'ом focus.
     """
-    jql = """
-    assignee = currentUser()
+    assignee_jql = get_assignee_jql()
+    jql = f"""
+    {assignee_jql}
     AND statusCategory != Done
     AND (
         priority in (Highest, High, Critical, Blocker)
@@ -278,6 +291,7 @@ def main():
         logging.info("Старт выгрузки задач Jira")
         validate_config()
         check_connection()
+        logging.info("Фильтр исполнителя Jira: %s", JIRA_ASSIGNEE or "currentUser()")
 
         jql = build_focus_jql()
         logging.info("JQL: %s", jql)

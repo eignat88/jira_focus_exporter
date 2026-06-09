@@ -6,7 +6,7 @@
 
 Скрипт обращается к Jira REST API и экспортирует задачи, которые:
 
-- назначены на текущего пользователя Jira;
+- назначены на пользователя из `JIRA_ASSIGNEE` или, если переменная пустая, на текущего пользователя Jira;
 - не находятся в statusCategory `Done`;
 - имеют высокий приоритет, близкий или просроченный срок, label `focus` / `urgent` / `critical` либо давно не обновлялись.
 
@@ -42,11 +42,14 @@ pip install -r requirements.txt
 ```env
 JIRA_URL=https://jira.letoile.tech
 JIRA_TOKEN=replace_with_your_jira_token
+JIRA_ASSIGNEE=ignatchenko
 JIRA_EXPORT_DIR=exports
 JIRA_LOG_DIR=logs
 ```
 
-Токен Jira храните только в `.env`.
+Токен Jira храните только в `.env`. Не добавляйте реальный токен в Git, README или `.env.example`. Если токен был отправлен в чат или сохранён в открытом виде не там, где нужно, лучше отозвать его и выпустить новый в Jira Personal Access Tokens.
+
+`JIRA_ASSIGNEE` можно оставить пустым — тогда скрипт использует `assignee = currentUser()`. Для вашего пользователя можно указать `ignatchenko`, чтобы фильтр был явным.
 
 ## Ручной запуск
 
@@ -93,7 +96,7 @@ Start-ScheduledTask -TaskName "Jira Focus Tasks Exporter"
 По умолчанию используется фильтр:
 
 ```sql
-assignee = currentUser()
+assignee = "ignatchenko"
 AND statusCategory != Done
 AND (
     priority in (Highest, High, Critical, Blocker)
@@ -105,4 +108,10 @@ AND (
 ORDER BY priority DESC, due ASC, updated ASC
 ```
 
-Если в вашей Jira нет приоритетов `Critical` или `Blocker`, измените список приоритетов в функции `build_focus_jql()` в `main.py`.
+Если `JIRA_ASSIGNEE` пустой, первая строка будет `assignee = currentUser()`. Если в вашей Jira нет приоритетов `Critical` или `Blocker`, измените список приоритетов в функции `build_focus_jql()` в `main.py`.
+
+## Безопасность токена
+
+- Реальный PAT должен лежать только в локальном `.env`, который уже исключён из Git.
+- Не коммитьте токен и не вставляйте его в документацию.
+- При утечке токена отзовите его в Jira и создайте новый.
