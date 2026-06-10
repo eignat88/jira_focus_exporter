@@ -14,6 +14,10 @@ load_dotenv()
 JIRA_URL = os.getenv("JIRA_URL", "").rstrip("/")
 JIRA_TOKEN = os.getenv("JIRA_TOKEN")
 JIRA_ASSIGNEE = os.getenv("JIRA_ASSIGNEE", "").strip()
+JIRA_FOCUS_PRIORITIES = os.getenv(
+    "JIRA_FOCUS_PRIORITIES",
+    "High,Highest,Critical,Blocker",
+)
 EXPORT_DIR = Path(os.getenv("JIRA_EXPORT_DIR", "exports"))
 LOG_DIR = Path(os.getenv("JIRA_LOG_DIR", "logs"))
 
@@ -98,7 +102,96 @@ def get_assignee_jql():
     return "assignee = currentUser()"
 
 
-def build_focus_jql():
+def parse_csv_list(value):
+    return [item.strip() for item in value.split(",") if item.strip()]
+
+
+def get_configured_focus_priorities():
+    return parse_csv_list(JIRA_FOCUS_PRIORITIES)
+
+
+def get_available_priority_names():
+    url = f"{JIRA_URL}/rest/api/2/priority"
+    response = requests.get(url, headers=get_headers(), timeout=30)
+
+    if response.status_code != 200:
+        logging.warning("Не удалось получить список приоритетов Jira")
+        logging.warning("HTTP status: %s", response.status_code)
+        logging.warning("Response: %s", response.text)
+        return None
+
+    return {priority.get("name") for priority in response.json() if priority.get("name")}
+
+
+def get_existing_focus_priorities():
+    configured_priorities = get_configured_focus_priorities()
+    if not configured_priorities:
+        logging.info("Фильтр по приоритетам отключён: JIRA_FOCUS_PRIORITIES пустой")
+        return []
+
+    available_priorities = get_available_priority_names()
+    if available_priorities is None:
+        logging.warning(
+            "Фильтр по приоритетам отключён, чтобы не получить ошибку JQL "
+            "из-за неизвестных значений"
+        )
+        return []
+
+    available_by_lower = {priority.lower(): priority for priority in available_priorities}
+    existing_priorities = [
+        available_by_lower[priority.lower()]
+        for priority in configured_priorities
+        if priority.lower() in available_by_lower
+    ]
+    missing_priorities = [
+        priority
+        for priority in configured_priorities
+        if priority.lower() not in available_by_lower
+    ]
+
+    if missing_priorities:
+        logging.warning(
+            "Эти приоритеты отсутствуют в Jira и будут исключены из JQL: %s",
+            ", ".join(missing_priorities),
+        )
+
+    if existing_priorities:
+        logging.info("Приоритеты для focus-фильтра: %s", ", ".join(existing_priorities))
+    else:
+        logging.warning(
+            "Ни один настроенный приоритет не найден в Jira; "
+            "условие priority будет исключено из JQL"
+        )
+
+    return existing_priorities
+
+
+def build_priority_jql(priority_names):
+    if not priority_names:
+        return None
+
+    escaped_priorities = [
+        f'"{escape_jql_value(priority)}"'
+        for priority in priority_names
+    ]
+    return f"priority in ({', '.join(escaped_priorities)})"
+
+
+def build_focus_conditions(priority_names):
+    conditions = [
+        "due <= 7d",
+        "due < now()",
+        "labels in (focus, urgent, critical)",
+        "updated <= -3d",
+    ]
+    priority_jql = build_priority_jql(priority_names)
+    if priority_jql:
+        conditions.insert(0, priority_jql)
+
+    return conditions
+
+
+def build_focus_jql(priority_names=None):
     """
     JQL для задач, которые требуют фокуса.
 
@@ -108,17 +201,16 @@ def build_focus_jql():
     3. Задача важная, срочная, просроченная, скоро подходит срок,
        давно не обновлялась или помечена label'ом focus.
     """
+    if priority_names is None:
+        priority_names = get_configured_focus_priorities()
+
     assignee_jql = get_assignee_jql()
+    focus_conditions = build_focus_conditions(priority_names)
+    focus_conditions_jql = " OR ".join(focus_conditions)
     jql = f"""
     {assignee_jql}
     AND statusCategory != Done
-    AND (
-        priority in (Highest, High, Critical, Blocker)
-        OR due <= 7d
-        OR due < now()
-        OR labels in (focus, urgent, critical)
-        OR updated <= -3d
-    )
+    AND ({focus_conditions_jql})
     ORDER BY priority DESC, due ASC, updated ASC
     """
     return " ".join(jql.split())
@@ -293,7 +385,8 @@ def main():
         check_connection()
         logging.info("Фильтр исполнителя Jira: %s", JIRA_ASSIGNEE or "currentUser()")
 
-        jql = build_focus_jql()
+        priority_names = get_existing_focus_priorities()
+        jql = build_focus_jql(priority_names)
         logging.info("JQL: %s", jql)
 
         issues = search_issues(jql)

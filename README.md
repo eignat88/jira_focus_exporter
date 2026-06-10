@@ -43,6 +43,7 @@ pip install -r requirements.txt
 JIRA_URL=https://jira.letoile.tech
 JIRA_TOKEN=replace_with_your_jira_token
 JIRA_ASSIGNEE=ignatchenko
+JIRA_FOCUS_PRIORITIES=High,Highest,Critical,Blocker
 JIRA_EXPORT_DIR=exports
 JIRA_LOG_DIR=logs
 ```
@@ -50,6 +51,8 @@ JIRA_LOG_DIR=logs
 Токен Jira храните только в `.env`. Не добавляйте реальный токен в Git, README или `.env.example`. Если токен был отправлен в чат или сохранён в открытом виде не там, где нужно, лучше отозвать его и выпустить новый в Jira Personal Access Tokens.
 
 `JIRA_ASSIGNEE` можно оставить пустым — тогда скрипт использует `assignee = currentUser()`. Для вашего пользователя можно указать `ignatchenko`, чтобы фильтр был явным.
+
+`JIRA_FOCUS_PRIORITIES` — список приоритетов через запятую. Скрипт перед поиском получает реальные приоритеты из Jira и автоматически исключает отсутствующие значения, поэтому ошибка вида `Значение 'Highest' отсутствует для поля 'priority'` больше не должна останавливать выгрузку. Если фильтр по приоритетам не нужен, оставьте переменную пустой.
 
 ## Ручной запуск
 
@@ -99,7 +102,7 @@ Start-ScheduledTask -TaskName "Jira Focus Tasks Exporter"
 assignee = "ignatchenko"
 AND statusCategory != Done
 AND (
-    priority in (Highest, High, Critical, Blocker)
+    priority in ("High")
     OR due <= 7d
     OR due < now()
     OR labels in (focus, urgent, critical)
@@ -108,7 +111,7 @@ AND (
 ORDER BY priority DESC, due ASC, updated ASC
 ```
 
-Если `JIRA_ASSIGNEE` пустой, первая строка будет `assignee = currentUser()`. Если в вашей Jira нет приоритетов `Critical` или `Blocker`, измените список приоритетов в функции `build_focus_jql()` в `main.py`.
+Если `JIRA_ASSIGNEE` пустой, первая строка будет `assignee = currentUser()`. Если в вашей Jira нет `Highest`, `Critical` или `Blocker`, скрипт исключит эти значения из JQL автоматически. Настроить желаемые приоритеты можно через `JIRA_FOCUS_PRIORITIES`.
 
 ## Безопасность токена
 
