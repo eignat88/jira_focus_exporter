@@ -1,404 +1,289 @@
+import argparse
 import logging
-import os
 import sys
-from datetime import datetime, timezone
-from pathlib import Path
+from datetime import datetime, time
 
-import pandas as pd
-import requests
-from dotenv import load_dotenv
-
-
-load_dotenv()
-
-JIRA_URL = os.getenv("JIRA_URL", "").rstrip("/")
-JIRA_TOKEN = os.getenv("JIRA_TOKEN")
-JIRA_ASSIGNEE = os.getenv("JIRA_ASSIGNEE", "").strip()
-JIRA_FOCUS_PRIORITIES = os.getenv(
-    "JIRA_FOCUS_PRIORITIES",
-    "High,Highest,Critical,Blocker",
-)
-EXPORT_DIR = Path(os.getenv("JIRA_EXPORT_DIR", "exports"))
-LOG_DIR = Path(os.getenv("JIRA_LOG_DIR", "logs"))
-
-EXPORT_DIR.mkdir(exist_ok=True)
-LOG_DIR.mkdir(exist_ok=True)
-
-LOG_FILE = LOG_DIR / "jira_focus_exporter.log"
-EXPORT_COLUMNS = [
-    "key",
-    "url",
-    "project",
-    "issue_type",
-    "summary",
-    "status",
-    "status_category",
-    "priority",
-    "focus_reason",
-    "assignee",
-    "reporter",
-    "created",
-    "updated",
-    "due_date",
-    "labels",
-    "components",
-    "fix_versions",
-]
-HIGH_PRIORITY_NAMES = {"highest", "high", "critical", "blocker"}
-FOCUS_LABELS = {"focus", "urgent", "critical"}
-
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s",
-    handlers=[
-        logging.FileHandler(LOG_FILE, encoding="utf-8"),
-        logging.StreamHandler(sys.stdout),
-    ],
-)
+from config import AppConfig, VALID_MODES, load_config, validate_config
+from exporters import WMS_ACTIVITY_COLUMNS, export_to_files, normalize_issue
+from filters import build_assigned_jql, build_focus_jql, build_wms_activity_jql
+from focus_reason import build_focus_reason, get_stale_days, parse_jira_datetime
+from jira_client import JiraClient
 
 
-def validate_config():
-    if not JIRA_URL:
-        raise ValueError("Не заполнен JIRA_URL в .env")
+def setup_logging(config: AppConfig) -> None:
+    config.log_dir.mkdir(exist_ok=True)
+    log_file = config.log_dir / "jira_focus_exporter.log"
+    root_logger = logging.getLogger()
+    root_logger.handlers.clear()
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(message)s",
+        handlers=[
+            logging.FileHandler(log_file, encoding="utf-8"),
+            logging.StreamHandler(sys.stdout),
+        ],
+    )
 
-    if not JIRA_TOKEN:
-        raise ValueError("Не заполнен JIRA_TOKEN в .env")
+
+def parse_args(default_mode: str) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Экспорт задач Jira")
+    parser.add_argument(
+        "--mode",
+        choices=sorted(VALID_MODES),
+        default=default_mode,
+        help="Режим выгрузки: focus, assigned, wms-activity или explain",
+    )
+    parser.add_argument("--issue", help="Ключ задачи для режима explain")
+    return parser.parse_args()
 
 
-def get_headers():
+def assignee_display(config: AppConfig) -> str:
+    return config.filters.assignee or "currentUser()"
+
+
+def log_effective_filters(mode: str, config: AppConfig, jql: str) -> None:
+    filters = config.filters
+    logging.info("Mode: %s", mode)
+    logging.info("JIRA_ASSIGNEE: %s", assignee_display(config))
+    logging.info("JIRA_PROJECTS: %s", ",".join(filters.projects) or "<all>")
+    logging.info("JIRA_ISSUE_TYPES: %s", ",".join(filters.issue_types) or "<all>")
+    logging.info(
+        "JIRA_EXCLUDED_STATUS_CATEGORIES: %s",
+        ",".join(filters.excluded_status_categories) or "<none>",
+    )
+    logging.info("JIRA_EXCLUDED_STATUSES: %s", ",".join(filters.excluded_statuses) or "<none>")
+    logging.info("JIRA_INCLUDED_STATUSES: %s", ",".join(filters.included_statuses) or "<none>")
+    logging.info("JIRA_FOCUS_PRIORITIES: %s", ",".join(filters.focus_priorities) or "<none>")
+    logging.info("JIRA_FOCUS_LABELS: %s", ",".join(filters.focus_labels) or "<none>")
+    logging.info("JIRA_DUE_SOON_DAYS: %s", filters.due_soon_days)
+    logging.info("JIRA_STALE_DAYS: %s", filters.stale_days)
+    logging.info("JIRA_INCLUDE_EMPTY_DUE_IN_FOCUS: %s", filters.include_empty_due_in_focus)
+    logging.info("Final JQL: %s", jql)
+
+
+def run_issue_export(
+    mode: str,
+    config: AppConfig,
+    client: JiraClient,
+    jql: str,
+    existing_priorities: list[str] | None = None,
+) -> tuple[int, object, object]:
+    log_effective_filters(mode, config, jql)
+    issues = client.search_issues(jql)
+    rows = [normalize_issue(issue, config, existing_priorities) for issue in issues]
+    csv_path, xlsx_path = export_to_files(rows, config.export_dir, mode)
+    return len(rows), csv_path, xlsx_path
+
+
+def author_identity(user: dict | None) -> set[str]:
+    if not user:
+        return set()
     return {
-        "Authorization": f"Bearer {JIRA_TOKEN}",
-        "Accept": "application/json",
-        "Content-Type": "application/json",
+        str(value).lower()
+        for key in ("accountId", "name", "key", "emailAddress", "displayName")
+        if (value := user.get(key))
     }
 
 
-def check_connection():
-    url = f"{JIRA_URL}/rest/api/2/myself"
-    response = requests.get(url, headers=get_headers(), timeout=30)
-
-    if response.status_code != 200:
-        logging.error("Ошибка подключения к Jira")
-        logging.error("HTTP status: %s", response.status_code)
-        logging.error("Response: %s", response.text)
-        response.raise_for_status()
-
-    data = response.json()
-    logging.info(
-        "Подключение к Jira успешно. Пользователь: %s",
-        data.get("displayName") or data.get("name") or data.get("emailAddress"),
-    )
-    return data
+def is_wms_author(user: dict | None, member_identities: set[str]) -> bool:
+    return bool(author_identity(user) & member_identities)
 
 
-def escape_jql_value(value):
-    return value.replace("\\", "\\\\").replace('"', '\\"')
+def parse_activity_time(value: str | None) -> datetime | None:
+    return parse_jira_datetime(value)
 
 
-def get_assignee_jql():
-    if JIRA_ASSIGNEE:
-        return f'assignee = "{escape_jql_value(JIRA_ASSIGNEE)}"'
-
-    return "assignee = currentUser()"
-
-
-def parse_csv_list(value):
-    return [item.strip() for item in value.split(",") if item.strip()]
-
-
-def get_configured_focus_priorities():
-    return parse_csv_list(JIRA_FOCUS_PRIORITIES)
+def in_wms_time_window(value: str | None, config: AppConfig) -> bool:
+    parsed = parse_activity_time(value)
+    if not parsed:
+        return False
+    local_time = parsed.time().replace(tzinfo=None)
+    start = time.fromisoformat(config.wms.activity_from)
+    end = time.fromisoformat(config.wms.activity_to)
+    return start <= local_time <= end
 
 
-def get_available_priority_names():
-    url = f"{JIRA_URL}/rest/api/2/priority"
-    response = requests.get(url, headers=get_headers(), timeout=30)
-
-    if response.status_code != 200:
-        logging.warning("Не удалось получить список приоритетов Jira")
-        logging.warning("HTTP status: %s", response.status_code)
-        logging.warning("Response: %s", response.text)
-        return None
-
-    return {priority.get("name") for priority in response.json() if priority.get("name")}
-
-
-def get_existing_focus_priorities():
-    configured_priorities = get_configured_focus_priorities()
-    if not configured_priorities:
-        logging.info("Фильтр по приоритетам отключён: JIRA_FOCUS_PRIORITIES пустой")
-        return []
-
-    available_priorities = get_available_priority_names()
-    if available_priorities is None:
-        logging.warning(
-            "Фильтр по приоритетам отключён, чтобы не получить ошибку JQL "
-            "из-за неизвестных значений"
-        )
-        return []
-
-    available_by_lower = {priority.lower(): priority for priority in available_priorities}
-    existing_priorities = [
-        available_by_lower[priority.lower()]
-        for priority in configured_priorities
-        if priority.lower() in available_by_lower
-    ]
-    missing_priorities = [
-        priority
-        for priority in configured_priorities
-        if priority.lower() not in available_by_lower
-    ]
-
-    if missing_priorities:
-        logging.warning(
-            "Эти приоритеты отсутствуют в Jira и будут исключены из JQL: %s",
-            ", ".join(missing_priorities),
-        )
-
-    if existing_priorities:
-        logging.info("Приоритеты для focus-фильтра: %s", ", ".join(existing_priorities))
-    else:
-        logging.warning(
-            "Ни один настроенный приоритет не найден в Jira; "
-            "условие priority будет исключено из JQL"
-        )
-
-    return existing_priorities
-
-
-def build_priority_jql(priority_names):
-    if not priority_names:
-        return None
-
-    escaped_priorities = [
-        f'"{escape_jql_value(priority)}"'
-        for priority in priority_names
-    ]
-    return f"priority in ({', '.join(escaped_priorities)})"
-
-
-def build_focus_conditions(priority_names):
-    conditions = [
-        "due <= 7d",
-        "due < now()",
-        "labels in (focus, urgent, critical)",
-        "updated <= -3d",
-    ]
-    priority_jql = build_priority_jql(priority_names)
-    if priority_jql:
-        conditions.insert(0, priority_jql)
-
-    return conditions
-
-
-def build_focus_jql(priority_names=None):
-    """
-    JQL для задач, которые требуют фокуса.
-
-    Логика:
-    1. Задача назначена на JIRA_ASSIGNEE или на текущего пользователя.
-    2. Задача не завершена.
-    3. Задача важная, срочная, просроченная, скоро подходит срок,
-       давно не обновлялась или помечена label'ом focus.
-    """
-    if priority_names is None:
-        priority_names = get_configured_focus_priorities()
-
-    assignee_jql = get_assignee_jql()
-    focus_conditions = build_focus_conditions(priority_names)
-    focus_conditions_jql = " OR ".join(focus_conditions)
-    jql = f"""
-    {assignee_jql}
-    AND statusCategory != Done
-    AND ({focus_conditions_jql})
-    ORDER BY priority DESC, due ASC, updated ASC
-    """
-    return " ".join(jql.split())
-
-
-def search_issues(jql, max_results_per_page=50):
-    all_issues = []
-    start_at = 0
-
-    while True:
-        url = f"{JIRA_URL}/rest/api/2/search"
-        payload = {
-            "jql": jql,
-            "startAt": start_at,
-            "maxResults": max_results_per_page,
-            "fields": [
-                "summary",
-                "status",
-                "priority",
-                "assignee",
-                "reporter",
-                "created",
-                "updated",
-                "duedate",
-                "labels",
-                "project",
-                "issuetype",
-                "components",
-                "fixVersions",
-            ],
-        }
-
-        logging.info("Запрос задач Jira. startAt=%s", start_at)
-        response = requests.post(url, headers=get_headers(), json=payload, timeout=60)
-
-        if response.status_code != 200:
-            logging.error("Ошибка поиска задач")
-            logging.error("HTTP status: %s", response.status_code)
-            logging.error("Response: %s", response.text)
-            response.raise_for_status()
-
-        data = response.json()
-        issues = data.get("issues", [])
-        total = data.get("total", 0)
-        all_issues.extend(issues)
-
-        logging.info("Получено задач: %s из %s", len(all_issues), total)
-
-        start_at += max_results_per_page
-        if start_at >= total:
-            break
-
-    return all_issues
-
-
-def parse_jira_datetime(value):
-    if not value:
-        return None
-
-    normalized = value
-    if len(value) >= 5 and value[-5] in {"+", "-"} and value[-3] != ":":
-        normalized = f"{value[:-2]}:{value[-2:]}"
-
-    try:
-        return datetime.fromisoformat(normalized)
-    except ValueError:
-        logging.warning("Не удалось разобрать дату Jira: %s", value)
-        return None
-
-
-def parse_jira_date(value):
-    if not value:
-        return None
-
-    try:
-        return datetime.fromisoformat(value).date()
-    except ValueError:
-        logging.warning("Не удалось разобрать дату Jira: %s", value)
-        return None
-
-
-def build_focus_reason(fields):
-    reasons = []
-    priority = (fields.get("priority") or {}).get("name")
-    labels = fields.get("labels") or []
-    updated = parse_jira_datetime(fields.get("updated"))
-    due_date = parse_jira_date(fields.get("duedate"))
-    today = datetime.now(timezone.utc).date()
-
-    if priority and priority.lower() in HIGH_PRIORITY_NAMES:
-        reasons.append("высокий приоритет")
-
-    if due_date and due_date < today:
-        reasons.append("срок просрочен")
-    elif due_date and (due_date - today).days <= 7:
-        reasons.append("срок до 7 дней")
-
-    matched_labels = sorted({label for label in labels if label.lower() in FOCUS_LABELS})
-    if matched_labels:
-        reasons.append(f"label: {', '.join(matched_labels)}")
-
-    if updated:
-        if updated.tzinfo:
-            updated_utc = updated.astimezone(timezone.utc)
-        else:
-            updated_utc = updated.replace(tzinfo=timezone.utc)
-        if (datetime.now(timezone.utc) - updated_utc).days >= 3:
-            reasons.append("давно не обновлялась")
-
-    return "; ".join(reasons)
-
-
-def join_names(items):
-    return ", ".join(item.get("name", "") for item in items if item.get("name"))
-
-
-def normalize_issue(issue):
+def collect_wms_activities(config: AppConfig, issue: dict, member_identities: set[str]) -> list[dict]:
     fields = issue.get("fields", {})
-    project = fields.get("project") or {}
-    issue_type = fields.get("issuetype") or {}
+    issue_key = issue.get("key")
+    summary = fields.get("summary")
+    url = f"{config.jira_url}/browse/{issue_key}"
+    rows = []
+
+    for history in (issue.get("changelog") or {}).get("histories", []):
+        author = history.get("author") or {}
+        created = history.get("created")
+        if not is_wms_author(author, member_identities) or not in_wms_time_window(created, config):
+            continue
+        changes = []
+        for item in history.get("items", []):
+            field = item.get("field")
+            from_value = item.get("fromString") or ""
+            to_value = item.get("toString") or ""
+            changes.append(f"{field}: {from_value} -> {to_value}")
+        rows.append(
+            {
+                "issue_key": issue_key,
+                "url": url,
+                "summary": summary,
+                "activity_type": "changelog",
+                "author": author.get("displayName"),
+                "created": created,
+                "updated": fields.get("updated"),
+                "details": "; ".join(changes),
+            }
+        )
+
+    comments = ((fields.get("comment") or {}).get("comments") or [])
+    for comment in comments:
+        author = comment.get("author") or {}
+        created = comment.get("created")
+        if not is_wms_author(author, member_identities) or not in_wms_time_window(created, config):
+            continue
+        rows.append(
+            {
+                "issue_key": issue_key,
+                "url": url,
+                "summary": summary,
+                "activity_type": "comment",
+                "author": author.get("displayName"),
+                "created": created,
+                "updated": comment.get("updated"),
+                "details": (comment.get("body") or "").replace("\n", " "),
+            }
+        )
+    return rows
+
+
+def run_wms_activity(config: AppConfig, client: JiraClient) -> tuple[int, object, object]:
+    jql = build_wms_activity_jql(config)
+    log_effective_filters("wms-activity", config, jql)
+    logging.info("JIRA_WMS_GROUP_NAME: %s", config.wms.group_name)
+    logging.info("JIRA_WMS_ACTIVITY_FROM: %s", config.wms.activity_from)
+    logging.info("JIRA_WMS_ACTIVITY_TO: %s", config.wms.activity_to)
+    members = client.get_group_members(config.wms.group_name)
+    member_identities = set().union(*(author_identity(member) for member in members)) if members else set()
+    issues = client.search_issues(jql, expand=["changelog"])
+    rows = []
+    for issue in issues:
+        rows.extend(collect_wms_activities(config, issue, member_identities))
+    csv_path, xlsx_path = export_to_files(
+        rows,
+        config.export_dir,
+        "wms_activity",
+        columns=WMS_ACTIVITY_COLUMNS,
+    )
+    return len(rows), csv_path, xlsx_path
+
+
+def matches_assignee(fields: dict, config: AppConfig, current_user: dict) -> bool:
+    assignee = fields.get("assignee") or {}
+    if config.filters.assignee:
+        expected = config.filters.assignee.lower()
+        return expected in author_identity(assignee)
+    return bool(author_identity(assignee) & author_identity(current_user))
+
+
+def is_not_excluded_status(fields: dict, config: AppConfig) -> bool:
+    status = fields.get("status") or {}
+    status_name = (status.get("name") or "").lower()
+    category_name = ((status.get("statusCategory") or {}).get("name") or "").lower()
+    filters = config.filters
+    if filters.included_statuses and status_name not in {item.lower() for item in filters.included_statuses}:
+        return False
+    if status_name in {item.lower() for item in filters.excluded_statuses}:
+        return False
+    if category_name in {item.lower() for item in filters.excluded_status_categories}:
+        return False
+    return True
+
+
+def explain_issue(config: AppConfig, client: JiraClient, issue_key: str, current_user: dict, existing_priorities: list[str]) -> None:
+    issue = client.get_issue(issue_key)
+    fields = issue.get("fields", {})
+    assignee = fields.get("assignee") or {}
     status = fields.get("status") or {}
     priority = fields.get("priority") or {}
-    assignee = fields.get("assignee") or {}
-    reporter = fields.get("reporter") or {}
-    components = fields.get("components") or []
-    fix_versions = fields.get("fixVersions") or []
     labels = fields.get("labels") or []
-    issue_key = issue.get("key")
+    assigned_match = matches_assignee(fields, config, current_user)
+    status_match = is_not_excluded_status(fields, config)
+    focus_reason = build_focus_reason(fields, config.filters, existing_priorities)
+    focus_match = assigned_match and status_match and bool(focus_reason)
+    stale_days = get_stale_days(fields)
 
-    return {
-        "key": issue_key,
-        "url": f"{JIRA_URL}/browse/{issue_key}",
-        "project": project.get("key"),
-        "issue_type": issue_type.get("name"),
-        "summary": fields.get("summary"),
-        "status": status.get("name"),
-        "status_category": (status.get("statusCategory") or {}).get("name"),
-        "priority": priority.get("name"),
-        "focus_reason": build_focus_reason(fields),
-        "assignee": assignee.get("displayName"),
-        "reporter": reporter.get("displayName"),
-        "created": fields.get("created"),
-        "updated": fields.get("updated"),
-        "due_date": fields.get("duedate"),
-        "labels": ", ".join(labels),
-        "components": join_names(components),
-        "fix_versions": join_names(fix_versions),
-    }
+    print(f"Issue: {issue.get('key')}")
+    print(f"Assignee: {assignee.get('displayName') or 'пусто'}")
+    print(f"Status: {status.get('name') or 'пусто'}")
+    print(f"Status category: {(status.get('statusCategory') or {}).get('name') or 'пусто'}")
+    print(f"Priority: {priority.get('name') or 'пусто'}")
+    print(f"Due date: {fields.get('duedate') or 'пусто'}")
+    print(f"Labels: {', '.join(labels) if labels else 'пусто'}")
+    print(f"Updated: {fields.get('updated') or 'пусто'}")
+    print()
+    print(f"Попадает в assigned: {'Да' if assigned_match and status_match else 'Нет'}")
+    print(f"Попадает в focus: {'Да' if focus_match else 'Нет'}")
+    print()
+    print("Причины:")
+    print(f"- задача {'назначена' if assigned_match else 'не назначена'} на выбранного пользователя;")
+    print(f"- задача {'не завершена' if status_match else 'исключена по статусу'};")
+    priority_name = priority.get("name")
+    priority_names = {item.lower() for item in existing_priorities}
+    if priority_name and priority_name.lower() in priority_names:
+        print(f"- приоритет {priority_name} входит в JIRA_FOCUS_PRIORITIES;")
+    else:
+        print(f"- приоритет {priority_name or 'пусто'} не входит в JIRA_FOCUS_PRIORITIES;")
+    if fields.get("duedate"):
+        print(f"- срок исполнения заполнен: {fields.get('duedate')};")
+    else:
+        print("- срок исполнения не заполнен;")
+    matched_labels = [label for label in labels if label.lower() in {item.lower() for item in config.filters.focus_labels}]
+    if matched_labels:
+        print(f"- найдены focus labels: {', '.join(matched_labels)};")
+    else:
+        print("- focus labels отсутствуют;")
+    if stale_days is not None and stale_days >= config.filters.stale_days:
+        print(f"- задача давно не обновлялась: {stale_days} дней.")
+    else:
+        print("- задача обновлялась недавно.")
+    if focus_reason:
+        print(f"\nfocus_reason: {focus_reason}")
 
 
-def export_to_files(rows):
-    now = datetime.now().strftime("%Y-%m-%d_%H%M%S")
-    csv_path = EXPORT_DIR / f"jira_focus_tasks_{now}.csv"
-    xlsx_path = EXPORT_DIR / f"jira_focus_tasks_{now}.xlsx"
-    df = pd.DataFrame(rows, columns=EXPORT_COLUMNS)
+def main() -> None:
+    config = load_config()
+    setup_logging(config)
+    args = parse_args(config.default_mode)
 
-    if df.empty:
-        logging.info("Нет задач для выгрузки.")
-
-    df.to_csv(csv_path, index=False, encoding="utf-8-sig")
-    df.to_excel(xlsx_path, index=False)
-
-    logging.info("CSV сохранён: %s", csv_path.resolve())
-    logging.info("Excel сохранён: %s", xlsx_path.resolve())
-    return csv_path, xlsx_path
-
-
-def main():
     try:
         logging.info("Старт выгрузки задач Jira")
-        validate_config()
-        check_connection()
-        logging.info("Фильтр исполнителя Jira: %s", JIRA_ASSIGNEE or "currentUser()")
+        validate_config(config)
+        client = JiraClient(config)
+        current_user = client.check_connection()
+        existing_priorities = client.get_existing_focus_priorities()
 
-        priority_names = get_existing_focus_priorities()
-        jql = build_focus_jql(priority_names)
-        logging.info("JQL: %s", jql)
-
-        issues = search_issues(jql)
-        rows = [normalize_issue(issue) for issue in issues]
-        csv_path, xlsx_path = export_to_files(rows)
+        if args.mode == "focus":
+            jql = build_focus_jql(config.filters, existing_priorities)
+            count, csv_path, xlsx_path = run_issue_export(
+                "focus", config, client, jql, existing_priorities
+            )
+        elif args.mode == "assigned":
+            jql = build_assigned_jql(config.filters)
+            count, csv_path, xlsx_path = run_issue_export("assigned", config, client, jql, existing_priorities)
+        elif args.mode == "wms-activity":
+            count, csv_path, xlsx_path = run_wms_activity(config, client)
+        elif args.mode == "explain":
+            if not args.issue:
+                raise ValueError("Для режима explain укажите --issue, например --issue DAX-11253")
+            explain_issue(config, client, args.issue, current_user, existing_priorities)
+            return
+        else:
+            raise ValueError(f"Неизвестный режим: {args.mode}")
 
         logging.info("Выгрузка завершена успешно")
-        logging.info("Количество задач: %s", len(rows))
-
+        logging.info("Количество строк: %s", count)
         print()
         print("Готово.")
-        print(f"Найдено задач: {len(rows)}")
+        print(f"Найдено строк: {count}")
         print(f"CSV: {csv_path.resolve()}")
         print(f"Excel: {xlsx_path.resolve()}")
     except Exception as error:
