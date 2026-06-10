@@ -42,6 +42,8 @@ ORDER BY updated DESC
 
 Формирует отдельную выгрузку активности пользователей группы WMS за текущий день. Скрипт ищет задачи, обновлённые с начала дня, получает `changelog` и `comments`, а в итоговый файл добавляет только активности, автор которых входит в группу `JIRA_WMS_GROUP_NAME` и время которых попадает в интервал `JIRA_WMS_ACTIVITY_FROM` — `JIRA_WMS_ACTIVITY_TO`.
 
+По умолчанию режим читает состав группы через Jira REST API (`/rest/api/2/group/member`). В некоторых Jira этот метод доступен только администраторам. Если при запуске появляется `HTTP status: 403` и сообщение о правах администратора, заполните `JIRA_WMS_MEMBER_IDENTITIES` — тогда скрипт не будет обращаться к API группы, а отфильтрует активность по указанным идентификаторам авторов.
+
 ### `explain`
 
 Показывает диагностику одной задачи:
@@ -125,10 +127,21 @@ JIRA_FOCUS_EXTRA_JQL=
 
 # WMS
 JIRA_WMS_GROUP_NAME=wms
+# Если нет прав администратора Jira на чтение группы, заполните список вручную.
+# Подходят логины, displayName, email, key или accountId авторов changelog/comment.
+JIRA_WMS_MEMBER_IDENTITIES=
 JIRA_WMS_ACTIVITY_FROM=09:00
 JIRA_WMS_ACTIVITY_TO=17:50
 JIRA_WMS_ACTIVITY_EXTRA_JQL=
 ```
+
+Для `wms-activity` можно вручную задать участников WMS, если ваш Jira-токен не имеет прав на чтение состава группы:
+
+```env
+JIRA_WMS_MEMBER_IDENTITIES=ignatchenko,Evgeniy Ignatchenko,ivanov@example.com
+```
+
+Значения сравниваются без учёта регистра с полями автора из Jira: `accountId`, `name`, `key`, `emailAddress`, `displayName`. Если `JIRA_WMS_MEMBER_IDENTITIES` заполнен, `JIRA_WMS_GROUP_NAME` остаётся только справочным значением в логах, а запрос `/rest/api/2/group/member` не выполняется.
 
 `JIRA_ASSIGNEE` можно оставить пустым — тогда скрипт использует `assignee = currentUser()`. Если нужно явно указать исполнителя, задайте отображаемое имя или логин, например:
 

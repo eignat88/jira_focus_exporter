@@ -29,6 +29,7 @@ class JiraFilterConfig:
 @dataclass
 class WmsConfig:
     group_name: str
+    member_identities: list[str]
     activity_from: str
     activity_to: str
     activity_extra_jql: str
@@ -117,6 +118,10 @@ def load_config() -> AppConfig:
         ),
         wms=WmsConfig(
             group_name=os.getenv("JIRA_WMS_GROUP_NAME", "wms").strip() or "wms",
+            member_identities=parse_csv_list(
+                os.getenv("JIRA_WMS_MEMBER_IDENTITIES")
+                or os.getenv("JIRA_WMS_MEMBERS", "")
+            ),
             activity_from=os.getenv("JIRA_WMS_ACTIVITY_FROM", "09:00").strip() or "09:00",
             activity_to=os.getenv("JIRA_WMS_ACTIVITY_TO", "17:50").strip() or "17:50",
             activity_extra_jql=os.getenv("JIRA_WMS_ACTIVITY_EXTRA_JQL", "").strip(),

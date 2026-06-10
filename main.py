@@ -3,6 +3,8 @@ import logging
 import sys
 from datetime import datetime, time
 
+from requests.exceptions import HTTPError
+
 from config import AppConfig, VALID_MODES, load_config, validate_config
 from exporters import WMS_ACTIVITY_COLUMNS, export_to_files, normalize_issue
 from filters import build_assigned_jql, build_focus_jql, build_wms_activity_jql
@@ -155,14 +157,52 @@ def collect_wms_activities(config: AppConfig, issue: dict, member_identities: se
     return rows
 
 
+def get_configured_wms_member_identities(config: AppConfig) -> set[str]:
+    return {identity.lower() for identity in config.wms.member_identities}
+
+
+def get_wms_member_identities(config: AppConfig, client: JiraClient) -> set[str]:
+    configured_identities = get_configured_wms_member_identities(config)
+    if configured_identities:
+        logging.info(
+            "JIRA_WMS_MEMBER_IDENTITIES: %s",
+            ",".join(config.wms.member_identities),
+        )
+        logging.info(
+            "Участники WMS взяты из JIRA_WMS_MEMBER_IDENTITIES; запрос участников группы Jira пропущен"
+        )
+        return configured_identities
+
+    logging.info("JIRA_WMS_MEMBER_IDENTITIES: <none>")
+    try:
+        members = client.get_group_members(config.wms.group_name)
+    except HTTPError as error:
+        status_code = error.response.status_code if error.response is not None else None
+        if status_code in {401, 403}:
+            raise RuntimeError(
+                "Недостаточно прав для чтения участников группы Jira "
+                f"'{config.wms.group_name}' через REST API. "
+                "Укажите участников вручную в JIRA_WMS_MEMBER_IDENTITIES "
+                "через запятую (логины, displayName, email, key или accountId) "
+                "либо запустите скрипт с токеном пользователя, у которого есть права администратора Jira."
+            ) from error
+        raise
+
+    member_identities = (
+        set().union(*(author_identity(member) for member in members)) if members else set()
+    )
+    if not member_identities:
+        logging.warning("Список участников WMS пуст; итоговая выгрузка активности будет пустой")
+    return member_identities
+
+
 def run_wms_activity(config: AppConfig, client: JiraClient) -> tuple[int, object, object]:
     jql = build_wms_activity_jql(config)
     log_effective_filters("wms-activity", config, jql)
     logging.info("JIRA_WMS_GROUP_NAME: %s", config.wms.group_name)
     logging.info("JIRA_WMS_ACTIVITY_FROM: %s", config.wms.activity_from)
     logging.info("JIRA_WMS_ACTIVITY_TO: %s", config.wms.activity_to)
-    members = client.get_group_members(config.wms.group_name)
-    member_identities = set().union(*(author_identity(member) for member in members)) if members else set()
+    member_identities = get_wms_member_identities(config, client)
     issues = client.search_issues(jql, expand=["changelog"])
     rows = []
     for issue in issues:
