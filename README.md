@@ -8,6 +8,8 @@
 python main.py --mode focus
 python main.py --mode assigned
 python main.py --mode wms-activity
+python main.py --mode project-users
+python main.py --mode project-users --project DEVAX12
 python main.py --mode explain --issue DAX-11253
 ```
 
@@ -43,6 +45,19 @@ ORDER BY updated DESC
 Формирует отдельную выгрузку активности пользователей группы WMS за текущий день. Скрипт ищет задачи, обновлённые с начала дня, получает `changelog` и `comments`, а в итоговый файл добавляет только активности, автор которых входит в группу `JIRA_WMS_GROUP_NAME` и время которых попадает в интервал `JIRA_WMS_ACTIVITY_FROM` — `JIRA_WMS_ACTIVITY_TO`.
 
 По умолчанию режим читает состав группы через Jira REST API (`/rest/api/2/group/member`). В некоторых Jira этот метод доступен только администраторам. Если при запуске появляется `HTTP status: 403` и сообщение о правах администратора, заполните `JIRA_WMS_MEMBER_IDENTITIES` — тогда скрипт не будет обращаться к API группы, а отфильтрует активность по указанным идентификаторам авторов.
+
+
+### `project-users`
+
+Выгружает пользователей, включённых в проект Jira через проектные роли. По умолчанию используется проект `DEVAX12`; его можно изменить переменной `JIRA_PROJECT_USERS_PROJECT_KEY` или параметром запуска `--project`.
+
+Скрипт читает роли проекта через `/rest/api/2/project/{projectKey}/role`, получает участников каждой роли и раскрывает группы через `/rest/api/2/group/member`. В итоговых CSV/XLSX есть идентификаторы пользователя, признак активности, роли проекта и группы-источники. Если Jira не даёт прочитать участников группы, выгрузка останавливается с пояснением, потому что без раскрытия групп список пользователей проекта будет неполным.
+
+Пример запуска для проекта DEVAX12:
+
+```powershell
+python main.py --mode project-users
+```
 
 ### `explain`
 
@@ -95,7 +110,7 @@ JIRA_ASSIGNEE=
 JIRA_EXPORT_DIR=exports
 JIRA_LOG_DIR=logs
 
-# Режим по умолчанию: focus, assigned или wms-activity
+# Режим по умолчанию: focus, assigned, wms-activity или project-users
 JIRA_DEFAULT_MODE=focus
 
 # Категории статусов, которые считаются завершёнными
@@ -133,6 +148,9 @@ JIRA_WMS_MEMBER_IDENTITIES=
 JIRA_WMS_ACTIVITY_FROM=09:00
 JIRA_WMS_ACTIVITY_TO=17:50
 JIRA_WMS_ACTIVITY_EXTRA_JQL=
+
+# Проект для выгрузки пользователей в режиме project-users
+JIRA_PROJECT_USERS_PROJECT_KEY=DEVAX12
 ```
 
 Для `wms-activity` можно вручную задать участников WMS, если ваш Jira-токен не имеет прав на чтение состава группы:
@@ -210,6 +228,7 @@ ORDER BY updated DESC
 .\.venv\Scripts\activate
 python main.py --mode focus
 python main.py --mode assigned
+python main.py --mode project-users
 ```
 
 Или через PowerShell-обёртку:

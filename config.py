@@ -4,8 +4,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-
-VALID_MODES = {"focus", "assigned", "wms-activity", "explain"}
+VALID_MODES = {"focus", "assigned", "wms-activity", "project-users", "explain"}
 
 
 @dataclass
@@ -36,6 +35,11 @@ class WmsConfig:
 
 
 @dataclass
+class ProjectUsersConfig:
+    project_key: str
+
+
+@dataclass
 class AppConfig:
     jira_url: str
     jira_token: str
@@ -44,6 +48,7 @@ class AppConfig:
     default_mode: str
     filters: JiraFilterConfig
     wms: WmsConfig
+    project_users: ProjectUsersConfig
 
 
 def parse_csv_list(value: str | None) -> list[str]:
@@ -83,7 +88,7 @@ def load_config() -> AppConfig:
     default_mode = os.getenv("JIRA_DEFAULT_MODE", "focus").strip() or "focus"
     if default_mode not in VALID_MODES - {"explain"}:
         raise ValueError(
-            "JIRA_DEFAULT_MODE должен быть одним из: focus, assigned, wms-activity"
+            "JIRA_DEFAULT_MODE должен быть одним из: focus, assigned, wms-activity, project-users"
         )
 
     return AppConfig(
@@ -122,9 +127,14 @@ def load_config() -> AppConfig:
                 os.getenv("JIRA_WMS_MEMBER_IDENTITIES")
                 or os.getenv("JIRA_WMS_MEMBERS", "")
             ),
-            activity_from=os.getenv("JIRA_WMS_ACTIVITY_FROM", "09:00").strip() or "09:00",
+            activity_from=os.getenv("JIRA_WMS_ACTIVITY_FROM", "09:00").strip()
+            or "09:00",
             activity_to=os.getenv("JIRA_WMS_ACTIVITY_TO", "17:50").strip() or "17:50",
             activity_extra_jql=os.getenv("JIRA_WMS_ACTIVITY_EXTRA_JQL", "").strip(),
+        ),
+        project_users=ProjectUsersConfig(
+            project_key=os.getenv("JIRA_PROJECT_USERS_PROJECT_KEY", "DEVAX12").strip()
+            or "DEVAX12",
         ),
     )
 

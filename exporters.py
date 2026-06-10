@@ -7,7 +7,6 @@ import pandas as pd
 from config import AppConfig
 from focus_reason import build_focus_reason
 
-
 EXPORT_COLUMNS = [
     "key",
     "url",
@@ -91,11 +90,12 @@ def export_to_files(
     export_dir: Path,
     mode: str,
     columns: list[str] | None = None,
+    entity_name: str = "tasks",
 ) -> tuple[Path, Path]:
     export_dir.mkdir(exist_ok=True)
     now = datetime.now().strftime("%Y-%m-%d_%H%M%S")
-    csv_path = export_dir / f"jira_{mode}_tasks_{now}.csv"
-    xlsx_path = export_dir / f"jira_{mode}_tasks_{now}.xlsx"
+    csv_path = export_dir / f"jira_{mode}_{entity_name}_{now}.csv"
+    xlsx_path = export_dir / f"jira_{mode}_{entity_name}_{now}.xlsx"
     df = pd.DataFrame(rows, columns=columns or EXPORT_COLUMNS)
 
     if df.empty:
