@@ -8,6 +8,7 @@ from requests.exceptions import HTTPError
 
 from config import AppConfig, load_config, validate_config
 from exporters import export_to_files
+from filters import escape_jql_value
 from jira_client import JiraClient
 
 PROJECT_USERS_COLUMNS = [
@@ -97,7 +98,15 @@ def actor_user(actor: dict) -> dict | None:
     return None
 
 
-def collect_project_users(project_key: str, client: JiraClient) -> list[dict]:
+def is_permission_error(error: HTTPError) -> bool:
+    return bool(
+        error.response is not None and error.response.status_code in {401, 403}
+    )
+
+
+def collect_project_users_from_roles(
+    project_key: str, client: JiraClient
+) -> dict[str, ProjectUserRow]:
     logging.info("Получение ролей проекта Jira: %s", project_key)
     roles = client.get_project_roles(project_key)
     users_by_identity: dict[str, ProjectUserRow] = {}
@@ -126,10 +135,7 @@ def collect_project_users(project_key: str, client: JiraClient) -> list[dict]:
             try:
                 members = client.get_group_members(group_name)
             except HTTPError as error:
-                status_code = (
-                    error.response.status_code if error.response is not None else None
-                )
-                if status_code in {401, 403}:
+                if is_permission_error(error):
                     raise RuntimeError(
                         "Недостаточно прав для чтения участников группы Jira "
                         f"'{group_name}' из роли '{role_name}' проекта {project_key}. "
@@ -148,6 +154,98 @@ def collect_project_users(project_key: str, client: JiraClient) -> list[dict]:
                 merge_user(
                     users_by_identity, project_key, member, role_name, group_name
                 )
+
+    return users_by_identity
+
+
+def collect_assignable_project_users(
+    project_key: str, client: JiraClient, users_by_identity: dict[str, ProjectUserRow]
+) -> None:
+    logging.info(
+        "Упрощённая выгрузка назначаемых пользователей проекта Jira: %s",
+        project_key,
+    )
+    users = client.get_assignable_users(project_key)
+    logging.info(
+        "Через assignable/search для проекта %s получено пользователей: %s",
+        project_key,
+        len(users),
+    )
+    for user in users:
+        merge_user(users_by_identity, project_key, user, "Assignable user")
+
+
+def collect_issue_participant_users(
+    project_key: str, client: JiraClient, users_by_identity: dict[str, ProjectUserRow]
+) -> None:
+    jql = f'project = "{escape_jql_value(project_key)}" ORDER BY updated DESC'
+    logging.info(
+        "Дополнительная выгрузка пользователей из задач проекта Jira: %s",
+        project_key,
+    )
+    issues = client.search_issues(
+        jql,
+        fields=["assignee", "reporter", "creator"],
+    )
+    logging.info(
+        "Для проекта %s получено задач для анализа пользователей: %s",
+        project_key,
+        len(issues),
+    )
+    for issue in issues:
+        fields = issue.get("fields") or {}
+        for field_name, role_name in (
+            ("assignee", "Issue assignee"),
+            ("reporter", "Issue reporter"),
+            ("creator", "Issue creator"),
+        ):
+            user = fields.get(field_name)
+            if user:
+                merge_user(users_by_identity, project_key, user, role_name)
+
+
+def collect_project_users(project_key: str, client: JiraClient) -> list[dict]:
+    try:
+        users_by_identity = collect_project_users_from_roles(project_key, client)
+    except HTTPError as error:
+        if not is_permission_error(error):
+            raise
+        logging.warning(
+            "Нет прав на чтение ролей проекта %s через /project/%s/role. "
+            "Будет выполнена упрощённая выгрузка без ролей и групп: "
+            "назначаемые пользователи проекта + пользователи, найденные в задачах проекта.",
+            project_key,
+            project_key,
+        )
+        users_by_identity = {}
+        assignable_error = None
+        try:
+            collect_assignable_project_users(project_key, client, users_by_identity)
+        except HTTPError as assignable_http_error:
+            assignable_error = assignable_http_error
+            logging.warning(
+                "Не удалось получить назначаемых пользователей проекта %s; "
+                "пробуем собрать пользователей из задач проекта",
+                project_key,
+            )
+
+        try:
+            collect_issue_participant_users(project_key, client, users_by_identity)
+        except HTTPError as issue_http_error:
+            if assignable_error is not None:
+                raise RuntimeError(
+                    "Недостаточно прав для упрощённой выгрузки пользователей проекта "
+                    f"{project_key}: Jira не дала прочитать роли проекта, назначаемых "
+                    "пользователей и задачи проекта. Нужен токен пользователя с правом "
+                    "Browse Projects/просмотра задач или правом чтения ролей проекта."
+                ) from issue_http_error
+            raise
+
+        if not users_by_identity:
+            logging.warning(
+                "Упрощённая выгрузка не нашла пользователей проекта %s",
+                project_key,
+            )
 
     rows = [row.as_dict() for row in users_by_identity.values()]
     rows.sort(
