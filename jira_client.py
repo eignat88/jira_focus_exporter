@@ -159,6 +159,42 @@ class JiraClient:
             response.raise_for_status()
         return response.json()
 
+    def get_assignable_users(self, project_key: str) -> list[dict]:
+        users = []
+        start_at = 0
+        max_results = 50
+        while True:
+            url = f"{self.jira_url}/rest/api/2/user/assignable/search"
+            params = {
+                "project": project_key,
+                "startAt": start_at,
+                "maxResults": max_results,
+            }
+            response = requests.get(
+                url, headers=self.get_headers(), params=params, timeout=30
+            )
+            if response.status_code != 200:
+                logging.error(
+                    "Не удалось получить назначаемых пользователей проекта Jira: %s",
+                    project_key,
+                )
+                logging.error("HTTP status: %s", response.status_code)
+                logging.error("Response: %s", response.text)
+                response.raise_for_status()
+            page_users = response.json()
+            if not isinstance(page_users, list):
+                logging.warning(
+                    "Неожиданный формат ответа assignable/search для проекта %s: %s",
+                    project_key,
+                    page_users,
+                )
+                break
+            users.extend(page_users)
+            if len(page_users) < max_results:
+                break
+            start_at += len(page_users)
+        return users
+
     def get_project_roles(self, project_key: str) -> dict[str, str]:
         url = f"{self.jira_url}/rest/api/2/project/{project_key}/role"
         response = requests.get(url, headers=self.get_headers(), timeout=30)
