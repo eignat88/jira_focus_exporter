@@ -1,9 +1,12 @@
+import argparse
 import logging
+import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
 from requests.exceptions import HTTPError
 
+from config import AppConfig, load_config, validate_config
 from exporters import export_to_files
 from jira_client import JiraClient
 
@@ -165,3 +168,63 @@ def export_project_users(
         entity_name="users",
     )
     return len(rows), csv_path, xlsx_path
+
+
+def setup_logging(config: AppConfig) -> None:
+    config.log_dir.mkdir(exist_ok=True)
+    log_file = config.log_dir / "jira_focus_exporter.log"
+    root_logger = logging.getLogger()
+    root_logger.handlers.clear()
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(message)s",
+        handlers=[
+            logging.FileHandler(log_file, encoding="utf-8"),
+            logging.StreamHandler(sys.stdout),
+        ],
+    )
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Export Jira project users")
+    parser.add_argument(
+        "--project",
+        help="Jira project key. Defaults to JIRA_PROJECT_USERS_PROJECT_KEY or DEVAX12.",
+    )
+    return parser.parse_args()
+
+
+def main() -> None:
+    config = load_config()
+    setup_logging(config)
+    args = parse_args()
+    project_key = args.project or config.project_users.project_key
+
+    try:
+        logging.info("Start Jira project users export")
+        logging.info("Mode: project-users")
+        logging.info("JIRA_PROJECT_USERS_PROJECT_KEY: %s", project_key)
+        validate_config(config)
+
+        client = JiraClient(config)
+        client.check_connection()
+        count, csv_path, xlsx_path = export_project_users(
+            project_key,
+            client,
+            config.export_dir,
+        )
+
+        logging.info("Export completed successfully")
+        logging.info("Rows: %s", count)
+        print()
+        print("Done.")
+        print(f"Rows: {count}")
+        print(f"CSV: {csv_path.resolve()}")
+        print(f"Excel: {xlsx_path.resolve()}")
+    except Exception as error:
+        logging.exception("Script execution failed: %s", error)
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
