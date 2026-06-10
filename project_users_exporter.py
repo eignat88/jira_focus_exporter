@@ -24,6 +24,51 @@ PROJECT_USERS_COLUMNS = [
 ]
 
 
+class ProgressBar:
+    def __init__(self, total: int, label: str, width: int = 30) -> None:
+        self.total = max(total, 0)
+        self.label = label
+        self.width = width
+        self.current = 0
+
+    def __enter__(self) -> "ProgressBar":
+        self.render()
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback) -> None:
+        if exc_type is None:
+            self.finish()
+        else:
+            sys.stderr.write("\n")
+            sys.stderr.flush()
+
+    def update(self, step: int = 1, detail: str = "") -> None:
+        self.current = min(self.current + step, self.total)
+        self.render(detail)
+
+    def finish(self) -> None:
+        if self.current < self.total:
+            self.current = self.total
+            self.render()
+        sys.stderr.write("\n")
+        sys.stderr.flush()
+
+    def render(self, detail: str = "") -> None:
+        if self.total == 0:
+            message = f"\r{self.label}: no items"
+        else:
+            filled = int(self.width * self.current / self.total)
+            bar = "#" * filled + "-" * (self.width - filled)
+            percent = int(100 * self.current / self.total)
+            message = (
+                f"\r{self.label}: [{bar}] {self.current}/{self.total} {percent:3d}%"
+            )
+            if detail:
+                message += f" | {detail[:60]}"
+        sys.stderr.write(message)
+        sys.stderr.flush()
+
+
 @dataclass
 class ProjectUserRow:
     project_key: str
@@ -109,52 +154,81 @@ def collect_project_users_from_roles(
 ) -> dict[str, ProjectUserRow]:
     logging.info("Получение ролей проекта Jira: %s", project_key)
     roles = client.get_project_roles(project_key)
+    logging.info("Project %s: roles found: %s", project_key, len(roles))
     users_by_identity: dict[str, ProjectUserRow] = {}
 
-    for role_name, role_url in sorted(roles.items()):
-        logging.info(
-            "Получение участников роли '%s' проекта %s", role_name, project_key
-        )
-        role = client.get_project_role(role_url)
-        for actor in role.get("actors", []):
-            user = actor_user(actor)
-            if user:
-                merge_user(users_by_identity, project_key, user, role_name)
-                continue
+    with ProgressBar(len(roles), "Project roles") as progress:
+        for role_name, role_url in sorted(roles.items()):
+            logging.info(
+                "Получение участников роли '%s' проекта %s", role_name, project_key
+            )
+            logging.info("Project %s: loading role '%s'", project_key, role_name)
+            role = client.get_project_role(role_url)
+            actors = role.get("actors", [])
+            logging.info(
+                "Project %s: role '%s' actors found: %s",
+                project_key,
+                role_name,
+                len(actors),
+            )
+            for actor in actors:
+                user = actor_user(actor)
+                if user:
+                    merge_user(users_by_identity, project_key, user, role_name)
+                    continue
 
-            group_name = actor_group_name(actor)
-            if not group_name:
-                logging.warning(
-                    "Неизвестный actor в роли '%s' проекта %s пропущен: %s",
-                    role_name,
+                group_name = actor_group_name(actor)
+                if not group_name:
+                    logging.warning(
+                        "Неизвестный actor в роли '%s' проекта %s пропущен: %s",
+                        role_name,
+                        project_key,
+                        actor,
+                    )
+                    continue
+
+                logging.info(
+                    "Project %s: loading group '%s' from role '%s'",
                     project_key,
-                    actor,
+                    group_name,
+                    role_name,
                 )
-                continue
+                try:
+                    members = client.get_group_members(group_name)
+                except HTTPError as error:
+                    if is_permission_error(error):
+                        raise RuntimeError(
+                            "Недостаточно прав для чтения участников группы Jira "
+                            f"'{group_name}' из роли '{role_name}' проекта {project_key}. "
+                            "Без раскрытия групп нельзя выгрузить полный список пользователей проекта. "
+                            "Запустите скрипт с токеном пользователя, у которого есть права на чтение групп."
+                        ) from error
+                    raise
 
-            try:
-                members = client.get_group_members(group_name)
-            except HTTPError as error:
-                if is_permission_error(error):
-                    raise RuntimeError(
-                        "Недостаточно прав для чтения участников группы Jira "
-                        f"'{group_name}' из роли '{role_name}' проекта {project_key}. "
-                        "Без раскрытия групп нельзя выгрузить полный список пользователей проекта. "
-                        "Запустите скрипт с токеном пользователя, у которого есть права на чтение групп."
-                    ) from error
-                raise
+                logging.info(
+                    "Группа '%s' в роли '%s': получено участников %s",
+                    group_name,
+                    role_name,
+                    len(members),
+                )
+                for member in members:
+                    merge_user(
+                        users_by_identity, project_key, member, role_name, group_name
+                    )
 
             logging.info(
-                "Группа '%s' в роли '%s': получено участников %s",
-                group_name,
+                "Project %s: role '%s' done. unique users collected: %s",
+                project_key,
                 role_name,
-                len(members),
+                len(users_by_identity),
             )
-            for member in members:
-                merge_user(
-                    users_by_identity, project_key, member, role_name, group_name
-                )
+            progress.update(detail=role_name)
 
+    logging.info(
+        "Project %s: role scan finished. unique users collected: %s",
+        project_key,
+        len(users_by_identity),
+    )
     return users_by_identity
 
 
@@ -171,8 +245,15 @@ def collect_assignable_project_users(
         project_key,
         len(users),
     )
-    for user in users:
-        merge_user(users_by_identity, project_key, user, "Assignable user")
+    with ProgressBar(len(users), "Assignable users") as progress:
+        for user in users:
+            merge_user(users_by_identity, project_key, user, "Assignable user")
+            progress.update(detail=user.get("displayName") or user.get("name") or "")
+    logging.info(
+        "Project %s: assignable users merged. unique users collected: %s",
+        project_key,
+        len(users_by_identity),
+    )
 
 
 def collect_issue_participant_users(
@@ -192,16 +273,23 @@ def collect_issue_participant_users(
         project_key,
         len(issues),
     )
-    for issue in issues:
-        fields = issue.get("fields") or {}
-        for field_name, role_name in (
-            ("assignee", "Issue assignee"),
-            ("reporter", "Issue reporter"),
-            ("creator", "Issue creator"),
-        ):
-            user = fields.get(field_name)
-            if user:
-                merge_user(users_by_identity, project_key, user, role_name)
+    with ProgressBar(len(issues), "Project issues") as progress:
+        for issue in issues:
+            fields = issue.get("fields") or {}
+            for field_name, role_name in (
+                ("assignee", "Issue assignee"),
+                ("reporter", "Issue reporter"),
+                ("creator", "Issue creator"),
+            ):
+                user = fields.get(field_name)
+                if user:
+                    merge_user(users_by_identity, project_key, user, role_name)
+            progress.update(detail=issue.get("key") or "")
+    logging.info(
+        "Project %s: issue participant scan finished. unique users collected: %s",
+        project_key,
+        len(users_by_identity),
+    )
 
 
 def collect_project_users(project_key: str, client: JiraClient) -> list[dict]:
@@ -251,13 +339,20 @@ def collect_project_users(project_key: str, client: JiraClient) -> list[dict]:
     rows.sort(
         key=lambda row: (row.get("display_name") or row.get("name") or "").lower()
     )
+    logging.info("Project %s: prepared rows for export: %s", project_key, len(rows))
     return rows
 
 
 def export_project_users(
     project_key: str, client: JiraClient, export_dir: Path
 ) -> tuple[int, Path, Path]:
+    logging.info("Project %s: collecting users", project_key)
     rows = collect_project_users(project_key, client)
+    logging.info(
+        "Project %s: writing CSV/XLSX to export directory: %s",
+        project_key,
+        export_dir,
+    )
     csv_path, xlsx_path = export_to_files(
         rows,
         export_dir,
@@ -265,6 +360,7 @@ def export_project_users(
         columns=PROJECT_USERS_COLUMNS,
         entity_name="users",
     )
+    logging.info("Project %s: export files created", project_key)
     return len(rows), csv_path, xlsx_path
 
 
@@ -305,6 +401,7 @@ def main() -> None:
         validate_config(config)
 
         client = JiraClient(config)
+        logging.info("Checking Jira connection")
         client.check_connection()
         count, csv_path, xlsx_path = export_project_users(
             project_key,

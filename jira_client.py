@@ -124,7 +124,7 @@ class JiraClient:
                 "fields": fields,
             }
             if expand:
-                payload["expand"] = ",".join(expand)
+                    payload["expand"] = expand
             logging.info("Запрос задач Jira. startAt=%s", start_at)
             response = requests.post(
                 url, headers=self.get_headers(), json=payload, timeout=60
@@ -159,10 +159,13 @@ class JiraClient:
             response.raise_for_status()
         return response.json()
 
-    def get_assignable_users(self, project_key: str) -> list[dict]:
+    def get_assignable_users(
+        self, project_key: str, max_pages: int = 20
+    ) -> list[dict]:
         users = []
         start_at = 0
         max_results = 50
+        seen_pages: set[tuple[str, ...]] = set()
         while True:
             url = f"{self.jira_url}/rest/api/2/user/assignable/search"
             params = {
@@ -170,6 +173,12 @@ class JiraClient:
                 "startAt": start_at,
                 "maxResults": max_results,
             }
+            logging.info(
+                "Запрос назначаемых пользователей Jira. project=%s startAt=%s maxResults=%s",
+                project_key,
+                start_at,
+                max_results,
+            )
             response = requests.get(
                 url, headers=self.get_headers(), params=params, timeout=30
             )
@@ -189,10 +198,40 @@ class JiraClient:
                     page_users,
                 )
                 break
+            page_signature = tuple(
+                str(
+                    user.get("accountId")
+                    or user.get("name")
+                    or user.get("key")
+                    or user.get("displayName")
+                    or index
+                )
+                for index, user in enumerate(page_users)
+            )
+            if page_signature in seen_pages:
+                logging.warning(
+                    "Jira вернула повторяющуюся страницу назначаемых пользователей для проекта %s; остановка пагинации",
+                    project_key,
+                )
+                break
+            seen_pages.add(page_signature)
             users.extend(page_users)
+            logging.info(
+                "Получено назначаемых пользователей Jira: page=%s total=%s",
+                len(page_users),
+                len(users),
+            )
             if len(page_users) < max_results:
                 break
             start_at += len(page_users)
+            if len(seen_pages) >= max_pages:
+                logging.warning(
+                    "Достигнут лимит страниц assignable/search для проекта %s: %s страниц, %s пользователей. Продолжаем выгрузку дальше.",
+                    project_key,
+                    max_pages,
+                    len(users),
+                )
+                break
         return users
 
     def get_project_roles(self, project_key: str) -> dict[str, str]:
