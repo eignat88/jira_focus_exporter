@@ -2,6 +2,7 @@ import argparse
 import logging
 import sys
 from datetime import datetime, time
+from pathlib import Path
 
 from requests.exceptions import HTTPError
 
@@ -11,6 +12,7 @@ from filters import build_assigned_jql, build_focus_jql, build_wms_activity_jql
 from focus_reason import build_focus_reason, get_stale_days, parse_jira_datetime
 from jira_client import JiraClient
 from project_users_exporter import export_project_users
+from src.actual_tasks import collect_actual_tasks
 
 
 def setup_logging(config: AppConfig) -> None:
@@ -34,12 +36,22 @@ def parse_args(default_mode: str) -> argparse.Namespace:
         "--mode",
         choices=sorted(VALID_MODES),
         default=default_mode,
-        help="Режим выгрузки: focus, assigned, wms-activity, project-users или explain",
+        help="Режим выгрузки: focus, assigned, wms-activity, project-users, devax12-actual или explain",
     )
     parser.add_argument("--issue", help="Ключ задачи для режима explain")
     parser.add_argument(
         "--project",
         help="Ключ проекта для режима project-users (по умолчанию JIRA_PROJECT_USERS_PROJECT_KEY или DEVAX12)",
+    )
+    parser.add_argument(
+        "--days",
+        type=int,
+        help="Период анализа активности для режима devax12-actual, дней",
+    )
+    parser.add_argument(
+        "--stale-days",
+        type=int,
+        help="Количество дней без активности для категории stale в режиме devax12-actual",
     )
     return parser.parse_args()
 
@@ -366,6 +378,21 @@ def main() -> None:
                 client,
                 config.export_dir,
             )
+        elif args.mode == "devax12-actual":
+            logging.info("Mode: devax12-actual")
+            logging.info("JIRA_DEV_GROUP_NAME: %s", config.actual_tasks.group_name)
+            logging.info(
+                "JIRA_DEV_GROUP_USERS_FILE: %s", config.actual_tasks.users_file
+            )
+            result = collect_actual_tasks(
+                config,
+                client,
+                days=args.days,
+                stale_days=args.stale_days,
+            )
+            count = len(result.tasks)
+            xlsx_path = Path(result.report_path) if result.report_path else Path()
+            csv_path = xlsx_path
         elif args.mode == "explain":
             if not args.issue:
                 raise ValueError(

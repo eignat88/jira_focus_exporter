@@ -10,6 +10,7 @@ python main.py --mode assigned
 python main.py --mode wms-activity
 python main.py --mode project-users
 python main.py --mode project-users --project DEVAX12
+python main.py --mode devax12-actual --days 1 --stale-days 7
 python main.py --mode explain --issue DAX-11253
 ```
 
@@ -60,6 +61,18 @@ ORDER BY updated DESC
 ```powershell
 python main.py --mode project-users
 ```
+
+### `devax12-actual`
+
+Формирует Excel-отчёт актуальных задач группы DEVAX12 на основе Excel-файла пользователей, открытых задач на участниках группы, недавно обновлённых задач и зависших задач. Режим сопоставляет пользователей по `account_id`, `name`, `key`, `display_name` и `email`, анализирует исполнителя, автора, комментарии и changelog, рассчитывает `actual_score` и категории `active_now`, `changed_recently`, `needs_attention`, `stale`, `overdue`, `backlog_actual`.
+
+Пример запуска:
+
+```powershell
+python main.py --mode devax12-actual --days 1 --stale-days 7
+```
+
+Отчёт сохраняется в `JIRA_REPORT_OUTPUT_DIR` с именем вида `devax12_actual_tasks_YYYY-MM-DD_HHMM.xlsx` и содержит листы `Summary`, `Actual Tasks`, `Active Now`, `Changed Recently`, `Needs Attention`, `Stale`, `Overdue`, `Events`, `Raw Issues`.
 
 ### `explain`
 
@@ -153,6 +166,18 @@ JIRA_WMS_ACTIVITY_EXTRA_JQL=
 
 # Проект для выгрузки пользователей в режиме project-users
 JIRA_PROJECT_USERS_PROJECT_KEY=DEVAX12
+
+# Актуальные задачи DEVAX12
+JIRA_DEV_GROUP_NAME=DEVAX12
+JIRA_DEV_GROUP_USERS_FILE=data/jira_project_devax12_users_2026-06-11_135952.xlsx
+JIRA_ACTUAL_TASKS_DAYS=1
+JIRA_STALE_DAYS=7
+JIRA_REPORT_OUTPUT_DIR=reports
+JIRA_ACTUAL_TASKS_REPORT_FORMAT=xlsx
+JIRA_DEV_GROUP_EXCLUDE_INACTIVE=true
+JIRA_DEV_GROUP_REQUIRE_ASSIGNABLE=false
+JIRA_DEV_GROUP_EXCLUDE_PATTERNS=$DUPLICATE,1C-,4000-,JIRAUSER
+JIRA_MAX_ISSUES_PER_QUERY=1000
 ```
 
 Для `wms-activity` можно вручную задать участников WMS, если ваш Jira-токен не имеет прав на чтение состава группы:
@@ -231,6 +256,7 @@ ORDER BY updated DESC
 python main.py --mode focus
 python main.py --mode assigned
 python main.py --mode project-users
+python main.py --mode devax12-actual --days 1 --stale-days 7
 ```
 
 Или через PowerShell-обёртку:
