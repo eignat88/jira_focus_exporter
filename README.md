@@ -96,9 +96,13 @@ jira_focus_exporter/
 ├─ filters.py
 ├─ exporters.py
 ├─ focus_reason.py
+├─ project_users_exporter.py
+├─ src/
+│  └─ actual_tasks/
 ├─ .env.example
 ├─ requirements.txt
 ├─ run_export.ps1
+├─ data/
 ├─ exports/
 ├─ reports/
 └─ logs/
