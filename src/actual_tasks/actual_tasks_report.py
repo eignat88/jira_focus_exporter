@@ -6,6 +6,7 @@ from .actual_tasks_models import ActualTask, ActualTasksResult
 
 SUMMARY_ROWS = [
     ("Всего актуальных задач", lambda result: len(result.tasks)),
+    ("Актуально для группы", lambda result: _count_group_actual(result.tasks)),
     ("Активно в работе", lambda result: _count_category(result.tasks, "active_now")),
     (
         "Изменялись за период",
@@ -29,6 +30,10 @@ SUMMARY_ROWS = [
 
 def _count_category(tasks: list[ActualTask], category: str) -> int:
     return sum(1 for task in tasks if category in task.categories)
+
+
+def _count_group_actual(tasks: list[ActualTask]) -> int:
+    return sum(1 for task in tasks if task.categories)
 
 
 def _join(values: list[str]) -> str:
@@ -160,6 +165,31 @@ def event_rows(tasks: list[ActualTask]) -> list[dict]:
     return rows
 
 
+def group_actual_rows(tasks: list[ActualTask]) -> list[dict]:
+    return [
+        {
+            "Issue Key": task.issue_key,
+            "Summary": task.summary,
+            "Status": task.status,
+            "Assignee": task.assignee,
+            "Reporter": task.reporter,
+            "Priority": task.priority,
+            "Created": task.created,
+            "Updated": task.updated,
+            "Due Date": task.due_date,
+            "Days Without Activity": task.days_without_activity,
+            "Days Overdue": task.days_overdue,
+            "Last Activity": task.last_activity,
+            "Active Users": _join(task.active_users),
+            "Actual Score": task.actual_score,
+            "Categories": _join(task.categories),
+            "Reasons": "; ".join(task.reasons),
+        }
+        for task in tasks
+        if task.categories
+    ]
+
+
 def raw_issue_rows(tasks: list[ActualTask]) -> list[dict]:
     return [task.as_dict() for task in tasks]
 
@@ -172,6 +202,7 @@ def export_actual_tasks_report(result: ActualTasksResult, output_dir: Path) -> P
     sheets = {
         "Summary": summary_rows(result),
         "Actual Tasks": actual_tasks_rows(result.tasks),
+        "Group Actual": group_actual_rows(result.tasks),
         "Active Now": active_now_rows(result.tasks),
         "Changed Recently": changed_recently_rows(result.tasks),
         "Needs Attention": needs_attention_rows(result.tasks),

@@ -72,7 +72,9 @@ python main.py --mode project-users
 python main.py --mode devax12-actual --days 1 --stale-days 7
 ```
 
-Отчёт сохраняется в `JIRA_REPORT_OUTPUT_DIR` с именем вида `devax12_actual_tasks_YYYY-MM-DD_HHMM.xlsx` и содержит листы `Summary`, `Actual Tasks`, `Active Now`, `Changed Recently`, `Needs Attention`, `Stale`, `Overdue`, `Events`, `Raw Issues`.
+Отчёт сохраняется в `JIRA_REPORT_OUTPUT_DIR` с именем вида `devax12_actual_tasks_YYYY-MM-DD_HHMM.xlsx` и содержит листы `Summary`, `Actual Tasks`, `Group Actual`, `Active Now`, `Changed Recently`, `Needs Attention`, `Stale`, `Overdue`, `Events`, `Raw Issues`.
+
+Лист `Group Actual` содержит все задачи, актуальные для группы (с хотя бы одной категорией), с полной информацией: исполнитель, автор, приоритет, сроки, активные пользователи, оценка, категории и причины.
 
 ### `explain`
 
@@ -98,6 +100,7 @@ jira_focus_exporter/
 ├─ requirements.txt
 ├─ run_export.ps1
 ├─ exports/
+├─ reports/
 └─ logs/
 ```
 
@@ -262,7 +265,20 @@ python main.py --mode devax12-actual --days 1 --stale-days 7
 Или через PowerShell-обёртку:
 
 ```powershell
+# Focus (по умолчанию)
 powershell.exe -ExecutionPolicy Bypass -File "D:\py_pro\jira_focus_exporter\run_export.ps1"
+
+# Assigned
+powershell.exe -ExecutionPolicy Bypass -File "D:\py_pro\jira_focus_exporter\run_export.ps1" -Mode assigned
+
+# Project users
+powershell.exe -ExecutionPolicy Bypass -File "D:\py_pro\jira_focus_exporter\run_export.ps1" -Mode project-users -Project DEVAX12
+
+# Devax12 actual
+powershell.exe -ExecutionPolicy Bypass -File "D:\py_pro\jira_focus_exporter\run_export.ps1" -Mode devax12-actual -Days 1 -StaleDays 7
+
+# Explain
+powershell.exe -ExecutionPolicy Bypass -File "D:\py_pro\jira_focus_exporter\run_export.ps1" -Mode explain -Issue DAX-11253
 ```
 
 ## Запуск по расписанию
