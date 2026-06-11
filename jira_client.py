@@ -10,6 +10,7 @@ SEARCH_FIELDS = [
     "priority",
     "assignee",
     "reporter",
+    "creator",
     "created",
     "updated",
     "duedate",
@@ -111,6 +112,7 @@ class JiraClient:
         max_results_per_page: int = 50,
         fields: list[str] | None = None,
         expand: list[str] | None = None,
+        max_results: int | None = None,
     ) -> list[dict]:
         all_issues = []
         start_at = 0
@@ -124,7 +126,7 @@ class JiraClient:
                 "fields": fields,
             }
             if expand:
-                    payload["expand"] = expand
+                payload["expand"] = expand
             logging.info("Запрос задач Jira. startAt=%s", start_at)
             response = requests.post(
                 url, headers=self.get_headers(), json=payload, timeout=60
@@ -137,8 +139,13 @@ class JiraClient:
             data = response.json()
             issues = data.get("issues", [])
             total = data.get("total", 0)
+            if max_results is not None:
+                remaining = max_results - len(all_issues)
+                issues = issues[:remaining]
             all_issues.extend(issues)
             logging.info("Получено задач: %s из %s", len(all_issues), total)
+            if max_results is not None and len(all_issues) >= max_results:
+                break
             start_at += max_results_per_page
             if start_at >= total:
                 break

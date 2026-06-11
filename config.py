@@ -4,7 +4,14 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-VALID_MODES = {"focus", "assigned", "wms-activity", "project-users", "explain"}
+VALID_MODES = {
+    "focus",
+    "assigned",
+    "wms-activity",
+    "project-users",
+    "devax12-actual",
+    "explain",
+}
 
 
 @dataclass
@@ -40,6 +47,21 @@ class ProjectUsersConfig:
 
 
 @dataclass
+class ActualTasksConfig:
+    group_name: str
+    users_file: Path
+    days: int
+    stale_days: int
+    excluded_status_categories: list[str]
+    output_dir: Path
+    report_format: str
+    exclude_inactive: bool
+    require_assignable: bool
+    exclude_patterns: list[str]
+    max_issues_per_query: int
+
+
+@dataclass
 class AppConfig:
     jira_url: str
     jira_token: str
@@ -49,6 +71,7 @@ class AppConfig:
     filters: JiraFilterConfig
     wms: WmsConfig
     project_users: ProjectUsersConfig
+    actual_tasks: ActualTasksConfig
 
 
 def parse_csv_list(value: str | None) -> list[str]:
@@ -88,7 +111,7 @@ def load_config() -> AppConfig:
     default_mode = os.getenv("JIRA_DEFAULT_MODE", "focus").strip() or "focus"
     if default_mode not in VALID_MODES - {"explain"}:
         raise ValueError(
-            "JIRA_DEFAULT_MODE должен быть одним из: focus, assigned, wms-activity, project-users"
+            "JIRA_DEFAULT_MODE должен быть одним из: focus, assigned, wms-activity, project-users, devax12-actual"
         )
 
     return AppConfig(
@@ -135,6 +158,35 @@ def load_config() -> AppConfig:
         project_users=ProjectUsersConfig(
             project_key=os.getenv("JIRA_PROJECT_USERS_PROJECT_KEY", "DEVAX12").strip()
             or "DEVAX12",
+        ),
+        actual_tasks=ActualTasksConfig(
+            group_name=os.getenv("JIRA_DEV_GROUP_NAME", "DEVAX12").strip() or "DEVAX12",
+            users_file=Path(
+                os.getenv(
+                    "JIRA_DEV_GROUP_USERS_FILE",
+                    "data/jira_project_devax12_users_2026-06-11_135952.xlsx",
+                )
+            ),
+            days=parse_positive_int("JIRA_ACTUAL_TASKS_DAYS", 1),
+            stale_days=parse_positive_int("JIRA_STALE_DAYS", 7),
+            excluded_status_categories=parse_csv_list(
+                os.getenv("JIRA_EXCLUDED_STATUS_CATEGORIES", "Done")
+            ),
+            output_dir=Path(os.getenv("JIRA_REPORT_OUTPUT_DIR", "reports")),
+            report_format=os.getenv("JIRA_ACTUAL_TASKS_REPORT_FORMAT", "xlsx").strip()
+            or "xlsx",
+            exclude_inactive=parse_bool(
+                os.getenv("JIRA_DEV_GROUP_EXCLUDE_INACTIVE"), True
+            ),
+            require_assignable=parse_bool(
+                os.getenv("JIRA_DEV_GROUP_REQUIRE_ASSIGNABLE"), False
+            ),
+            exclude_patterns=parse_csv_list(
+                os.getenv(
+                    "JIRA_DEV_GROUP_EXCLUDE_PATTERNS", "$DUPLICATE,1C-,4000-,JIRAUSER"
+                )
+            ),
+            max_issues_per_query=parse_positive_int("JIRA_MAX_ISSUES_PER_QUERY", 1000),
         ),
     )
 
