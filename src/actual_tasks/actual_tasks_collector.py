@@ -12,7 +12,13 @@ from .actual_tasks_classifier import (
     is_group_user,
     user_display,
 )
-from .actual_tasks_models import ActivityEvent, ActualTask, ActualTasksResult
+from .actual_tasks_models import (
+    ActivityEvent,
+    ActualTask,
+    ActualTasksResult,
+    ReleaseInfo,
+    ReleaseIssue,
+)
 from .devax12_users_loader import (
     build_identity_set,
     build_jql_user_values,
@@ -91,6 +97,53 @@ def build_stale_jql(
         f"updated <= -{stale_days}d",
     ]
     return clean_jql(" AND ".join(clauses) + " ORDER BY updated ASC")
+
+
+def build_releases_jql(
+    config: AppConfig, jql_user_values: list[str], days: int
+) -> str | None:
+    if not jql_user_values:
+        return None
+    clauses = [
+        f"assignee in ({quote_values(jql_user_values)})",
+        "fixVersion is not EMPTY",
+        f"updated >= -{days}d",
+    ]
+    return clean_jql(" AND ".join(clauses) + " ORDER BY fixVersion ASC, updated DESC")
+
+
+def _extract_releases(issues: list[dict]) -> list[ReleaseInfo]:
+    releases_by_name: dict[str, ReleaseInfo] = {}
+    for issue in issues:
+        fields = issue.get("fields") or {}
+        fix_versions = fields.get("fixVersions") or []
+        if not fix_versions:
+            continue
+        issue_key = issue.get("key") or ""
+        summary = fields.get("summary") or ""
+        status = (fields.get("status") or {}).get("name") or ""
+        assignee = (fields.get("assignee") or {}).get("displayName") or ""
+        priority = (fields.get("priority") or {}).get("name") or ""
+        updated = fields.get("updated") or ""
+        due_date = fields.get("duedate") or ""
+        release_issue = ReleaseIssue(
+            issue_key=issue_key,
+            summary=summary,
+            status=status,
+            assignee=assignee,
+            priority=priority,
+            updated=updated,
+            due_date=due_date,
+        )
+        for version in fix_versions:
+            version_name = version.get("name") or "Без имени"
+            if version_name not in releases_by_name:
+                releases_by_name[version_name] = ReleaseInfo(
+                    version_name=version_name,
+                    version_description=version.get("description") or "",
+                )
+            releases_by_name[version_name].issues.append(release_issue)
+    return sorted(releases_by_name.values(), key=lambda r: r.version_name)
 
 
 def _merge_issues(target: dict[str, dict], issues: list[dict]) -> None:
@@ -212,7 +265,7 @@ def collect_actual_tasks(
 
     recent_jql = build_recent_updated_jql(config, days)
     recent_issues = _limited_search(
-        client, recent_jql, max_issues, expand=["changelog"]
+        client, recent_jql, max_issues, expand=None
     )
     logging.info("Получено задач, обновлённых за период: %s", len(recent_issues))
     _merge_issues(issues_by_key, recent_issues)
@@ -224,6 +277,17 @@ def collect_actual_tasks(
         )
         _merge_issues(issues_by_key, stale_issues)
     logging.info("После объединения уникальных задач: %s", len(issues_by_key))
+
+    releases_jql = build_releases_jql(config, jql_user_values, days)
+    releases: list[ReleaseInfo] = []
+    if releases_jql:
+        release_issues = _limited_search(
+            client, releases_jql, max_issues, expand=None
+        )
+        releases = _extract_releases(release_issues)
+        logging.info("Найдено релизов с задачами группы: %s", len(releases))
+        for rel in releases:
+            logging.info("  %s: %s задач", rel.version_name, len(rel.issues))
 
     now = datetime.now(timezone.utc)
     tasks: list[ActualTask] = []
@@ -246,6 +310,7 @@ def collect_actual_tasks(
         days=days,
         stale_days=stale_days,
         generated_at=datetime.now(),
+        releases=releases,
     )
     logging.info("Проанализировано changelog/comments: %s", analyzed_events)
     logging.info("Актуальных задач найдено: %s", len(tasks))

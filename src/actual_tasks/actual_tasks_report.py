@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from .actual_tasks_models import ActualTask, ActualTasksResult
+from .actual_tasks_models import ActualTask, ActualTasksResult, ReleaseInfo
 
 SUMMARY_ROWS = [
     ("Всего актуальных задач", lambda result: len(result.tasks)),
@@ -18,6 +18,8 @@ SUMMARY_ROWS = [
     ),
     ("Зависшие", lambda result: _count_category(result.tasks, "stale")),
     ("Просроченные", lambda result: _count_category(result.tasks, "overdue")),
+    ("Релизов с задачами группы", lambda result: len(result.releases)),
+    ("Задач в релизах", lambda result: sum(len(r.issues) for r in result.releases)),
     ("Участников DEVAX12 из файла", lambda result: result.users_count),
     ("Период анализа", lambda result: f"{result.days} дн."),
     ("Порог зависания", lambda result: f"{result.stale_days} дн."),
@@ -194,6 +196,26 @@ def raw_issue_rows(tasks: list[ActualTask]) -> list[dict]:
     return [task.as_dict() for task in tasks]
 
 
+def release_rows(releases: list[ReleaseInfo]) -> list[dict]:
+    rows = []
+    for release in releases:
+        for issue in release.issues:
+            rows.append(
+                {
+                    "Релиз": release.version_name,
+                    "Описание релиза": release.version_description,
+                    "Issue Key": issue.issue_key,
+                    "Summary": issue.summary,
+                    "Статус": issue.status,
+                    "Исполнитель": issue.assignee,
+                    "Приоритет": issue.priority,
+                    "Обновлено": issue.updated,
+                    "Срок": issue.due_date,
+                }
+            )
+    return rows
+
+
 def export_actual_tasks_report(result: ActualTasksResult, output_dir: Path) -> Path:
     output_dir.mkdir(parents=True, exist_ok=True)
     timestamp = result.generated_at.strftime("%Y-%m-%d_%H%M")
@@ -208,6 +230,7 @@ def export_actual_tasks_report(result: ActualTasksResult, output_dir: Path) -> P
         "Needs Attention": needs_attention_rows(result.tasks),
         "Stale": stale_rows(result.tasks),
         "Overdue": overdue_rows(result.tasks),
+        "Релизы": release_rows(result.releases),
         "Events": event_rows(result.tasks),
         "Raw Issues": raw_issue_rows(result.tasks),
     }

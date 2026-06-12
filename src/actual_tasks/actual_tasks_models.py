@@ -91,6 +91,24 @@ class ActualTask:
 
 
 @dataclass
+class ReleaseIssue:
+    issue_key: str
+    summary: str
+    status: str
+    assignee: str
+    priority: str
+    updated: str
+    due_date: str
+
+
+@dataclass
+class ReleaseInfo:
+    version_name: str
+    version_description: str
+    issues: list[ReleaseIssue] = field(default_factory=list)
+
+
+@dataclass
 class ActualTasksResult:
     tasks: list[ActualTask]
     users_count: int
@@ -98,6 +116,7 @@ class ActualTasksResult:
     stale_days: int
     generated_at: datetime
     report_path: str | None = None
+    releases: list[ReleaseInfo] = field(default_factory=list)
 
     @property
     def events(self) -> list[ActivityEvent]:
