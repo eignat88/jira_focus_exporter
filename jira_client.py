@@ -1,8 +1,14 @@
 import logging
+import time
 
 import requests
 
 from config import AppConfig
+
+RETRY_STATUSES = {429, 500, 502, 503, 504}
+MAX_RETRIES = 5
+BASE_DELAY = 1.0
+MAX_DELAY = 30.0
 
 SEARCH_FIELDS = [
     "summary",
@@ -38,9 +44,59 @@ class JiraClient:
             "Content-Type": "application/json",
         }
 
+    def _request(
+        self,
+        method: str,
+        url: str,
+        timeout: int = 30,
+        **kwargs,
+    ) -> requests.Response:
+        last_exc = None
+        for attempt in range(MAX_RETRIES + 1):
+            try:
+                response = requests.request(
+                    method, url, headers=self.get_headers(), timeout=timeout, **kwargs
+                )
+            except requests.ConnectionError as exc:
+                last_exc = exc
+                delay = min(BASE_DELAY * (2 ** attempt), MAX_DELAY)
+                logging.warning(
+                    "Сетевая ошибка (попытка %s/%s), повтор через %.1fс: %s",
+                    attempt + 1, MAX_RETRIES + 1, delay, exc,
+                )
+                time.sleep(delay)
+                continue
+
+            if response.status_code not in RETRY_STATUSES:
+                return response
+
+            retry_after = response.headers.get("Retry-After")
+            if retry_after:
+                try:
+                    delay = min(float(retry_after), MAX_DELAY)
+                except ValueError:
+                    delay = min(BASE_DELAY * (2 ** attempt), MAX_DELAY)
+            else:
+                delay = min(BASE_DELAY * (2 ** attempt), MAX_DELAY)
+
+            if attempt < MAX_RETRIES:
+                logging.warning(
+                    "HTTP %s (попытка %s/%s), повтор через %.1fс",
+                    response.status_code, attempt + 1, MAX_RETRIES + 1, delay,
+                )
+                time.sleep(delay)
+            else:
+                logging.error(
+                    "HTTP %s после %s попыток: %s",
+                    response.status_code, MAX_RETRIES + 1, url,
+                )
+        if last_exc:
+            raise last_exc
+        return response
+
     def check_connection(self) -> dict:
         url = f"{self.jira_url}/rest/api/2/myself"
-        response = requests.get(url, headers=self.get_headers(), timeout=30)
+        response = self._request("GET", url)
         if response.status_code != 200:
             logging.error("Ошибка подключения к Jira")
             logging.error("HTTP status: %s", response.status_code)
@@ -55,7 +111,7 @@ class JiraClient:
 
     def get_available_priority_names(self) -> set[str] | None:
         url = f"{self.jira_url}/rest/api/2/priority"
-        response = requests.get(url, headers=self.get_headers(), timeout=30)
+        response = self._request("GET", url)
         if response.status_code != 200:
             logging.warning("Не удалось получить список приоритетов Jira")
             logging.warning("HTTP status: %s", response.status_code)
@@ -128,9 +184,7 @@ class JiraClient:
             if expand:
                 payload["expand"] = expand
             logging.info("Запрос задач Jira. startAt=%s", start_at)
-            response = requests.post(
-                url, headers=self.get_headers(), json=payload, timeout=60
-            )
+            response = self._request("POST", url, timeout=60, json=payload)
             if response.status_code != 200:
                 logging.error("Ошибка поиска задач")
                 logging.error("HTTP status: %s", response.status_code)
@@ -156,9 +210,7 @@ class JiraClient:
         params = {"fields": ",".join(SEARCH_FIELDS)}
         if expand:
             params["expand"] = ",".join(expand)
-        response = requests.get(
-            url, headers=self.get_headers(), params=params, timeout=30
-        )
+        response = self._request("GET", url, params=params)
         if response.status_code != 200:
             logging.error("Не удалось получить задачу %s", issue_key)
             logging.error("HTTP status: %s", response.status_code)
@@ -186,9 +238,7 @@ class JiraClient:
                 start_at,
                 max_results,
             )
-            response = requests.get(
-                url, headers=self.get_headers(), params=params, timeout=30
-            )
+            response = self._request("GET", url, params=params)
             if response.status_code != 200:
                 logging.error(
                     "Не удалось получить назначаемых пользователей проекта Jira: %s",
@@ -243,7 +293,7 @@ class JiraClient:
 
     def get_project_roles(self, project_key: str) -> dict[str, str]:
         url = f"{self.jira_url}/rest/api/2/project/{project_key}/role"
-        response = requests.get(url, headers=self.get_headers(), timeout=30)
+        response = self._request("GET", url)
         if response.status_code != 200:
             logging.error("Не удалось получить роли проекта Jira: %s", project_key)
             logging.error("HTTP status: %s", response.status_code)
@@ -252,7 +302,7 @@ class JiraClient:
         return response.json()
 
     def get_project_role(self, role_url: str) -> dict:
-        response = requests.get(role_url, headers=self.get_headers(), timeout=30)
+        response = self._request("GET", role_url)
         if response.status_code != 200:
             logging.error(
                 "Не удалось получить участников роли проекта Jira: %s", role_url
@@ -268,9 +318,7 @@ class JiraClient:
         while True:
             url = f"{self.jira_url}/rest/api/2/group/member"
             params = {"groupname": group_name, "startAt": start_at, "maxResults": 50}
-            response = requests.get(
-                url, headers=self.get_headers(), params=params, timeout=30
-            )
+            response = self._request("GET", url, params=params)
             if response.status_code != 200:
                 logging.error(
                     "Не удалось получить участников группы Jira: %s", group_name
