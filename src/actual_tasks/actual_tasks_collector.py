@@ -104,10 +104,11 @@ def build_releases_jql(
 ) -> str | None:
     if not jql_user_values:
         return None
+    release_days = max(days, 30)
     clauses = [
         f"assignee in ({quote_values(jql_user_values)})",
         "fixVersion is not EMPTY",
-        f"updated >= -{days}d",
+        f"updated >= -{release_days}d",
     ]
     return clean_jql(" AND ".join(clauses) + " ORDER BY fixVersion ASC, updated DESC")
 
