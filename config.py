@@ -183,7 +183,7 @@ def load_config() -> AppConfig:
             ),
             exclude_patterns=parse_csv_list(
                 os.getenv(
-                    "JIRA_DEV_GROUP_EXCLUDE_PATTERNS", "$DUPLICATE,1C-,4000-,JIRAUSER"
+                    "JIRA_DEV_GROUP_EXCLUDE_PATTERNS", "$DUPLICATE,1C-,4000-,JIRAUSER1"
                 )
             ),
             max_issues_per_query=parse_positive_int("JIRA_MAX_ISSUES_PER_QUERY", 1000),
