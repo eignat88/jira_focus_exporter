@@ -222,17 +222,17 @@ def export_actual_tasks_report(result: ActualTasksResult, output_dir: Path) -> P
     output_path = output_dir / f"devax12_actual_tasks_{timestamp}.xlsx"
 
     sheets = {
-        "Summary": summary_rows(result),
-        "Actual Tasks": actual_tasks_rows(result.tasks),
-        "Group Actual": group_actual_rows(result.tasks),
-        "Active Now": active_now_rows(result.tasks),
-        "Changed Recently": changed_recently_rows(result.tasks),
-        "Needs Attention": needs_attention_rows(result.tasks),
-        "Stale": stale_rows(result.tasks),
-        "Overdue": overdue_rows(result.tasks),
+        "Сводка": summary_rows(result),
+        "Все задачи": actual_tasks_rows(result.tasks),
+        "Задачи группы": group_actual_rows(result.tasks),
+        "Активные сейчас": active_now_rows(result.tasks),
+        "Изменены за период": changed_recently_rows(result.tasks),
+        "Требуют внимания": needs_attention_rows(result.tasks),
+        "Зависшие": stale_rows(result.tasks),
+        "Просроченные": overdue_rows(result.tasks),
         "Релизы": release_rows(result.releases),
-        "Events": event_rows(result.tasks),
-        "Raw Issues": raw_issue_rows(result.tasks),
+        "События": event_rows(result.tasks),
+        "Сырые данные": raw_issue_rows(result.tasks),
     }
     with pd.ExcelWriter(output_path, engine="openpyxl") as writer:
         for sheet_name, rows in sheets.items():
