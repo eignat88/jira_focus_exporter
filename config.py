@@ -11,6 +11,7 @@ VALID_MODES = {
     "project-users",
     "devax12-actual",
     "explain",
+    "search-missing-info",
 }
 
 

@@ -1,0 +1,401 @@
+/// <summary>
+/// Класс мониторинга ключевых метрик функционала КМ/ШК в WMS
+/// Запуск: Jobs → ALK_WMS_MetricsCollector
+/// Источник: Анализ 12 XPO-файлов SharedProject ALK_WMS
+/// </summary>
+class ALK_WMS_MetricsCollector extends RunBaseBatch
+{
+    // Константы для типов метрик
+    #define.MetricType_ErrorCount('ErrorCount')
+    #define.MetricType_ProblemKM('ProblemKM')
+    #define.MetricType_CompetitorMP('CompetitorMP')
+    #define.MetricType_SettingsAudit('SettingsAudit')
+    #define.MetricType_Performance('Performance')
+
+    // Переменные
+    ALK_WMS_MetricsType    metricType;
+    Date                    startDate;
+    Date                    endDate;
+    boolean                 sendEmail;
+    str                     emailRecipient;
+
+    /// <summary>
+    /// Метод main для запуска из меню
+    /// </summary>
+    public static void main(Args _args)
+    {
+        ALK_WMS_MetricsCollector collector = new ALK_WMS_MetricsCollector();
+
+        if (collector.prompt())
+        {
+            collector.run();
+        }
+    }
+
+    /// <summary>
+    /// Диалог выбора параметров
+    /// </summary>
+    public boolean dialog()
+    {
+        DialogRunbase             dialog = new DialogRunbase("Метрики мониторинга WMS", this);
+        DialogGroup               grpPeriod;
+        DialogGroup               grpOptions;
+        DialogField               dfMetricType;
+        DialogField               dfStartDate;
+        DialogField               dfEndDate;
+        DialogField               dfSendEmail;
+        DialogField               dfEmail;
+
+        // Группа "Период"
+        grpPeriod = dialog.addGroup("Период");
+        dfStartDate = dialog.addFieldValue.Types::Date(
+            startDate,
+            "С",
+            "Дата начала",
+            "Начало периода для сбора метрик"
+        );
+        dfEndDate = dialog.addFieldValue.Types::Date(
+            endDate,
+            "По",
+            "Дата окончания",
+            "Окончание периода для сбора метрик"
+        );
+
+        // Группа "Параметры"
+        grpOptions = dialog.addGroup("Параметры");
+        dfMetricType = dialog.addFieldValue.Types::Enum(
+            metricType,
+            "Тип метрик",
+            "Тип собираемых метрик"
+        );
+        dfSendEmail = dialog.addFieldValue.Types::Boolean(
+            sendEmail,
+            "Отправить email",
+            "Отправить отчёт по email"
+        );
+        dfEmail = dialog.addFieldValue.Types::String(
+            emailRecipient,
+            "Email",
+            "Адрес получателя отчёта"
+        );
+
+        // Значения по умолчанию
+        if (!startDate) startDate = dateUtils::date();
+        if (!endDate) endDate = dateUtils::date();
+        if (!metricType) metricType = ALK_WMS_MetricsType::All;
+
+        return super();
+    }
+
+    /// <summary>
+    /// Основной метод сбора метрик
+    /// </summary>
+    public void run()
+    {
+        switch (metricType)
+        {
+            case ALK_WMS_MetricsType::ErrorCount:
+                this.collectErrorMetrics();
+                break;
+            case ALK_WMS_MetricsType::ProblemKM:
+                this.collectProblemKMMetrics();
+                break;
+            case ALK_WMS_MetricsType::CompetitorMP:
+                this.collectCompetitorMPMetrics();
+                break;
+            case ALK_WMS_MetricsType::SettingsAudit:
+                this.auditSettings();
+                break;
+            case ALK_WMS_MetricsType::Performance:
+                this.collectPerformanceMetrics();
+                break;
+            case ALK_WMS_MetricsType::All:
+                this.collectAllMetrics();
+                break;
+        }
+
+        if (sendEmail && emailRecipient)
+        {
+            this.sendReport();
+        }
+
+        info("Сбор метрик завершён");
+    }
+
+    /// <summary>
+    /// Сбор метрик по ошибкам КМ
+    /// </summary>
+    private void collectErrorMetrics()
+    {
+        WMS_JournalWarehouseOperationTable  operationTable;
+        Map                                 errorMap = new Map(Types::String, Types::Integer);
+        int                                 totalErrors = 0;
+
+        info("=== МЕТРИКИ ОШИБОК КМ ===");
+        info(strFmt("Период: %1 - %2", date2Str(startDate), date2Str(endDate)));
+
+        // Подсчёт операций по типам
+        while select operationTable
+            where operationTable.StartDate >= startDate
+                && operationTable.StartDate <= endDate
+            group by operationTable.OperationType
+        {
+            info(strFmt("Тип операции: %1, Количество: %2, Суммарное кол-во: %3",
+                enum2Str(operationTable.OperationType),
+                operationTable.RecId,
+                operationTable.Qty));
+        }
+
+        // Подсчёт ошибок в журнале сканирования
+        WMS_PickDiffActLine diffActLine;
+        while select diffActLine
+            where diffActLine.CreatedDateTime >= startDate
+                && diffActLine.CreatedDateTime <= endDate
+                && diffActLine.ActType == WMS_PickDiffActType::ProblemKM
+        {
+            totalErrors += diffActLine.DiffQtyForPick;
+        }
+
+        info(strFmt("Всего проблемных КМ: %1", totalErrors));
+    }
+
+    /// <summary>
+    /// Сбор метрик по проблемным КМ
+    /// </summary>
+    private void collectProblemKMMetrics()
+    {
+        WMS_PickDiffActLine     diffActLine;
+        LFL_SCSPackTask         packTask;
+        Map                     taskProblemMap = new Map(Types::String, Types::Real);
+
+        info("=== МЕТРИКИ ПРОБЛЕМНЫХ КМ ===");
+
+        // Группировка по заданиям на упаковку
+        while select diffActLine
+            where diffActLine.CreatedDateTime >= startDate
+                && diffActLine.CreatedDateTime <= endDate
+                && diffActLine.ActType == WMS_PickDiffActType::ProblemKM
+            group by diffActLine.LFL_SCSPackTaskId
+        {
+            if (taskProblemMap.exists(diffActLine.LFL_SCSPackTaskId))
+            {
+                taskProblemMap.insert(
+                    diffActLine.LFL_SCSPackTaskId,
+                    taskProblemMap.lookup(diffActLine.LFL_SCSPackTaskId) + diffActLine.DiffQtyForPick
+                );
+            }
+            else
+            {
+                taskProblemMap.insert(diffActLine.LFL_SCSPackTaskId, diffActLine.DiffQtyForPick);
+            }
+        }
+
+        // Вывод результатов
+        MapEnumerator enumerator = taskProblemMap.getEnumerator();
+        while (enumerator.moveNext())
+        {
+            info(strFmt("Задание: %1, Проблемных КМ: %2",
+                enumerator.currentKey(),
+                enumerator.currentValue()));
+        }
+    }
+
+    /// <summary>
+    /// Сбор метрик по конкуренции MP
+    /// </summary>
+    private void collectCompetitorMPMetrics()
+    {
+        LFL_MarkingCodeTable    markingCodeTable;
+        InventTable             inventTable;
+        Map                     itemCompetitorMap = new Map(Types::String, Types::Integer);
+
+        info("=== МЕТРИКИ КОНКУРЕНЦИИ MP ===");
+
+        // Группировка по номенклатуре
+        while select markingCodeTable
+            where markingCodeTable.CreatedDateTime >= startDate
+                && markingCodeTable.CreatedDateTime <= endDate
+                && markingCodeTable.Competitor == NoYes::Yes
+            group by markingCodeTable.ItemId
+        {
+            if (itemCompetitorMap.exists(markingCodeTable.ItemId))
+            {
+                itemCompetitorMap.insert(
+                    markingCodeTable.ItemId,
+                    itemCompetitorMap.lookup(markingCodeTable.ItemId) + 1
+                );
+            }
+            else
+            {
+                itemCompetitorMap.insert(markingCodeTable.ItemId, 1);
+            }
+        }
+
+        // Вывод результатов с названиями товаров
+        MapEnumerator enumerator = itemCompetitorMap.getEnumerator();
+        while (enumerator.moveNext())
+        {
+            inventTable = InventTable::find(enumerator.currentKey());
+            info(strFmt("Товар: %1 (%2), Конкурентных КМ: %3",
+                enumerator.currentKey(),
+                inventTable.ItemName,
+                enumerator.currentValue()));
+        }
+    }
+
+    /// <summary>
+    /// Аудит настроек
+    /// </summary>
+    private void auditSettings()
+    {
+        MPProductGroup                      productGroup;
+        MPProductGroupFEACCMarkDates        markDates;
+        LFL_RequestTable                    requestTable;
+        int                                 issuesCount = 0;
+
+        info("=== АУДИТ НАСТРОЕК ===");
+
+        // Проверка 1: ALK_ScanMC без шаблона КМ
+        while select productGroup
+            where productGroup.ALK_ScanMC == NoYes::Yes
+        {
+            if (!productGroup.ALK_MPCisTemplate)
+            {
+                warning(strFmt("ТГ %1: ALK_ScanMC=Да, но не настроен шаблон КМ",
+                    productGroup.GroupId));
+                issuesCount++;
+            }
+        }
+
+        // Проверка 2: EnableWithoutMC без даты запрета
+        while select markDates
+            where markDates.EnableWithoutMC == NoYes::Yes
+        {
+            if (!markDates.InternalForbidenTurnoverDate)
+            {
+                warning(strFmt("ТГ %1, ТН ВЭД %2: EnableWithoutMC=Да, но не задана дата запрета",
+                    markDates.MPProductGroup,
+                    markDates.FEACCId_RU));
+                issuesCount++;
+            }
+        }
+
+        // Проверка 3: EnableWithoutMC с истёкшим сроком
+        while select markDates
+            where markDates.EnableWithoutMC == NoYes::Yes
+                && markDates.InternalForbidenTurnoverDate <= systemDateGet()
+        {
+            warning(strFmt("ТГ %1, ТН ВЭД %2: EnableWithoutMC=Да, но срок истёк (%3)",
+                markDates.MPProductGroup,
+                markDates.FEACCId_RU,
+                date2Str(markDates.InternalForbidenTurnoverDate)));
+            issuesCount++;
+        }
+
+        if (issuesCount == 0)
+        {
+            info("Проблем с настройками не обнаружено");
+        }
+        else
+        {
+            info(strFmt("Обнаружено проблем: %1", issuesCount));
+        }
+    }
+
+    /// <summary>
+    /// Сбор метрик производительности
+    /// </summary>
+    private void collectPerformanceMetrics()
+    {
+        WMS_PickingLineBufferMarking    bufferMarking;
+        LFL_MarkingCodeTable            markingCodeTable;
+        int                             totalScans = 0;
+        int                             avgHashTime = 0;
+
+        info("=== МЕТРИКИ ПРОИЗВОДИТЕЛЬНОСТИ ===");
+
+        // Подсчёт количества сканирований КМ
+        select count(RecId) from bufferMarking
+            where bufferMarking.CreatedDateTime >= startDate
+                && bufferMarking.CreatedDateTime <= endDate;
+
+        totalScans = bufferMarking.RecId;
+        info(strFmt("Всего сканирований КМ: %1", totalScans));
+
+        // Проверка использования MD5-хеша
+        select count(RecId) from bufferMarking
+            where bufferMarking.MD5Hash != ''
+                && bufferMarking.CreatedDateTime >= startDate
+                && bufferMarking.CreatedDateTime <= endDate;
+
+        info(strFmt("Сканирований с MD5-хешем: %1", bufferMarking.RecId));
+
+        // Статистика по конкурентным КМ
+        select count(RecId) from markingCodeTable
+            where markingCodeTable.Competitor == NoYes::Yes
+                && markingCodeTable.CreatedDateTime >= startDate
+                && markingCodeTable.CreatedDateTime <= endDate;
+
+        info(strFmt("Конкурентных КМ: %1", markingCodeTable.RecId));
+    }
+
+    /// <summary>
+    /// Сбор всех метрик
+    /// </summary>
+    private void collectAllMetrics()
+    {
+        this.collectErrorMetrics();
+        this.collectProblemKMMetrics();
+        this.collectCompetitorMPMetrics();
+        this.auditSettings();
+        this.collectPerformanceMetrics();
+    }
+
+    /// <summary>
+    /// Отправка отчёта по email
+    /// </summary>
+    private void sendReport()
+    {
+        System.Net.Mail.MailMessage      mailMessage;
+        System.Net.Mail.SmtpClient       smtpClient;
+        System.IO.MemoryStream           memoryStream;
+        System.IO.StreamWriter           streamWriter;
+
+        try
+        {
+            // Формирование отчёта в текстовом формате
+            mailMessage = new System.Net.Mail.MailMessage();
+            mailMessage.set_To(emailRecipient);
+            mailMessage.set_Subject(strFmt("WMS Метрики: %1 - %2", date2Str(startDate), date2Str(endDate)));
+            mailMessage.set_Body(this.generateReportText());
+
+            // Отправка (настройки SMTP берутся из конфигурации)
+            smtpClient = new System.Net.Mail.SmtpClient();
+            smtpClient.Send(mailMessage);
+
+            info(strFmt("Отчёт отправлен на %1", emailRecipient));
+        }
+        catch (Exception::CLRError)
+        {
+            error(strFmt("Ошибка отправки отчёта: %1", CLRInterop::getExceptionMessage()));
+        }
+    }
+
+    /// <summary>
+    /// Генерация текстового отчёта
+    /// </summary>
+    private str generateReportText()
+    {
+        str report;
+
+        report += strFmt("Отчёт по метрикам WMS%n");
+        report += strFmt("Период: %1 - %2%n", date2Str(startDate), date2Str(endDate));
+        report += strFmt("Дата формирования: %1%n", date2Str(systemDateGet()));
+        report += "====================================%n%n";
+
+        // Здесь можно добавить логику сбора всех метрик в текстовый формат
+
+        return report;
+    }
+
+}

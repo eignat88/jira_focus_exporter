@@ -1,0 +1,269 @@
+================================================================================
+SERIAL_MARK PREFLIGHT LOCALIZATION REPORT
+================================================================================
+Generated: 2026-07-28T10:35:58.370873
+Database: wms_analysis
+Read-only diagnostics; no COUNT(*), no EXPLAIN ANALYZE, no data changes.
+
+FINDINGS
+--------------------------------------------------------------------------------
+[WARN] SOURCE_IS_RAW: Stage serial_mark currently points to raw_ax.alk_markserial, not normalized staging.
+  Recommendation: Confirm YAML stage source. For NORMALIZED_STAGING strategy, use benchmark.alk_markserial_test with bigint recid as source for DDS.
+  {
+    "configured_source_seen_in_preflight": "raw_ax.alk_markserial"
+  }
+
+[ERROR] BAD_ROW_ESTIMATE_FALLBACK: pg_stat_user_tables.n_live_tup is zero, but the relation is large. Preflight must not classify it as a small table.
+  Recommendation: Use pg_class.reltuples as fallback when n_live_tup is NULL or 0. Also treat a relation larger than a configurable size threshold as large.
+  {
+    "n_live_tup": 0,
+    "pg_class_reltuples": 153227536,
+    "total_size": "79 GB"
+  }
+
+[ERROR] RAW_BIGINT_INDEX_MISSING: No usable B-tree index found on raw_ax.alk_markserial(recid_bigint).
+  Recommendation: Do not run RAW chunk loading by recid_bigint until the source strategy is clarified. Prefer normalized staging or a verified existing index. Do not mass UPDATE RAW.
+  [
+    {
+      "index_name": "idx_alk_markserial_recid",
+      "access_method": "btree",
+      "indisprimary": false,
+      "indisunique": true,
+      "indisvalid": true,
+      "indisready": true,
+      "indislive": true,
+      "index_definition": "CREATE UNIQUE INDEX idx_alk_markserial_recid ON raw_ax.alk_markserial USING btree (recid)",
+      "predicate": null,
+      "key_expressions": [
+        "recid"
+      ]
+    }
+  ]
+
+[OK] DDS_CONFLICT_TARGET_VALID: dds.serial_mark(rec_id) has a valid uniqueness guarantee for ON CONFLICT.
+  Recommendation: Preflight should accept either a valid unique/primary constraint or a valid unique index matching the conflict target.
+  {
+    "unique_indexes": [
+      {
+        "index_name": "ux_serial_mark_rec_id",
+        "access_method": "btree",
+        "indisprimary": false,
+        "indisunique": true,
+        "indisvalid": true,
+        "indisready": true,
+        "indislive": true,
+        "index_definition": "CREATE UNIQUE INDEX ux_serial_mark_rec_id ON dds.serial_mark USING btree (rec_id)",
+        "predicate": null,
+        "key_expressions": [
+          "rec_id"
+        ]
+      }
+    ],
+    "constraints": []
+  }
+
+[ERROR] SEQ_SCAN_RAW_RECID_BIGINT: EXPLAIN for raw_recid_bigint contains Seq Scan/Parallel Seq Scan.
+  Recommendation: Do not start the large-table stage until the indexed plan is restored.
+  {
+    "node_types": [
+      "Limit",
+      "Sort",
+      "Gather",
+      "Seq Scan"
+    ]
+  }
+
+[OK] INDEX_PLAN_BENCHMARK_RECID: EXPLAIN for benchmark_recid uses an index access path.
+  {
+    "node_types": [
+      "Limit",
+      "Index Only Scan"
+    ]
+  }
+
+[WARN] LONG_TRANSACTIONS: Found 4 transactions older than 5 minutes.
+  Recommendation: Identify owners and purpose before starting full/resume. Do not terminate automatically.
+  [
+    {
+      "pid": 15992,
+      "usename": "postgres",
+      "application_name": "",
+      "state": "active",
+      "wait_event_type": "IO",
+      "wait_event": "DataFileRead",
+      "xact_start": "2026-07-28 10:15:06.763128+03:00",
+      "transaction_age": "0:20:52.074498",
+      "query": "\n            INSERT INTO dds.serial_mark (\n                rec_id, gtin, serial_number, item_id,\n                mark_code,\n                modified_datetime, modified_by,\n                created_datetime, created_by\n            )\n            SELECT\n                b.recid,\n                b.gtin,\n                b.serialnumber,\n                b.itemid,\n                b.markcode,\n                b.modifieddatetime,\n                b.modifiedby,\n                b.createddatetime,\n                b.createdby\n            FROM benchmark.alk_markserial_test b\n            WHERE b.recid > 5796276328\n            ORDER BY b.recid\n            LIMIT 500000\n            ON CONFLICT (rec_id) DO NOTHING\n        "
+    },
+    {
+      "pid": 19404,
+      "usename": "postgres",
+      "application_name": "raw_to_dds_data_a6143ba98c",
+      "state": "active",
+      "wait_event_type": "IO",
+      "wait_event": "DataFileRead",
+      "xact_start": "2026-07-28 10:17:09.173955+03:00",
+      "transaction_age": "0:18:49.663671",
+      "query": "\n            SELECT MIN(recid_bigint), MAX(recid_bigint)\n            FROM \"raw_ax\".\"alk_markserial\"\n            WHERE \"recid_bigint\" IS NOT NULL\n        "
+    },
+    {
+      "pid": 15524,
+      "usename": "postgres",
+      "application_name": "raw_to_dds_data_a6143ba98c",
+      "state": "active",
+      "wait_event_type": "IO",
+      "wait_event": "DataFileRead",
+      "xact_start": "2026-07-28 10:17:09.173955+03:00",
+      "transaction_age": "0:18:49.663671",
+      "query": "\n            SELECT MIN(recid_bigint), MAX(recid_bigint)\n            FROM \"raw_ax\".\"alk_markserial\"\n            WHERE \"recid_bigint\" IS NOT NULL\n        "
+    },
+    {
+      "pid": 17800,
+      "usename": "postgres",
+      "application_name": "raw_to_dds_data_a6143ba98c",
+      "state": "active",
+      "wait_event_type": "IO",
+      "wait_event": "DataFileRead",
+      "xact_start": "2026-07-28 10:17:09.173955+03:00",
+      "transaction_age": "0:18:49.663671",
+      "query": "\n            SELECT MIN(recid_bigint), MAX(recid_bigint)\n            FROM \"raw_ax\".\"alk_markserial\"\n            WHERE \"recid_bigint\" IS NOT NULL\n        "
+    }
+  ]
+
+[OK] BENCHMARK_SOURCE_READY: benchmark.alk_markserial_test has a usable B-tree index on recid.
+  Recommendation: This is the preferred source for benchmark -> DDS keyset loading.
+  [
+    {
+      "index_name": "pk_benchmark_alk_markserial_test",
+      "access_method": "btree",
+      "indisprimary": true,
+      "indisunique": true,
+      "indisvalid": true,
+      "indisready": true,
+      "indislive": true,
+      "index_definition": "CREATE UNIQUE INDEX pk_benchmark_alk_markserial_test ON benchmark.alk_markserial_test USING btree (recid)",
+      "predicate": null,
+      "key_expressions": [
+        "recid"
+      ]
+    }
+  ]
+
+TABLE OVERVIEW
+--------------------------------------------------------------------------------
+raw_ax.alk_markserial
+{
+  "exists": true,
+  "schemaname": "raw_ax",
+  "relname": "alk_markserial",
+  "pg_class_estimated_rows": 153227536,
+  "relpages": 9291773,
+  "n_live_tup": 0,
+  "n_dead_tup": 0,
+  "last_analyze": null,
+  "last_autoanalyze": null,
+  "last_vacuum": null,
+  "last_autovacuum": null,
+  "heap_bytes": 76118204416,
+  "indexes_bytes": 8500871168,
+  "total_bytes": 84640145408,
+  "heap_size": "71 GB",
+  "indexes_size": "8107 MB",
+  "total_size": "79 GB"
+}
+
+benchmark.alk_markserial_test
+{
+  "exists": true,
+  "schemaname": "benchmark",
+  "relname": "alk_markserial_test",
+  "pg_class_estimated_rows": 151716864,
+  "relpages": 2567117,
+  "n_live_tup": 0,
+  "n_dead_tup": 0,
+  "last_analyze": null,
+  "last_autoanalyze": null,
+  "last_vacuum": null,
+  "last_autovacuum": null,
+  "heap_bytes": 21029822464,
+  "indexes_bytes": 3410051072,
+  "total_bytes": 24445640704,
+  "heap_size": "20 GB",
+  "indexes_size": "3252 MB",
+  "total_size": "23 GB"
+}
+
+dds.serial_mark
+{
+  "exists": true,
+  "schemaname": "dds",
+  "relname": "serial_mark",
+  "pg_class_estimated_rows": 133130008,
+  "relpages": 2434916,
+  "n_live_tup": 143630006,
+  "n_dead_tup": 1030213,
+  "last_analyze": null,
+  "last_autoanalyze": "2026-07-28 08:59:53.562514+03:00",
+  "last_vacuum": null,
+  "last_autovacuum": null,
+  "heap_bytes": 22570909696,
+  "indexes_bytes": 15526592512,
+  "total_bytes": 38103449600,
+  "heap_size": "21 GB",
+  "indexes_size": "14 GB",
+  "total_size": "35 GB"
+}
+
+EXPLAIN PLAN NODE TYPES
+--------------------------------------------------------------------------------
+raw_recid_bigint: ['Limit', 'Sort', 'Gather', 'Seq Scan']
+benchmark_recid: ['Limit', 'Index Only Scan']
+
+LONG TRANSACTIONS
+--------------------------------------------------------------------------------
+[
+  {
+    "pid": 15992,
+    "usename": "postgres",
+    "application_name": "",
+    "state": "active",
+    "wait_event_type": "IO",
+    "wait_event": "DataFileRead",
+    "xact_start": "2026-07-28 10:15:06.763128+03:00",
+    "transaction_age": "0:20:52.074498",
+    "query": "\n            INSERT INTO dds.serial_mark (\n                rec_id, gtin, serial_number, item_id,\n                mark_code,\n                modified_datetime, modified_by,\n                created_datetime, created_by\n            )\n            SELECT\n                b.recid,\n                b.gtin,\n                b.serialnumber,\n                b.itemid,\n                b.markcode,\n                b.modifieddatetime,\n                b.modifiedby,\n                b.createddatetime,\n                b.createdby\n            FROM benchmark.alk_markserial_test b\n            WHERE b.recid > 5796276328\n            ORDER BY b.recid\n            LIMIT 500000\n            ON CONFLICT (rec_id) DO NOTHING\n        "
+  },
+  {
+    "pid": 19404,
+    "usename": "postgres",
+    "application_name": "raw_to_dds_data_a6143ba98c",
+    "state": "active",
+    "wait_event_type": "IO",
+    "wait_event": "DataFileRead",
+    "xact_start": "2026-07-28 10:17:09.173955+03:00",
+    "transaction_age": "0:18:49.663671",
+    "query": "\n            SELECT MIN(recid_bigint), MAX(recid_bigint)\n            FROM \"raw_ax\".\"alk_markserial\"\n            WHERE \"recid_bigint\" IS NOT NULL\n        "
+  },
+  {
+    "pid": 15524,
+    "usename": "postgres",
+    "application_name": "raw_to_dds_data_a6143ba98c",
+    "state": "active",
+    "wait_event_type": "IO",
+    "wait_event": "DataFileRead",
+    "xact_start": "2026-07-28 10:17:09.173955+03:00",
+    "transaction_age": "0:18:49.663671",
+    "query": "\n            SELECT MIN(recid_bigint), MAX(recid_bigint)\n            FROM \"raw_ax\".\"alk_markserial\"\n            WHERE \"recid_bigint\" IS NOT NULL\n        "
+  },
+  {
+    "pid": 17800,
+    "usename": "postgres",
+    "application_name": "raw_to_dds_data_a6143ba98c",
+    "state": "active",
+    "wait_event_type": "IO",
+    "wait_event": "DataFileRead",
+    "xact_start": "2026-07-28 10:17:09.173955+03:00",
+    "transaction_age": "0:18:49.663671",
+    "query": "\n            SELECT MIN(recid_bigint), MAX(recid_bigint)\n            FROM \"raw_ax\".\"alk_markserial\"\n            WHERE \"recid_bigint\" IS NOT NULL\n        "
+  }
+]

@@ -1,0 +1,337 @@
+pipeline:
+  name: raw_to_dds
+  advisory_lock_key: 1734500127
+  default_batch_size: 100000
+  heartbeat_interval_seconds: 15
+  max_attempts: 3
+
+stages:
+  - no: 0
+    name: serial_mark_normalization
+    enabled: true
+
+    source:
+      schema: raw_ax
+      table: alk_markserial
+      key_column: recid
+      key_type: text
+      chunk_order: lexical
+
+    target:
+      schema: stage_ax
+      table: alk_markserial_normalized
+
+    normalization:
+      source_key: recid
+      normalized_key: recid_bigint
+      normalized_type: bigint
+
+    execution:
+      strategy: normalized_staging
+      chunk_strategy: lexical_range
+      batch_size: 100000
+      count_mode: estimate
+
+    conflict_key:
+      - recid_text
+
+    post_actions:
+      create_numeric_index: true
+
+  - no: 1
+    name: serial_mark
+    enabled: true
+
+    source:
+      schema: benchmark
+      table: alk_markserial_test
+      key_column: recid
+      key_type: bigint
+
+    target:
+      schema: dds
+      table: serial_mark
+      conflict_key: rec_id
+
+    execution:
+      strategy: postgres_insert_select
+      chunk_strategy: numeric_range
+      batch_size: 100000
+      count_mode: estimate
+
+    columns:
+      - target: rec_id
+        expression: "src.recid"
+      - target: gtin
+        expression: "src.gtin"
+      - target: serial_number
+        expression: "src.serialnumber"
+      - target: item_id
+        expression: "src.itemid"
+      - target: mark_code
+        expression: "src.markcode"
+      - target: modified_datetime
+        expression: "src.modifieddatetime"
+      - target: modified_by
+        expression: "src.modifiedby"
+      - target: created_datetime
+        expression: "src.createddatetime"
+      - target: created_by
+        expression: "src.createdby"
+
+    validation:
+      target_not_empty: true
+      duplicate_check:
+        column: rec_id
+      null_check:
+        columns:
+          - rec_id
+
+    post_actions:
+      analyze: true
+
+  - no: 2
+    name: picking_route
+    enabled: true
+
+    source:
+      schema: raw_ax
+      table: wmspickingroute
+      key_column: recid_bigint
+      key_type: bigint
+
+    target:
+      schema: dds
+      table: picking_route
+      key_column: picking_route_id
+      conflict_key: picking_route_id
+
+    execution:
+      strategy: postgres_insert_select
+      chunk_strategy: numeric_range
+      batch_size: 100000
+      count_mode: estimate
+
+    columns:
+      - target: picking_route_id
+        expression: "src.pickingrouteid"
+      - target: route_code
+        expression: "src.routeid"
+      - target: status
+        expression: "src.status"
+      - target: start_date
+        expression: "CASE WHEN src.startdate IS NOT NULL THEN src.startdate::timestamp END"
+      - target: end_date
+        expression: "CASE WHEN src.enddate IS NOT NULL THEN src.enddate::timestamp END"
+      - target: employee_id
+        expression: "src.emplid"
+      - target: employee_name
+        expression: "src.namealias"
+      - target: location_id
+        expression: "src.inventlocationid"
+      - target: pallet_id
+        expression: "src.wmspalletid"
+      - target: modified_datetime
+        expression: "CASE WHEN src.modifieddatetime IS NOT NULL THEN src.modifieddatetime::timestamp END"
+      - target: created_datetime
+        expression: "CASE WHEN src.createddatetime IS NOT NULL THEN src.createddatetime::timestamp END"
+      - target: data_area_id
+        expression: "src.dataareaid"
+
+    validation:
+      target_not_empty: true
+
+    post_actions:
+      analyze: true
+
+  - no: 3
+    name: pack_task
+    enabled: true
+
+    source:
+      schema: raw_ax
+      table: lfl_scspacktask
+      key_column: recid
+      key_type: bigint_text
+
+    target:
+      schema: dds
+      table: pack_task
+      conflict_key: task_id
+
+    execution:
+      strategy: postgres_insert_select
+      chunk_strategy: numeric_range
+      batch_size: 100000
+      count_mode: estimate
+
+    columns:
+      - target: pack_task_id
+        expression: "src.packtaskid"
+      - target: picking_route_id
+        expression: "src.pickingrouteid"
+      - target: item_id
+        expression: "src.itemid"
+      - target: invent_dim_id
+        expression: "src.inventdimid"
+      - target: qty
+        expression: "CASE WHEN src.qty IS NOT NULL THEN src.qty::numeric END"
+      - target: picked_qty
+        expression: "CASE WHEN src.pickedqty IS NOT NULL THEN src.pickedqty::numeric END"
+      - target: waste_qty
+        expression: "CASE WHEN src.wasteqty IS NOT NULL THEN src.wasteqty::numeric END"
+      - target: pallet_id
+        expression: "src.wmspalletid"
+      - target: modified_datetime
+        expression: "CASE WHEN src.modifieddatetime IS NOT NULL THEN src.modifieddatetime::timestamp END"
+      - target: created_datetime
+        expression: "CASE WHEN src.createddatetime IS NOT NULL THEN src.createddatetime::timestamp END"
+      - target: data_area_id
+        expression: "src.dataareaid"
+
+    validation:
+      target_not_empty: true
+
+    post_actions:
+      analyze: true
+
+  - no: 4
+    name: order_trans
+    enabled: true
+
+    source:
+      schema: raw_ax
+      table: wmsordertrans
+      key_column: recid
+      key_type: bigint_text
+
+    target:
+      schema: dds
+      table: order_trans
+      conflict_key: trans_id
+
+    execution:
+      strategy: postgres_insert_select
+      chunk_strategy: numeric_range
+      batch_size: 100000
+      count_mode: estimate
+
+    columns:
+      - target: order_id
+        expression: "src.orderid"
+      - target: order_trans_id
+        expression: "src.ordertransid"
+      - target: item_id
+        expression: "src.itemid"
+      - target: invent_dim_id
+        expression: "src.inventdimid"
+      - target: qty
+        expression: "CASE WHEN src.qty IS NOT NULL THEN src.qty::numeric END"
+      - target: picked_qty
+        expression: "CASE WHEN src.pickedqty IS NOT NULL THEN src.pickedqty::numeric END"
+      - target: waste_qty
+        expression: "CASE WHEN src.wastedqty IS NOT NULL THEN src.wastedqty::numeric END"
+      - target: modified_datetime
+        expression: "CASE WHEN src.modifieddatetime IS NOT NULL THEN src.modifieddatetime::timestamp END"
+      - target: created_datetime
+        expression: "CASE WHEN src.createddatetime IS NOT NULL THEN src.createddatetime::timestamp END"
+      - target: data_area_id
+        expression: "src.dataareaid"
+
+    validation:
+      target_not_empty: true
+
+    post_actions:
+      analyze: true
+
+  - no: 5
+    name: sales_order
+    enabled: true
+
+    source:
+      schema: raw_ax
+      table: salestable
+      key_column: recid
+      key_type: bigint_text
+
+    target:
+      schema: dds
+      table: sales_order
+      conflict_key: sales_order_id
+
+    execution:
+      strategy: postgres_insert_select
+      chunk_strategy: full_table
+      count_mode: estimate
+
+    columns:
+      - target: sales_id
+        expression: "src.salesid"
+      - target: customer_account
+        expression: "src.custaccount"
+      - target: invoice_date
+        expression: "CASE WHEN src.invoicedate IS NOT NULL THEN src.invoicedate::timestamp END"
+      - target: delivery_date
+        expression: "CASE WHEN src.deliverydate IS NOT NULL THEN src.deliverydate::timestamp END"
+      - target: currency_code
+        expression: "src.currencycode"
+      - target: sales_status
+        expression: "src.salesstatus"
+      - target: modified_datetime
+        expression: "CASE WHEN src.modifieddatetime IS NOT NULL THEN src.modifieddatetime::timestamp END"
+      - target: created_datetime
+        expression: "CASE WHEN src.createddatetime IS NOT NULL THEN src.createddatetime::timestamp END"
+      - target: data_area_id
+        expression: "src.dataareaid"
+
+    validation:
+      target_not_empty: true
+
+    post_actions:
+      analyze: true
+
+  - no: 6
+    name: purchase_order
+    enabled: true
+
+    source:
+      schema: raw_ax
+      table: purchtable
+      key_column: recid
+      key_type: bigint_text
+
+    target:
+      schema: dds
+      table: purchase_order
+      conflict_key: purchase_order_id
+
+    execution:
+      strategy: postgres_insert_select
+      chunk_strategy: full_table
+      count_mode: estimate
+
+    columns:
+      - target: purchase_id
+        expression: "src.purchid"
+      - target: vendor_account
+        expression: "src.vendaccount"
+      - target: order_date
+        expression: "CASE WHEN src.orderdate IS NOT NULL THEN src.orderdate::timestamp END"
+      - target: delivery_date
+        expression: "CASE WHEN src.deliverydate IS NOT NULL THEN src.deliverydate::timestamp END"
+      - target: currency_code
+        expression: "src.currencycode"
+      - target: purchase_status
+        expression: "src.purchstatus"
+      - target: modified_datetime
+        expression: "CASE WHEN src.modifieddatetime IS NOT NULL THEN src.modifieddatetime::timestamp END"
+      - target: created_datetime
+        expression: "CASE WHEN src.createddatetime IS NOT NULL THEN src.createddatetime::timestamp END"
+      - target: data_area_id
+        expression: "src.dataareaid"
+
+    validation:
+      target_not_empty: true
+
+    post_actions:
+      analyze: true

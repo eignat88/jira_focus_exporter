@@ -36,7 +36,7 @@ def parse_args(default_mode: str) -> argparse.Namespace:
         "--mode",
         choices=sorted(VALID_MODES),
         default=default_mode,
-        help="Режим выгрузки: focus, assigned, wms-activity, project-users, devax12-actual или explain",
+        help="Режим выгрузки: focus, assigned, wms-activity, project-users, devax12-actual, explain или search-missing-info",
     )
     parser.add_argument("--issue", help="Ключ задачи для режима explain")
     parser.add_argument(
@@ -52,6 +52,54 @@ def parse_args(default_mode: str) -> argparse.Namespace:
         "--stale-days",
         type=int,
         help="Количество дней без активности для категории stale в режиме devax12-actual",
+    )
+    parser.add_argument(
+        "--registry",
+        help="Путь к файлу реестра (.md или .xlsx) для режима search-missing-info",
+    )
+    parser.add_argument(
+        "--output",
+        help="Папка для результатов режима search-missing-info",
+    )
+    parser.add_argument(
+        "--jira-project",
+        help="Код(ы) проекта Jira через запятую для режима search-missing-info. "
+             "Если не указан — поиск по всем проектам.",
+    )
+    parser.add_argument(
+        "--keywords",
+        help="Доп. ключевые слова через запятую для режима search-missing-info",
+    )
+    parser.add_argument(
+        "--jira-components",
+        help="Компоненты Jira через запятую для фильтрации (например: TSD, Android, WMS). "
+             "Если не указаны — поиск по всем компонентам.",
+    )
+    parser.add_argument(
+        "--jira-labels",
+        help="Метки Jira через запятую для фильтрации (например: inventory, инвентаризация). "
+             "Если не указаны — поиск по всем меткам.",
+    )
+    parser.add_argument(
+        "--max-depth",
+        type=int,
+        default=3,
+        help="Глубина обхода связанных задач (по умолчанию 3)",
+    )
+    parser.add_argument(
+        "--include-attachments",
+        action="store_true",
+        help="Анализировать вложения",
+    )
+    parser.add_argument(
+        "--include-comments",
+        action="store_true",
+        help="Анализировать комментарии",
+    )
+    parser.add_argument(
+        "--include-linked",
+        action="store_true",
+        help="Анализировать связанные задачи",
     )
     return parser.parse_args()
 
@@ -400,6 +448,26 @@ def main() -> None:
                 )
             existing_priorities = client.get_existing_focus_priorities()
             explain_issue(config, client, args.issue, current_user, existing_priorities)
+            return
+        elif args.mode == "search-missing-info":
+            if not args.registry:
+                raise ValueError(
+                    "Для режима search-missing-info укажите --registry, "
+                    "например --registry registry.md"
+                )
+            from src.missing_info import run_search
+
+            result = run_search(config, client, args)
+            count = len(result.matches)
+            report_path = result.report_path or ""
+            log_path = result.log_path or ""
+            logging.info("Выгрузка завершена успешно")
+            logging.info("Количество совпадений: %s", count)
+            print()
+            print("Готово.")
+            print(f"Найдено совпадений: {count}")
+            print(f"Отчёт: {report_path}")
+            print(f"Лог: {log_path}")
             return
         else:
             raise ValueError(f"Неизвестный режим: {args.mode}")

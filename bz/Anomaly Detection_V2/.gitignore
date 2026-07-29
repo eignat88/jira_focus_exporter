@@ -1,0 +1,45 @@
+# Secrets
+.env
+.env.*
+
+# Logs
+logs/
+**/logs/
+
+# Data files (auto-generated)
+data/
+**/data/*.csv
+**/data/*.log
+**/data/*.json
+
+# Monitoring output
+monitoring/*.csv
+monitoring/*.log
+
+# Diagnostic scripts (local)
+diagnose_*.ps1
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Archive
+archive/

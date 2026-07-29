@@ -1,0 +1,31 @@
+benchmark:
+  name: alk_markserial_raw_to_dds
+  source_table: raw_ax.alk_markserial
+  target_table: benchmark.alk_markserial_test
+  key_column: recid
+
+  start_recid: "5637144576"
+
+  batch_sizes:
+    - 100000
+    - 250000
+    - 500000
+    - 1000000
+
+  warmup_runs: 1
+  measurement_runs: 3
+  workers: 1
+
+  use_on_conflict: true
+  truncate_before_each_run: true
+  statement_timeout_seconds: 900
+  lock_timeout_seconds: 10
+
+  output_dir: data/benchmark_results
+
+  safety:
+    require_index_only_scan: true
+    reject_seq_scan: true
+    reject_cast_in_index_predicate: true
+    require_no_active_vacuum: true
+    require_free_disk_gb: 50
