@@ -1,0 +1,66 @@
+graph TD
+
+    subgraph Core["Основные таблицы (Anomaly Detection)"]
+        MC[LFL_MARKINGCODETABLE<br/>Коды маркировки<br/>46 полей]
+        PDA[WMS_PICKDIFFACTLINE<br/>Проблемные КМ<br/>~15 полей]
+        JWO[WMS_JOURNALWAREHOUSEOPERATIONTABLE<br/>Журнал операций<br/>~20 полей]
+        MS[ALK_MARKSERIAL<br/>Статусы ГИС МТ<br/>22 поля]
+        PLB[LFL_PICKINGLINEBUFFERMARKING<br/>Буфер сканирования<br/>25 полей]
+        MFG[MPPRODUCTGROUPFEACCMARKDATES<br/>Настройки ТГ<br/>~10 полей]
+        MPG[MPPRODUCTGROUP<br/>Товарные группы<br/>~5 полей]
+        RT[LFL_REQUESTTABLE<br/>Заявки<br/>220 полей]
+        WPR[WMSPICKINGROUTE<br/>Маршруты комплектации<br/>~30 полей]
+        SCT[LFL_SCSPACKTASK<br/>Задания на упаковку<br/>~20 полей]
+    end
+
+    subgraph Support["Справочные таблицы"]
+        IT[INVENTTABLE<br/>Номенклатура<br/>229 полей]
+        ID[INVENTDIM<br/>Измерения склада<br/>25 полей]
+        PT[PURCHTABLE<br/>Закупки]
+        ST[SALESTABLE<br/>Продажи]
+        WPLB[WMS_PICKINGLINEBUFFER<br/>Строки комплектации]
+        WOT[WMSORDERTRANS<br/>Транзакции заказов]
+        SSCC[LFL_SSCCTABLE<br/>SSCC коды]
+        IL[INVENTLOCATION<br/>Ячейки<br/>102 поля]
+        FEIT[FEACCINVENTTABLE_RU<br/>FEACC настройки]
+        IIB[INVENTITEMBARCODE<br/>ШК номенклатуры<br/>27 полей]
+        WPT[WMSPALLETTYPE<br/>Типы паллет]
+    end
+
+    %% Связи подтверждены индексами и JOIN-ами
+    MC -->|ITEMID| IT
+    MC -->|WMSPICKINGROUTEID| WPR
+    MC -->|SALESID| ST
+    MC -->|PURCHID| PT
+    MC -->|GTIN+SERIALID| MS
+
+    PDA -->|LFL_SCSPACKTASKID| SCT
+    PDA -->|INVENTDIMID| ID
+    PDA -->|PICKINGROUTEID| WPR
+
+    PLB -->|PICKINGLINEBUFFER| WPLB
+    PLB -->|ITEMID| IT
+    PLB -->|ROUTEID| WPR
+    PLB -->|ITEMSERIALNUMBER| MC
+
+    MFG -->|MPPRODUCTGROUP=RecId| MPG
+
+    WPR -->|TRANSREFID| ST
+    WPR -->|WMS_PICKINGPALLETTYPEID| WPT
+
+    WPLB -->|ROUTEID| WPR
+    WPLB -->|LFL_SCSPACKTASKID| SCT
+
+    WOT -->|INVENTDIMID| ID
+    WOT -->|ORDERID| WPR
+
+    SCT -->|SALESID| ST
+
+    IT -->|ALK_MPPRODUCTGROUP| MPG
+    IIB -->|ITEMID| IT
+    IIB -->|INVENTDIMID| ID
+    ID -->|INVENTLOCATIONID| IL
+    FEIT -->|FEACCID| FEIT
+
+    JWO -->|EMPLID| IT
+    MS -->|ITEMID| IT

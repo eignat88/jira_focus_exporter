@@ -1,0 +1,12 @@
+postgres:
+  host: localhost
+  port: 5432
+  database: wms_analysis
+  user: postgres
+  password: "123"
+
+monitor:
+  interval_seconds: 60
+
+output:
+  file: data/wal_history.csv

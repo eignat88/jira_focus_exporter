@@ -1,0 +1,567 @@
+At 17:10:43.364
+REQUEST: http://test-warehouse-smt.letuin.ru/api/smt/auth/logon
+METHOD: HttpMethod(value=POST)
+COMMON HEADERS
+-> Accept: application/json
+-> Accept-Charset: UTF-8
+-> Authorization: Bearer 
+-> api-key: BZPzahSbwI6lnnHivuxymPdgM7kHC33Jq61nubdtnpvXBJgNPc
+CONTENT HEADERS
+-> Content-Length: 84
+-> Content-Type: application/json
+BODY Content-Type: application/json
+BODY START
+{"barcode":"2920000584","terminalId":"85e7f356f971218f","clientVersion":"1.0.9.133"}
+BODY END
+--------------------
+At 17:10:43.767
+REQUEST http://test-warehouse-smt.letuin.ru/api/smt/auth/logon failed with exception: java.net.UnknownHostException: Unable to resolve host "test-warehouse-smt.letuin.ru": No address associated with hostname
+--------------------
+At 17:16:52.050
+REQUEST: http://test-warehouse-smt.letuin.ru/api/smt/auth/logon
+METHOD: HttpMethod(value=POST)
+COMMON HEADERS
+-> Accept: application/json
+-> Accept-Charset: UTF-8
+-> Authorization: Bearer 
+-> api-key: BZPzahSbwI6lnnHivuxymPdgM7kHC33Jq61nubdtnpvXBJgNPc
+CONTENT HEADERS
+-> Content-Length: 84
+-> Content-Type: application/json
+BODY Content-Type: application/json
+BODY START
+{"barcode":"2920000584","terminalId":"85e7f356f971218f","clientVersion":"1.0.9.133"}
+BODY END
+--------------------
+At 17:16:52.366
+RESPONSE: 200 OK
+METHOD: HttpMethod(value=POST)
+FROM: http://test-warehouse-smt.letuin.ru/api/smt/auth/logon
+COMMON HEADERS
+-> connection: keep-alive
+-> content-length: 489
+-> content-type: application/json; charset=utf-8
+-> date: Fri, 04 Apr 2025 09:16:51 GMT
+-> etag: W/"1e9-z831k69zvRIvW0OxukSMoVadIa0"
+-> keep-alive: timeout=5
+-> x-powered-by: Express
+BODY Content-Type: application/json; charset=utf-8
+BODY START
+{"logonUserResult":0,"employee":{"barcode":"2920000584","id":"0037","name":"Алещенко Мария Антоновна","permissionsString":"Shipment","status":"None"},"oAuthToken":{"accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZUlkIjoiMDAzNyIsInRlcm1pbmFsSWQiOiI4NWU3ZjM1NmY5NzEyMThmIiwiaWF0IjoxNzQzNzU4MjExLCJleHAiOjE3NDM4NDQ2MTF9.E34nk9BKgU7iUwgBVjHSCdLIZj_bq3xsom_lHzuJrV4","expiresIn":86400,"refreshToken":null,"refreshTokenExpiresIn":null,"tokenType":"Bearer"}}
+BODY END
+--------------------
+At 17:16:52.487
+REQUEST: http://test-warehouse-smt.letuin.ru/api/smt/ax/is-there-unprocessed-request
+METHOD: HttpMethod(value=GET)
+COMMON HEADERS
+-> Accept: application/json
+-> Accept-Charset: UTF-8
+-> Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZUlkIjoiMDAzNyIsInRlcm1pbmFsSWQiOiI4NWU3ZjM1NmY5NzEyMThmIiwiaWF0IjoxNzQzNzU4MjExLCJleHAiOjE3NDM4NDQ2MTF9.E34nk9BKgU7iUwgBVjHSCdLIZj_bq3xsom_lHzuJrV4
+-> Content-Type: application/json
+-> api-key: BZPzahSbwI6lnnHivuxymPdgM7kHC33Jq61nubdtnpvXBJgNPc
+CONTENT HEADERS
+-> Content-Length: 0
+BODY Content-Type: null
+BODY START
+
+BODY END
+--------------------
+At 17:16:52.591
+RESPONSE: 200 OK
+METHOD: HttpMethod(value=GET)
+FROM: http://test-warehouse-smt.letuin.ru/api/smt/ax/is-there-unprocessed-request
+COMMON HEADERS
+-> connection: keep-alive
+-> content-length: 5
+-> content-type: text/html; charset=utf-8
+-> date: Fri, 04 Apr 2025 09:16:52 GMT
+-> etag: W/"5-fLbvuYullyqbUJDcLlF/4U0SywQ"
+-> keep-alive: timeout=5
+-> x-powered-by: Express
+BODY Content-Type: text/html; charset=utf-8
+BODY START
+false
+BODY END
+--------------------
+At 17:16:52.633
+REQUEST: http://test-warehouse-smt.letuin.ru/api/smt/employees/0037/has-unfinished-task
+METHOD: HttpMethod(value=GET)
+COMMON HEADERS
+-> Accept: application/json
+-> Accept-Charset: UTF-8
+-> Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZUlkIjoiMDAzNyIsInRlcm1pbmFsSWQiOiI4NWU3ZjM1NmY5NzEyMThmIiwiaWF0IjoxNzQzNzU4MjExLCJleHAiOjE3NDM4NDQ2MTF9.E34nk9BKgU7iUwgBVjHSCdLIZj_bq3xsom_lHzuJrV4
+-> Content-Type: application/json
+-> api-key: BZPzahSbwI6lnnHivuxymPdgM7kHC33Jq61nubdtnpvXBJgNPc
+CONTENT HEADERS
+-> Content-Length: 0
+BODY Content-Type: null
+BODY START
+
+BODY END
+--------------------
+At 17:16:52.819
+RESPONSE: 200 OK
+METHOD: HttpMethod(value=GET)
+FROM: http://test-warehouse-smt.letuin.ru/api/smt/employees/0037/has-unfinished-task
+COMMON HEADERS
+-> connection: keep-alive
+-> content-length: 4
+-> content-type: text/html; charset=utf-8
+-> date: Fri, 04 Apr 2025 09:16:52 GMT
+-> etag: W/"4-X/5TO4MPCKAyY0ipFgr6/IraRNs"
+-> keep-alive: timeout=5
+-> x-powered-by: Express
+BODY Content-Type: text/html; charset=utf-8
+BODY START
+true
+BODY END
+--------------------
+At 17:16:52.855
+REQUEST: http://test-warehouse-smt.letuin.ru/api/smt/employees/tasks/unfinished/auto
+METHOD: HttpMethod(value=GET)
+COMMON HEADERS
+-> Accept: application/json
+-> Accept-Charset: UTF-8
+-> Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZUlkIjoiMDAzNyIsInRlcm1pbmFsSWQiOiI4NWU3ZjM1NmY5NzEyMThmIiwiaWF0IjoxNzQzNzU4MjExLCJleHAiOjE3NDM4NDQ2MTF9.E34nk9BKgU7iUwgBVjHSCdLIZj_bq3xsom_lHzuJrV4
+-> Content-Type: application/json
+-> api-key: BZPzahSbwI6lnnHivuxymPdgM7kHC33Jq61nubdtnpvXBJgNPc
+CONTENT HEADERS
+-> Content-Length: 0
+BODY Content-Type: null
+BODY START
+
+BODY END
+--------------------
+At 17:16:52.945
+RESPONSE: 204 No Content
+METHOD: HttpMethod(value=GET)
+FROM: http://test-warehouse-smt.letuin.ru/api/smt/employees/tasks/unfinished/auto
+COMMON HEADERS
+-> connection: keep-alive
+-> date: Fri, 04 Apr 2025 09:16:52 GMT
+-> keep-alive: timeout=5
+-> x-powered-by: Express
+BODY Content-Type: null
+BODY START
+
+BODY END
+--------------------
+At 17:16:52.982
+REQUEST: http://test-warehouse-smt.letuin.ru/api/smt/tasks/sorting/scs/task/unfinished?taskType=46
+METHOD: HttpMethod(value=GET)
+COMMON HEADERS
+-> Accept: application/json
+-> Accept-Charset: UTF-8
+-> Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZUlkIjoiMDAzNyIsInRlcm1pbmFsSWQiOiI4NWU3ZjM1NmY5NzEyMThmIiwiaWF0IjoxNzQzNzU4MjExLCJleHAiOjE3NDM4NDQ2MTF9.E34nk9BKgU7iUwgBVjHSCdLIZj_bq3xsom_lHzuJrV4
+-> Content-Type: application/json
+-> api-key: BZPzahSbwI6lnnHivuxymPdgM7kHC33Jq61nubdtnpvXBJgNPc
+CONTENT HEADERS
+-> Content-Length: 0
+BODY Content-Type: null
+BODY START
+
+BODY END
+--------------------
+At 17:16:53.223
+RESPONSE: 204 No Content
+METHOD: HttpMethod(value=GET)
+FROM: http://test-warehouse-smt.letuin.ru/api/smt/tasks/sorting/scs/task/unfinished?taskType=46
+COMMON HEADERS
+-> connection: keep-alive
+-> date: Fri, 04 Apr 2025 09:16:52 GMT
+-> keep-alive: timeout=5
+-> x-powered-by: Express
+BODY Content-Type: null
+BODY START
+
+BODY END
+--------------------
+At 17:16:53.264
+REQUEST: http://test-warehouse-smt.letuin.ru/api/smt/tasks/sorting/scs/task/unfinished?taskType=45
+METHOD: HttpMethod(value=GET)
+COMMON HEADERS
+-> Accept: application/json
+-> Accept-Charset: UTF-8
+-> Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZUlkIjoiMDAzNyIsInRlcm1pbmFsSWQiOiI4NWU3ZjM1NmY5NzEyMThmIiwiaWF0IjoxNzQzNzU4MjExLCJleHAiOjE3NDM4NDQ2MTF9.E34nk9BKgU7iUwgBVjHSCdLIZj_bq3xsom_lHzuJrV4
+-> Content-Type: application/json
+-> api-key: BZPzahSbwI6lnnHivuxymPdgM7kHC33Jq61nubdtnpvXBJgNPc
+CONTENT HEADERS
+-> Content-Length: 0
+BODY Content-Type: null
+BODY START
+
+BODY END
+--------------------
+At 17:16:53.333
+RESPONSE: 204 No Content
+METHOD: HttpMethod(value=GET)
+FROM: http://test-warehouse-smt.letuin.ru/api/smt/tasks/sorting/scs/task/unfinished?taskType=45
+COMMON HEADERS
+-> connection: keep-alive
+-> date: Fri, 04 Apr 2025 09:16:52 GMT
+-> keep-alive: timeout=5
+-> x-powered-by: Express
+BODY Content-Type: null
+BODY START
+
+BODY END
+--------------------
+At 17:16:53.367
+REQUEST: http://test-warehouse-smt.letuin.ru/api/smt/tasks/sorting/scs/task/unfinished?taskType=48
+METHOD: HttpMethod(value=GET)
+COMMON HEADERS
+-> Accept: application/json
+-> Accept-Charset: UTF-8
+-> Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZUlkIjoiMDAzNyIsInRlcm1pbmFsSWQiOiI4NWU3ZjM1NmY5NzEyMThmIiwiaWF0IjoxNzQzNzU4MjExLCJleHAiOjE3NDM4NDQ2MTF9.E34nk9BKgU7iUwgBVjHSCdLIZj_bq3xsom_lHzuJrV4
+-> Content-Type: application/json
+-> api-key: BZPzahSbwI6lnnHivuxymPdgM7kHC33Jq61nubdtnpvXBJgNPc
+CONTENT HEADERS
+-> Content-Length: 0
+BODY Content-Type: null
+BODY START
+
+BODY END
+--------------------
+At 17:16:53.540
+RESPONSE: 204 No Content
+METHOD: HttpMethod(value=GET)
+FROM: http://test-warehouse-smt.letuin.ru/api/smt/tasks/sorting/scs/task/unfinished?taskType=48
+COMMON HEADERS
+-> connection: keep-alive
+-> date: Fri, 04 Apr 2025 09:16:53 GMT
+-> keep-alive: timeout=5
+-> x-powered-by: Express
+BODY Content-Type: null
+BODY START
+
+BODY END
+--------------------
+At 17:16:53.581
+REQUEST: http://test-warehouse-smt.letuin.ru/api/smt/common/check-setup4task
+METHOD: HttpMethod(value=POST)
+COMMON HEADERS
+-> Accept: application/json
+-> Accept-Charset: UTF-8
+-> Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZUlkIjoiMDAzNyIsInRlcm1pbmFsSWQiOiI4NWU3ZjM1NmY5NzEyMThmIiwiaWF0IjoxNzQzNzU4MjExLCJleHAiOjE3NDM4NDQ2MTF9.E34nk9BKgU7iUwgBVjHSCdLIZj_bq3xsom_lHzuJrV4
+-> Content-Type: application/json
+-> api-key: BZPzahSbwI6lnnHivuxymPdgM7kHC33Jq61nubdtnpvXBJgNPc
+CONTENT HEADERS
+-> Content-Length: 0
+BODY Content-Type: null
+BODY START
+
+BODY END
+--------------------
+At 17:16:53.582
+REQUEST: http://test-warehouse-smt.letuin.ru/api/smt/tasks/accepted-str
+METHOD: HttpMethod(value=GET)
+COMMON HEADERS
+-> Accept: application/json
+-> Accept-Charset: UTF-8
+-> Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZUlkIjoiMDAzNyIsInRlcm1pbmFsSWQiOiI4NWU3ZjM1NmY5NzEyMThmIiwiaWF0IjoxNzQzNzU4MjExLCJleHAiOjE3NDM4NDQ2MTF9.E34nk9BKgU7iUwgBVjHSCdLIZj_bq3xsom_lHzuJrV4
+-> Content-Type: application/json
+-> api-key: BZPzahSbwI6lnnHivuxymPdgM7kHC33Jq61nubdtnpvXBJgNPc
+CONTENT HEADERS
+-> Content-Length: 0
+BODY Content-Type: null
+BODY START
+
+BODY END
+--------------------
+At 17:16:53.587
+REQUEST: http://test-warehouse-smt.letuin.ru/api/smt/tasks/accepted
+METHOD: HttpMethod(value=GET)
+COMMON HEADERS
+-> Accept: application/json
+-> Accept-Charset: UTF-8
+-> Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZUlkIjoiMDAzNyIsInRlcm1pbmFsSWQiOiI4NWU3ZjM1NmY5NzEyMThmIiwiaWF0IjoxNzQzNzU4MjExLCJleHAiOjE3NDM4NDQ2MTF9.E34nk9BKgU7iUwgBVjHSCdLIZj_bq3xsom_lHzuJrV4
+-> Content-Type: application/json
+-> api-key: BZPzahSbwI6lnnHivuxymPdgM7kHC33Jq61nubdtnpvXBJgNPc
+CONTENT HEADERS
+-> Content-Length: 0
+BODY Content-Type: null
+BODY START
+
+BODY END
+--------------------
+At 17:16:53.662
+RESPONSE: 200 OK
+METHOD: HttpMethod(value=GET)
+FROM: http://test-warehouse-smt.letuin.ru/api/smt/tasks/accepted-str
+COMMON HEADERS
+-> connection: keep-alive
+-> content-length: 11
+-> content-type: application/json; charset=utf-8
+-> date: Fri, 04 Apr 2025 09:16:53 GMT
+-> etag: W/"b-xO8LvQ8csiGYmrAqrDMlecLnTvE"
+-> keep-alive: timeout=5
+-> x-powered-by: Express
+BODY Content-Type: application/json; charset=utf-8
+BODY START
+["Remains"]
+BODY END
+--------------------
+At 17:16:53.712
+RESPONSE: 200 OK
+METHOD: HttpMethod(value=GET)
+FROM: http://test-warehouse-smt.letuin.ru/api/smt/tasks/accepted
+COMMON HEADERS
+-> connection: keep-alive
+-> content-length: 79
+-> content-type: application/json; charset=utf-8
+-> date: Fri, 04 Apr 2025 09:16:53 GMT
+-> etag: W/"4f-DW66bLGQc/CYI770zkrAXJiNpP8"
+-> keep-alive: timeout=5
+-> x-powered-by: Express
+BODY Content-Type: application/json; charset=utf-8
+BODY START
+[21,22,23,25,29,30,31,32,33,34,35,36,37,38,40,41,42,43,45,46,47,48,51,61,62,66]
+BODY END
+--------------------
+At 17:16:53.741
+RESPONSE: 200 OK
+METHOD: HttpMethod(value=POST)
+FROM: http://test-warehouse-smt.letuin.ru/api/smt/common/check-setup4task
+COMMON HEADERS
+-> connection: keep-alive
+-> content-length: 2196
+-> content-type: application/json; charset=utf-8
+-> date: Fri, 04 Apr 2025 09:16:53 GMT
+-> etag: W/"894-XJJfHEuJ0zUek86Wiglyx+Rof3I"
+-> keep-alive: timeout=5
+-> x-powered-by: Express
+BODY Content-Type: application/json; charset=utf-8
+BODY START
+[{"TaskType":34,"MaxLines":40,"MaxTasks":3,"MaxUnits":0,"MaxVolume":1,"MaxWeight":100,"MaxManualQty":0},{"TaskType":35,"MaxLines":40,"MaxTasks":1,"MaxUnits":0,"MaxVolume":100,"MaxWeight":200,"MaxManualQty":0},{"TaskType":32,"MaxLines":40,"MaxTasks":2,"MaxUnits":0,"MaxVolume":1,"MaxWeight":100,"MaxManualQty":0},{"TaskType":39,"MaxLines":40,"MaxTasks":4,"MaxUnits":0,"MaxVolume":1,"MaxWeight":100,"MaxManualQty":0},{"TaskType":30,"MaxLines":40,"MaxTasks":3,"MaxUnits":0,"MaxVolume":1,"MaxWeight":100,"MaxManualQty":0},{"TaskType":25,"MaxLines":40,"MaxTasks":10,"MaxUnits":0,"MaxVolume":100,"MaxWeight":100,"MaxManualQty":0},{"TaskType":21,"MaxLines":60,"MaxTasks":3,"MaxUnits":0,"MaxVolume":10,"MaxWeight":100,"MaxManualQty":0},{"TaskType":28,"MaxLines":40,"MaxTasks":8,"MaxUnits":0,"MaxVolume":10,"MaxWeight":100,"MaxManualQty":0},{"TaskType":27,"MaxLines":40,"MaxTasks":8,"MaxUnits":0,"MaxVolume":10,"MaxWeight":100,"MaxManualQty":0},{"TaskType":68,"MaxLines":20,"MaxTasks":15,"MaxUnits":0,"MaxVolume":100,"MaxWeight":0,"MaxManualQty":0},{"TaskType":69,"MaxLines":20,"MaxTasks":15,"MaxUnits":0,"MaxVolume":100,"MaxWeight":0,"MaxManualQty":0},{"TaskType":47,"MaxLines":100,"MaxTasks":3,"MaxUnits":0,"MaxVolume":10,"MaxWeight":100,"MaxManualQty":0},{"TaskType":33,"MaxLines":20,"MaxTasks":1,"MaxUnits":0,"MaxVolume":100,"MaxWeight":100,"MaxManualQty":0},{"TaskType":45,"MaxLines":40,"MaxTasks":10,"MaxUnits":0,"MaxVolume":100,"MaxWeight":100,"MaxManualQty":100},{"TaskType":41,"MaxLines":40,"MaxTasks":3,"MaxUnits":0,"MaxVolume":1.2,"MaxWeight":100,"MaxManualQty":0},{"TaskType":42,"MaxLines":200,"MaxTasks":2,"MaxUnits":0,"MaxVolume":10,"MaxWeight":100,"MaxManualQty":9},{"TaskType":43,"MaxLines":40,"MaxTasks":5,"MaxUnits":0,"MaxVolume":1,"MaxWeight":100,"MaxManualQty":0},{"TaskType":24,"MaxLines":40,"MaxTasks":1,"MaxUnits":0,"MaxVolume":100,"MaxWeight":100,"MaxManualQty":0},{"TaskType":22,"MaxLines":60,"MaxTasks":30,"MaxUnits":0,"MaxVolume":10,"MaxWeight":100,"MaxManualQty":0},{"TaskType":31,"MaxLines":40,"MaxTasks":1,"MaxUnits":0,"MaxVolume":100,"MaxWeight":100,"MaxManualQty":0},{"TaskType":29,"MaxLines":40,"MaxTasks":3,"MaxUnits":0,"MaxVolume":1.2,"MaxWeight":100,"MaxManualQty":10}]
+BODY END
+--------------------
+At 17:17:16.578
+REQUEST: http://test-warehouse-smt.letuin.ru/api/smt/tasks/shipment-allocation/finish-pallet
+METHOD: HttpMethod(value=POST)
+COMMON HEADERS
+-> Accept: application/json
+-> Accept-Charset: UTF-8
+-> Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZUlkIjoiMDAzNyIsInRlcm1pbmFsSWQiOiI4NWU3ZjM1NmY5NzEyMThmIiwiaWF0IjoxNzQzNzU4MjExLCJleHAiOjE3NDM4NDQ2MTF9.E34nk9BKgU7iUwgBVjHSCdLIZj_bq3xsom_lHzuJrV4
+-> api-key: BZPzahSbwI6lnnHivuxymPdgM7kHC33Jq61nubdtnpvXBJgNPc
+CONTENT HEADERS
+-> Content-Length: 34
+-> Content-Type: application/json
+BODY Content-Type: application/json
+BODY START
+{"mode":0,"barcode":"30002101437"}
+BODY END
+--------------------
+At 17:17:16.858
+RESPONSE: 200 OK
+METHOD: HttpMethod(value=POST)
+FROM: http://test-warehouse-smt.letuin.ru/api/smt/tasks/shipment-allocation/finish-pallet
+COMMON HEADERS
+-> connection: keep-alive
+-> content-length: 1023
+-> content-type: application/json; charset=utf-8
+-> date: Fri, 04 Apr 2025 09:17:16 GMT
+-> etag: W/"3ff-kNNOhwUDqaDYcNHS7/rR3HHmcRk"
+-> keep-alive: timeout=5
+-> x-powered-by: Express
+BODY Content-Type: application/json; charset=utf-8
+BODY START
+[{"taskId":"53709011","cargoPackageId":"70903035","tareId":"30002101437"},{"taskId":"53709170","cargoPackageId":"70903026","tareId":"30002101437"},{"taskId":"53709595","cargoPackageId":"70903017","tareId":"30002101437"},{"taskId":"53709741","cargoPackageId":"70902971","tareId":"30002101437"},{"taskId":"53709741","cargoPackageId":"70902972","tareId":"30002101437"},{"taskId":"53709741","cargoPackageId":"70902973","tareId":"30002101437"},{"taskId":"53709741","cargoPackageId":"70902974","tareId":"30002101437"},{"taskId":"53709741","cargoPackageId":"70902975","tareId":"30002101437"},{"taskId":"53709741","cargoPackageId":"70902976","tareId":"30002101437"},{"taskId":"53709741","cargoPackageId":"70902977","tareId":"30002101437"},{"taskId":"53709741","cargoPackageId":"70903006","tareId":"30002101437"},{"taskId":"53709741","cargoPackageId":"70903007","tareId":"30002101437"},{"taskId":"53709741","cargoPackageId":"70903008","tareId":"30002101437"},{"taskId":"53709741","cargoPackageId":"70903009","tareId":"30002101437"}]
+BODY END
+--------------------
+At 17:17:40.155
+REQUEST: http://test-warehouse-smt.letuin.ru/api/smt/tasks/shipment-allocation/finish-pallet
+METHOD: HttpMethod(value=POST)
+COMMON HEADERS
+-> Accept: application/json
+-> Accept-Charset: UTF-8
+-> Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZUlkIjoiMDAzNyIsInRlcm1pbmFsSWQiOiI4NWU3ZjM1NmY5NzEyMThmIiwiaWF0IjoxNzQzNzU4MjExLCJleHAiOjE3NDM4NDQ2MTF9.E34nk9BKgU7iUwgBVjHSCdLIZj_bq3xsom_lHzuJrV4
+-> api-key: BZPzahSbwI6lnnHivuxymPdgM7kHC33Jq61nubdtnpvXBJgNPc
+CONTENT HEADERS
+-> Content-Length: 31
+-> Content-Type: application/json
+BODY Content-Type: application/json
+BODY START
+{"mode":0,"barcode":"70903008"}
+BODY END
+--------------------
+At 17:17:40.345
+RESPONSE: 200 OK
+METHOD: HttpMethod(value=POST)
+FROM: http://test-warehouse-smt.letuin.ru/api/smt/tasks/shipment-allocation/finish-pallet
+COMMON HEADERS
+-> connection: keep-alive
+-> content-length: 74
+-> content-type: application/json; charset=utf-8
+-> date: Fri, 04 Apr 2025 09:17:39 GMT
+-> etag: W/"4a-52XUpIa+rGX5AUK3FrPCyG66JMY"
+-> keep-alive: timeout=5
+-> x-powered-by: Express
+BODY Content-Type: application/json; charset=utf-8
+BODY START
+[{"taskId":"53709741","cargoPackageId":"70903008","tareId":"30002101437"}]
+BODY END
+--------------------
+At 17:18:16.418
+REQUEST: http://test-warehouse-smt.letuin.ru/api/smt/tasks/shipment-allocation/finish-pallet
+METHOD: HttpMethod(value=POST)
+COMMON HEADERS
+-> Accept: application/json
+-> Accept-Charset: UTF-8
+-> Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZUlkIjoiMDAzNyIsInRlcm1pbmFsSWQiOiI4NWU3ZjM1NmY5NzEyMThmIiwiaWF0IjoxNzQzNzU4MjExLCJleHAiOjE3NDM4NDQ2MTF9.E34nk9BKgU7iUwgBVjHSCdLIZj_bq3xsom_lHzuJrV4
+-> api-key: BZPzahSbwI6lnnHivuxymPdgM7kHC33Jq61nubdtnpvXBJgNPc
+CONTENT HEADERS
+-> Content-Length: 31
+-> Content-Type: application/json
+BODY Content-Type: application/json
+BODY START
+{"mode":0,"barcode":"70903008"}
+BODY END
+--------------------
+At 17:18:16.696
+RESPONSE: 200 OK
+METHOD: HttpMethod(value=POST)
+FROM: http://test-warehouse-smt.letuin.ru/api/smt/tasks/shipment-allocation/finish-pallet
+COMMON HEADERS
+-> connection: keep-alive
+-> content-length: 74
+-> content-type: application/json; charset=utf-8
+-> date: Fri, 04 Apr 2025 09:18:16 GMT
+-> etag: W/"4a-52XUpIa+rGX5AUK3FrPCyG66JMY"
+-> keep-alive: timeout=5
+-> x-powered-by: Express
+BODY Content-Type: application/json; charset=utf-8
+BODY START
+[{"taskId":"53709741","cargoPackageId":"70903008","tareId":"30002101437"}]
+BODY END
+--------------------
+At 17:18:20.073
+REQUEST: http://test-warehouse-smt.letuin.ru/api/smt/tasks/shipment-allocation/finish-pallet
+METHOD: HttpMethod(value=POST)
+COMMON HEADERS
+-> Accept: application/json
+-> Accept-Charset: UTF-8
+-> Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZUlkIjoiMDAzNyIsInRlcm1pbmFsSWQiOiI4NWU3ZjM1NmY5NzEyMThmIiwiaWF0IjoxNzQzNzU4MjExLCJleHAiOjE3NDM4NDQ2MTF9.E34nk9BKgU7iUwgBVjHSCdLIZj_bq3xsom_lHzuJrV4
+-> api-key: BZPzahSbwI6lnnHivuxymPdgM7kHC33Jq61nubdtnpvXBJgNPc
+CONTENT HEADERS
+-> Content-Length: 34
+-> Content-Type: application/json
+BODY Content-Type: application/json
+BODY START
+{"mode":0,"barcode":"30002101437"}
+BODY END
+--------------------
+At 17:18:20.205
+RESPONSE: 200 OK
+METHOD: HttpMethod(value=POST)
+FROM: http://test-warehouse-smt.letuin.ru/api/smt/tasks/shipment-allocation/finish-pallet
+COMMON HEADERS
+-> connection: keep-alive
+-> content-length: 1023
+-> content-type: application/json; charset=utf-8
+-> date: Fri, 04 Apr 2025 09:18:19 GMT
+-> etag: W/"3ff-kNNOhwUDqaDYcNHS7/rR3HHmcRk"
+-> keep-alive: timeout=5
+-> x-powered-by: Express
+BODY Content-Type: application/json; charset=utf-8
+BODY START
+[{"taskId":"53709011","cargoPackageId":"70903035","tareId":"30002101437"},{"taskId":"53709170","cargoPackageId":"70903026","tareId":"30002101437"},{"taskId":"53709595","cargoPackageId":"70903017","tareId":"30002101437"},{"taskId":"53709741","cargoPackageId":"70902971","tareId":"30002101437"},{"taskId":"53709741","cargoPackageId":"70902972","tareId":"30002101437"},{"taskId":"53709741","cargoPackageId":"70902973","tareId":"30002101437"},{"taskId":"53709741","cargoPackageId":"70902974","tareId":"30002101437"},{"taskId":"53709741","cargoPackageId":"70902975","tareId":"30002101437"},{"taskId":"53709741","cargoPackageId":"70902976","tareId":"30002101437"},{"taskId":"53709741","cargoPackageId":"70902977","tareId":"30002101437"},{"taskId":"53709741","cargoPackageId":"70903006","tareId":"30002101437"},{"taskId":"53709741","cargoPackageId":"70903007","tareId":"30002101437"},{"taskId":"53709741","cargoPackageId":"70903008","tareId":"30002101437"},{"taskId":"53709741","cargoPackageId":"70903009","tareId":"30002101437"}]
+BODY END
+--------------------
+At 17:18:25.883
+REQUEST: http://test-warehouse-smt.letuin.ru/api/smt/tasks/shipment-allocation/finish-pallet
+METHOD: HttpMethod(value=POST)
+COMMON HEADERS
+-> Accept: application/json
+-> Accept-Charset: UTF-8
+-> Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZUlkIjoiMDAzNyIsInRlcm1pbmFsSWQiOiI4NWU3ZjM1NmY5NzEyMThmIiwiaWF0IjoxNzQzNzU4MjExLCJleHAiOjE3NDM4NDQ2MTF9.E34nk9BKgU7iUwgBVjHSCdLIZj_bq3xsom_lHzuJrV4
+-> api-key: BZPzahSbwI6lnnHivuxymPdgM7kHC33Jq61nubdtnpvXBJgNPc
+CONTENT HEADERS
+-> Content-Length: 31
+-> Content-Type: application/json
+BODY Content-Type: application/json
+BODY START
+{"mode":0,"barcode":"70903008"}
+BODY END
+--------------------
+At 17:18:26.014
+RESPONSE: 200 OK
+METHOD: HttpMethod(value=POST)
+FROM: http://test-warehouse-smt.letuin.ru/api/smt/tasks/shipment-allocation/finish-pallet
+COMMON HEADERS
+-> connection: keep-alive
+-> content-length: 74
+-> content-type: application/json; charset=utf-8
+-> date: Fri, 04 Apr 2025 09:18:25 GMT
+-> etag: W/"4a-52XUpIa+rGX5AUK3FrPCyG66JMY"
+-> keep-alive: timeout=5
+-> x-powered-by: Express
+BODY Content-Type: application/json; charset=utf-8
+BODY START
+[{"taskId":"53709741","cargoPackageId":"70903008","tareId":"30002101437"}]
+BODY END
+--------------------
+At 17:18:31.849
+REQUEST: http://test-warehouse-smt.letuin.ru/api/smt/tasks/shipment-allocation/pallet-input
+METHOD: HttpMethod(value=POST)
+COMMON HEADERS
+-> Accept: application/json
+-> Accept-Charset: UTF-8
+-> Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZUlkIjoiMDAzNyIsInRlcm1pbmFsSWQiOiI4NWU3ZjM1NmY5NzEyMThmIiwiaWF0IjoxNzQzNzU4MjExLCJleHAiOjE3NDM4NDQ2MTF9.E34nk9BKgU7iUwgBVjHSCdLIZj_bq3xsom_lHzuJrV4
+-> api-key: BZPzahSbwI6lnnHivuxymPdgM7kHC33Jq61nubdtnpvXBJgNPc
+CONTENT HEADERS
+-> Content-Length: 44
+-> Content-Type: application/json
+BODY Content-Type: application/json
+BODY START
+{"employeeId":"0037","tareId":"30002101437"}
+BODY END
+--------------------
+At 17:18:32.278
+RESPONSE: 200 OK
+METHOD: HttpMethod(value=POST)
+FROM: http://test-warehouse-smt.letuin.ru/api/smt/tasks/shipment-allocation/pallet-input
+COMMON HEADERS
+-> connection: keep-alive
+-> content-length: 17
+-> content-type: application/json; charset=utf-8
+-> date: Fri, 04 Apr 2025 09:18:31 GMT
+-> etag: W/"11-G0WkRAHAbur71r2/pj6SEn1uRDY"
+-> keep-alive: timeout=5
+-> x-powered-by: Express
+BODY Content-Type: application/json; charset=utf-8
+BODY START
+{"locationId":[]}
+BODY END
+--------------------
+At 17:20:13.988
+REQUEST: http://test-warehouse-smt.letuin.ru/api/smt/auth/logoff
+METHOD: HttpMethod(value=POST)
+COMMON HEADERS
+-> Accept: application/json
+-> Accept-Charset: UTF-8
+-> Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZUlkIjoiMDAzNyIsInRlcm1pbmFsSWQiOiI4NWU3ZjM1NmY5NzEyMThmIiwiaWF0IjoxNzQzNzU4MjExLCJleHAiOjE3NDM4NDQ2MTF9.E34nk9BKgU7iUwgBVjHSCdLIZj_bq3xsom_lHzuJrV4
+-> Content-Type: application/json
+-> api-key: BZPzahSbwI6lnnHivuxymPdgM7kHC33Jq61nubdtnpvXBJgNPc
+CONTENT HEADERS
+-> Content-Length: 0
+BODY Content-Type: null
+BODY START
+
+BODY END
+--------------------
+At 17:20:14.238
+RESPONSE: 200 OK
+METHOD: HttpMethod(value=POST)
+FROM: http://test-warehouse-smt.letuin.ru/api/smt/auth/logoff
+COMMON HEADERS
+-> connection: keep-alive
+-> content-length: 15
+-> content-type: application/json; charset=utf-8
+-> date: Fri, 04 Apr 2025 09:20:13 GMT
+-> etag: W/"f-51rzdr5zfwWQpf+iUepheZg7siQ"
+-> keep-alive: timeout=5
+-> x-powered-by: Express
+BODY Content-Type: application/json; charset=utf-8
+BODY START
+{"result":"ok"}
+BODY END

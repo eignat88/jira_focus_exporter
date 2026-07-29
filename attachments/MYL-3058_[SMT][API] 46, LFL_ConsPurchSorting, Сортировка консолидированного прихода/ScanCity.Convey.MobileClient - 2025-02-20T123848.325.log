@@ -1,0 +1,1499 @@
+﻿******************* Приложение запущено 2025.02.18 10:56:58,141 [v1.46.2.1063] **************************
+2025.02.18 10:56:58,177 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод CommonService.GetSettings...
+2025.02.18 10:57:01,988 [170590558][1.46.2.1063] DEBUG - <<< Метод CommonService.GetSettings успешно завершен. Возвращаемое значение: CommonServiceProxy.SetupDto
+2025.02.18 10:57:02,008 [170590558][1.46.2.1063] DEBUG - Получены настройки: InterfaceUnlockAvailable=False, TsdSettings={SerialNumber=73E65B7606490108011510102E7C0600, InterfaceUnlocked=True}
+2025.02.18 10:57:02,021 [170590558][1.46.2.1063] INFO - Сервер 172.16.15.31:14215, customTimeout=
+2025.02.18 10:57:02,176 [170590558][1.46.2.1063] INFO - Загружены настройки сканера из файла \Application\ScanCity.Convey\ScannerSettings_20101011174300.usi
+2025.02.18 10:57:02,423 [170590558][1.46.2.1063] INFO - Модель терминала: Unknown
+2025.02.18 10:57:02,714 [170590558][1.46.2.1063] DEBUG - Файл pdb.ini найден и считан (56 строк)
+2025.02.18 10:57:02,734 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод AuthenticationForm.RenderControls...
+2025.02.18 10:57:02,778 [170590558][1.46.2.1063] DEBUG - <<< Метод AuthenticationForm.RenderControls успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 10:57:03,052 [170590558][1.46.2.1063] DEBUG - reader_ReadNotify
+2025.02.18 10:57:03,183 [170590558][1.46.2.1063] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2025.02.18 10:57:03,206 [170590558][1.46.2.1063] DEBUG - reader_ReadNotify - выход
+2025.02.18 10:57:03,266 [170590558][1.46.2.1063] DEBUG - reader_ReadNotify
+2025.02.18 10:57:03,278 [170590558][1.46.2.1063] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2025.02.18 10:57:03,290 [170590558][1.46.2.1063] DEBUG - reader_ReadNotify - выход
+2025.02.18 10:57:03,699 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод CommonService.UpdateSettings...
+2025.02.18 10:57:03,699 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 10:57:03,700 [170590558][1.46.2.1063] DEBUG - 	scannerSettingsFileName: ScannerSettings_20101011174300.usi
+2025.02.18 10:57:04,513 [170590558][1.46.2.1063] DEBUG - <<< Метод CommonService.UpdateSettings успешно завершен. Возвращаемое значение: CommonServiceProxy.SettingsDto
+2025.02.18 10:58:11,282 [171442578][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_SUSPEND (0x200000)
+2025.02.18 11:02:21,789 [171442578][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_PASSWORD (0x10000000)
+2025.02.18 11:02:22,887 [171442578][(null)] DEBUG - POWER_BROADCAST: Message=PBT_RESUME, Flags=0 (0x0)
+2025.02.18 11:02:22,905 [171442578][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.18 11:02:23,177 [171442578][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.18 11:02:23,899 [170590558][1.46.2.1063] DEBUG - Initialize
+2025.02.18 11:02:24,331 [170590558][1.46.2.1063] DEBUG - Initialize => _reader.Actions.Read
+2025.02.18 11:02:24,447 [170590558][1.46.2.1063] DEBUG - Initialize - выход
+2025.02.18 11:03:25,076 [171442578][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.18 11:38:33,582 [171442578][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.18 11:38:34,610 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод AuthenticationForm.OnEmployeeInputted...
+2025.02.18 11:38:34,611 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:38:34,611 [170590558][1.46.2.1063] DEBUG - 	sender: InputField (label: ШК сотрудника:, text: 46)
+2025.02.18 11:38:34,611 [170590558][1.46.2.1063] DEBUG - 	args: InputtedEventArgs (Text: 46, Source: Keyboard, BarcodeEventArgs: )
+2025.02.18 11:38:34,649 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод AuthenticationService.LogonUser...
+2025.02.18 11:38:34,650 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:38:34,650 [170590558][1.46.2.1063] DEBUG - 	barcode: 46
+2025.02.18 11:38:34,650 [170590558][1.46.2.1063] DEBUG - 	employee: не задано
+2025.02.18 11:38:34,791 [170590558][1.46.2.1063] DEBUG - <<< Метод AuthenticationService.LogonUser успешно завершен. Возвращаемое значение: 0
+2025.02.18 11:38:34,797 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод CommonService.IsThereRequestUnprocessedByAx...
+2025.02.18 11:38:34,798 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:38:34,798 [170590558][1.46.2.1063] DEBUG - 	employeeId: 000046
+2025.02.18 11:38:34,875 [170590558][1.46.2.1063] DEBUG - <<< Метод CommonService.IsThereRequestUnprocessedByAx успешно завершен. Возвращаемое значение: False
+2025.02.18 11:38:34,882 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод CommonService.GetPersonalizationSettings...
+2025.02.18 11:38:34,882 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:38:34,882 [170590558][1.46.2.1063] DEBUG - 	employeeId: 000046
+2025.02.18 11:38:34,950 [170590558][1.46.2.1063] DEBUG - <<< Метод CommonService.GetPersonalizationSettings успешно завершен. Возвращаемое значение: CommonServiceProxy.PersonalizationDto
+2025.02.18 11:38:35,010 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод BusinessLogicService.GetUnfinishedTaskAndGoToExecution...
+2025.02.18 11:38:35,010 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:38:35,011 [170590558][1.46.2.1063] DEBUG - 	employee: ServiceProxy.EmployeeDto
+2025.02.18 11:38:35,016 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод CommonService.IsThereUnfinishedTask...
+2025.02.18 11:38:35,017 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:38:35,017 [170590558][1.46.2.1063] DEBUG - 	employeeId: 000046
+2025.02.18 11:38:35,093 [170590558][1.46.2.1063] DEBUG - <<< Метод CommonService.IsThereUnfinishedTask успешно завершен. Возвращаемое значение: True
+2025.02.18 11:38:35,099 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод BusinessLogicService.GetUnfinishedAutoTask...
+2025.02.18 11:38:35,099 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:38:35,099 [170590558][1.46.2.1063] DEBUG - 	emplId: 000046
+2025.02.18 11:38:35,182 [170590558][1.46.2.1063] DEBUG - <<< Метод BusinessLogicService.GetUnfinishedAutoTask успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:38:35,188 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод PrelimAcceptService.GetUnfinishedTask...
+2025.02.18 11:38:35,188 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:38:35,188 [170590558][1.46.2.1063] DEBUG - 	employeeId: 000046
+2025.02.18 11:38:35,264 [170590558][1.46.2.1063] DEBUG - <<< Метод PrelimAcceptService.GetUnfinishedTask успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:38:35,289 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод AcceptAllocService.GetUnfinishedTask...
+2025.02.18 11:38:35,289 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:38:35,289 [170590558][1.46.2.1063] DEBUG - 	employeeId: 000046
+2025.02.18 11:38:35,358 [170590558][1.46.2.1063] DEBUG - <<< Метод AcceptAllocService.GetUnfinishedTask успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:38:35,364 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод AcceptTransportService.GetUnfinishedTask...
+2025.02.18 11:38:35,364 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:38:35,365 [170590558][1.46.2.1063] DEBUG - 	employeeId: 000046
+2025.02.18 11:38:35,454 [170590558][1.46.2.1063] DEBUG - <<< Метод AcceptTransportService.GetUnfinishedTask успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:38:35,504 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод ShipmentAllocationService.GetUnfinishedTasks...
+2025.02.18 11:38:35,504 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:38:35,504 [170590558][1.46.2.1063] DEBUG - 	employeeId: 000046
+2025.02.18 11:38:35,587 [170590558][1.46.2.1063] DEBUG - <<< Метод ShipmentAllocationService.GetUnfinishedTasks успешно завершен. Возвращаемое значение: имеет 0 элементов
+2025.02.18 11:38:35,593 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод ShipmentAllocationService.GetUnfinishedExpeditionTasks...
+2025.02.18 11:38:35,593 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:38:35,594 [170590558][1.46.2.1063] DEBUG - 	employeeId: 000046
+2025.02.18 11:38:35,649 [170590558][1.46.2.1063] DEBUG - <<< Метод ShipmentAllocationService.GetUnfinishedExpeditionTasks успешно завершен. Возвращаемое значение: имеет 0 элементов
+2025.02.18 11:38:35,700 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод ShipmentTransportService.GetUnfinishedTask...
+2025.02.18 11:38:35,700 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:38:35,700 [170590558][1.46.2.1063] DEBUG - 	employeeId: 000046
+2025.02.18 11:38:35,789 [170590558][1.46.2.1063] DEBUG - <<< Метод ShipmentTransportService.GetUnfinishedTask успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:38:35,840 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод ShipmentShipService.GetUnfinishedTask...
+2025.02.18 11:38:35,841 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:38:35,841 [170590558][1.46.2.1063] DEBUG - 	employeeId: 000046
+2025.02.18 11:38:35,841 [170590558][1.46.2.1063] DEBUG - 	pallets: не задано
+2025.02.18 11:38:36,297 [170590558][1.46.2.1063] DEBUG - <<< Метод ShipmentShipService.GetUnfinishedTask успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:38:36,348 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод CrossDockingService.GetUnfinishedTask...
+2025.02.18 11:38:36,348 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:38:36,349 [170590558][1.46.2.1063] DEBUG - 	employeeId: 000046
+2025.02.18 11:38:36,429 [170590558][1.46.2.1063] DEBUG - <<< Метод CrossDockingService.GetUnfinishedTask успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:38:36,482 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод SortingService.GetUnfinishedTask...
+2025.02.18 11:38:36,482 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:38:36,483 [170590558][1.46.2.1063] DEBUG - 	employeeId: 000046
+2025.02.18 11:38:36,581 [170590558][1.46.2.1063] DEBUG - <<< Метод SortingService.GetUnfinishedTask успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:38:36,637 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод SortingScsService.GetUnfinishedTask...
+2025.02.18 11:38:36,637 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:38:36,637 [170590558][1.46.2.1063] DEBUG - 	employeeId: 000046
+2025.02.18 11:38:36,637 [170590558][1.46.2.1063] DEBUG - 	taskType: 45
+2025.02.18 11:38:36,816 [170590558][1.46.2.1063] DEBUG - <<< Метод SortingScsService.GetUnfinishedTask успешно завершен. Возвращаемое значение: SortingScsServiceProxy.SortingScsTaskDto
+2025.02.18 11:38:36,894 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод SortingScsForm.RenderControls...
+2025.02.18 11:38:36,963 [170590558][1.46.2.1063] DEBUG - <<< Метод SortingScsForm.RenderControls успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:38:36,969 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод SortingScsService.GetLinesQty...
+2025.02.18 11:38:36,969 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:38:36,969 [170590558][1.46.2.1063] DEBUG - 	taskId: MK80765656
+2025.02.18 11:38:36,970 [170590558][1.46.2.1063] DEBUG - 	qty: 0
+2025.02.18 11:38:37,048 [170590558][1.46.2.1063] DEBUG - <<< Метод SortingScsService.GetLinesQty успешно завершен. Возвращаемое значение: 0
+2025.02.18 11:38:37,055 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод SortingScsService.GetUnfinishedLines...
+2025.02.18 11:38:37,055 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:38:37,055 [170590558][1.46.2.1063] DEBUG - 	employeeId: 000046
+2025.02.18 11:38:37,055 [170590558][1.46.2.1063] DEBUG - 	taskId: MK80765656
+2025.02.18 11:38:37,056 [170590558][1.46.2.1063] DEBUG - 	lineCount: 0
+2025.02.18 11:38:37,056 [170590558][1.46.2.1063] DEBUG - 	message: не задано
+2025.02.18 11:38:37,144 [170590558][1.46.2.1063] DEBUG - <<< Метод SortingScsService.GetUnfinishedLines успешно завершен. Возвращаемое значение: 0
+2025.02.18 11:38:40,802 [170590558][1.46.2.1063] DEBUG - <<< Метод BusinessLogicService.GetUnfinishedTaskAndGoToExecution успешно завершен. Возвращаемое значение: True
+2025.02.18 11:38:40,930 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.AllocateControls...
+2025.02.18 11:38:41,013 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.AllocateControls успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:39:05,209 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnTaskSelectionFormClosing...
+2025.02.18 11:39:05,210 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:39:05,210 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:39:05,210 [170590558][1.46.2.1063] DEBUG - 	e: System.ComponentModel.CancelEventArgs
+2025.02.18 11:39:05,215 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод AuthenticationService.LogoffUser...
+2025.02.18 11:39:05,215 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:39:05,216 [170590558][1.46.2.1063] DEBUG - 	employeeId: 000046
+2025.02.18 11:39:05,292 [170590558][1.46.2.1063] DEBUG - <<< Метод AuthenticationService.LogoffUser успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:39:05,298 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnTaskSelectionFormClosing успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:39:05,396 [170590558][1.46.2.1063] DEBUG - <<< Метод AuthenticationForm.OnEmployeeInputted успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:39:07,040 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод AuthenticationForm.OnEmployeeInputted...
+2025.02.18 11:39:07,041 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:39:07,041 [170590558][1.46.2.1063] DEBUG - 	sender: InputField (label: ШК сотрудника:, text: 46)
+2025.02.18 11:39:07,041 [170590558][1.46.2.1063] DEBUG - 	args: InputtedEventArgs (Text: 46, Source: Keyboard, BarcodeEventArgs: )
+2025.02.18 11:39:07,046 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод AuthenticationService.LogonUser...
+2025.02.18 11:39:07,047 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:39:07,047 [170590558][1.46.2.1063] DEBUG - 	barcode: 46
+2025.02.18 11:39:07,047 [170590558][1.46.2.1063] DEBUG - 	employee: не задано
+2025.02.18 11:39:07,104 [170590558][1.46.2.1063] DEBUG - <<< Метод AuthenticationService.LogonUser успешно завершен. Возвращаемое значение: 0
+2025.02.18 11:39:07,109 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод CommonService.IsThereRequestUnprocessedByAx...
+2025.02.18 11:39:07,110 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:39:07,110 [170590558][1.46.2.1063] DEBUG - 	employeeId: 000046
+2025.02.18 11:39:07,167 [170590558][1.46.2.1063] DEBUG - <<< Метод CommonService.IsThereRequestUnprocessedByAx успешно завершен. Возвращаемое значение: False
+2025.02.18 11:39:07,173 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод CommonService.GetPersonalizationSettings...
+2025.02.18 11:39:07,173 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:39:07,173 [170590558][1.46.2.1063] DEBUG - 	employeeId: 000046
+2025.02.18 11:39:07,244 [170590558][1.46.2.1063] DEBUG - <<< Метод CommonService.GetPersonalizationSettings успешно завершен. Возвращаемое значение: CommonServiceProxy.PersonalizationDto
+2025.02.18 11:39:07,249 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод BusinessLogicService.GetUnfinishedTaskAndGoToExecution...
+2025.02.18 11:39:07,249 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:39:07,250 [170590558][1.46.2.1063] DEBUG - 	employee: ServiceProxy.EmployeeDto
+2025.02.18 11:39:07,254 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод CommonService.IsThereUnfinishedTask...
+2025.02.18 11:39:07,254 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:39:07,255 [170590558][1.46.2.1063] DEBUG - 	employeeId: 000046
+2025.02.18 11:39:07,308 [170590558][1.46.2.1063] DEBUG - <<< Метод CommonService.IsThereUnfinishedTask успешно завершен. Возвращаемое значение: False
+2025.02.18 11:39:07,313 [170590558][1.46.2.1063] DEBUG - <<< Метод BusinessLogicService.GetUnfinishedTaskAndGoToExecution успешно завершен. Возвращаемое значение: False
+2025.02.18 11:39:07,387 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.AllocateControls...
+2025.02.18 11:39:07,469 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.AllocateControls успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:39:10,325 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnSortingButtonPressed...
+2025.02.18 11:39:10,325 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:39:10,325 [170590558][1.46.2.1063] DEBUG - 	sender: PushingButton (name: _sortingButton, text: 6. Сортировка по магазинам)
+2025.02.18 11:39:10,325 [170590558][1.46.2.1063] DEBUG - 	e: System.EventArgs
+2025.02.18 11:39:10,358 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод SubMenuForm.RenderControls...
+2025.02.18 11:39:10,387 [170590558][1.46.2.1063] DEBUG - <<< Метод SubMenuForm.RenderControls успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:39:50,855 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnSortingButtonPressed успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:39:52,297 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnTaskSelectionFormClosing...
+2025.02.18 11:39:52,297 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:39:52,297 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:39:52,297 [170590558][1.46.2.1063] DEBUG - 	e: System.ComponentModel.CancelEventArgs
+2025.02.18 11:39:52,302 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод AuthenticationService.LogoffUser...
+2025.02.18 11:39:52,303 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:39:52,303 [170590558][1.46.2.1063] DEBUG - 	employeeId: 000046
+2025.02.18 11:39:52,360 [170590558][1.46.2.1063] DEBUG - <<< Метод AuthenticationService.LogoffUser успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:39:52,365 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnTaskSelectionFormClosing успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:39:52,463 [170590558][1.46.2.1063] DEBUG - <<< Метод AuthenticationForm.OnEmployeeInputted успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:01,907 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод AuthenticationForm.OnEmployeeInputted...
+2025.02.18 11:40:01,907 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:01,908 [170590558][1.46.2.1063] DEBUG - 	sender: InputField (label: ШК сотрудника:, text: 46)
+2025.02.18 11:40:01,908 [170590558][1.46.2.1063] DEBUG - 	args: InputtedEventArgs (Text: 46, Source: Keyboard, BarcodeEventArgs: )
+2025.02.18 11:40:01,913 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод AuthenticationService.LogonUser...
+2025.02.18 11:40:01,913 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:01,913 [170590558][1.46.2.1063] DEBUG - 	barcode: 46
+2025.02.18 11:40:01,913 [170590558][1.46.2.1063] DEBUG - 	employee: не задано
+2025.02.18 11:40:02,034 [170590558][1.46.2.1063] DEBUG - <<< Метод AuthenticationService.LogonUser успешно завершен. Возвращаемое значение: 0
+2025.02.18 11:40:02,055 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод CommonService.IsThereRequestUnprocessedByAx...
+2025.02.18 11:40:02,055 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:02,056 [170590558][1.46.2.1063] DEBUG - 	employeeId: 000046
+2025.02.18 11:40:02,142 [170590558][1.46.2.1063] DEBUG - <<< Метод CommonService.IsThereRequestUnprocessedByAx успешно завершен. Возвращаемое значение: False
+2025.02.18 11:40:02,147 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод CommonService.GetPersonalizationSettings...
+2025.02.18 11:40:02,148 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:02,148 [170590558][1.46.2.1063] DEBUG - 	employeeId: 000046
+2025.02.18 11:40:02,208 [170590558][1.46.2.1063] DEBUG - <<< Метод CommonService.GetPersonalizationSettings успешно завершен. Возвращаемое значение: CommonServiceProxy.PersonalizationDto
+2025.02.18 11:40:02,213 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод BusinessLogicService.GetUnfinishedTaskAndGoToExecution...
+2025.02.18 11:40:02,213 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:02,214 [170590558][1.46.2.1063] DEBUG - 	employee: ServiceProxy.EmployeeDto
+2025.02.18 11:40:02,218 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод CommonService.IsThereUnfinishedTask...
+2025.02.18 11:40:02,218 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:02,219 [170590558][1.46.2.1063] DEBUG - 	employeeId: 000046
+2025.02.18 11:40:02,574 [170590558][1.46.2.1063] DEBUG - <<< Метод CommonService.IsThereUnfinishedTask успешно завершен. Возвращаемое значение: False
+2025.02.18 11:40:02,579 [170590558][1.46.2.1063] DEBUG - <<< Метод BusinessLogicService.GetUnfinishedTaskAndGoToExecution успешно завершен. Возвращаемое значение: False
+2025.02.18 11:40:02,652 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.AllocateControls...
+2025.02.18 11:40:02,735 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.AllocateControls успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:04,313 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 11:40:04,314 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:04,314 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:40:04,314 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:04,319 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:04,376 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 11:40:04,376 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:04,376 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:40:04,376 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:04,381 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:04,504 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 11:40:04,505 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:04,505 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:40:04,505 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:04,510 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:04,574 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 11:40:04,575 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:04,575 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:40:04,575 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:04,580 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:04,742 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 11:40:04,742 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:04,742 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:40:04,742 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:04,747 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:04,809 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 11:40:04,809 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:04,809 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:40:04,809 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:04,814 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:04,983 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 11:40:04,983 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:04,984 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:40:04,984 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:04,988 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:05,095 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 11:40:05,096 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:05,096 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:40:05,096 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:05,101 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:05,266 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 11:40:05,266 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:05,267 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:40:05,267 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:05,272 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:05,336 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnForkliftInputted...
+2025.02.18 11:40:05,337 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:05,337 [170590558][1.46.2.1063] DEBUG - 	sender: InputField (label: ШК погрузчика:, text: telezhka)
+2025.02.18 11:40:05,337 [170590558][1.46.2.1063] DEBUG - 	args: InputtedEventArgs (Text: telezhka, Source: Keyboard, BarcodeEventArgs: )
+2025.02.18 11:40:05,342 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод BusinessLogicService.ValidateForkliftId...
+2025.02.18 11:40:05,342 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:05,342 [170590558][1.46.2.1063] DEBUG - 	barcode: telezhka
+2025.02.18 11:40:05,422 [170590558][1.46.2.1063] DEBUG - <<< Метод BusinessLogicService.ValidateForkliftId успешно завершен. Возвращаемое значение: True
+2025.02.18 11:40:05,427 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnForkliftInputted успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:06,073 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 11:40:06,073 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:06,073 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:40:06,073 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:06,078 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:06,190 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 11:40:06,191 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:06,191 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:40:06,191 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:06,196 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:06,317 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 11:40:06,318 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:06,318 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:40:06,318 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:06,323 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:06,364 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 11:40:06,364 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:06,364 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:40:06,365 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:06,370 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:06,498 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 11:40:06,498 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:06,498 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:40:06,498 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:06,503 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:06,619 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 11:40:06,620 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:06,620 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:40:06,620 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:06,625 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:06,752 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 11:40:06,752 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:06,752 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:40:06,753 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:06,757 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:06,791 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 11:40:06,791 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:06,791 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:40:06,792 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:06,796 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:06,951 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 11:40:06,952 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:06,952 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:40:06,952 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:06,957 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:07,014 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 11:40:07,015 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:07,015 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:40:07,015 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:07,020 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:07,095 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnNearestLocationInputted...
+2025.02.18 11:40:07,095 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:07,096 [170590558][1.46.2.1063] DEBUG - 	sender: InputField (label: ШК ячейки:, text: 88-888-88)
+2025.02.18 11:40:07,096 [170590558][1.46.2.1063] DEBUG - 	args: InputtedEventArgs (Text: 88-888-88, Source: Keyboard, BarcodeEventArgs: )
+2025.02.18 11:40:07,101 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод BusinessLogicService.GetUnfinishedTaskAndGoToExecution...
+2025.02.18 11:40:07,101 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:07,101 [170590558][1.46.2.1063] DEBUG - 	employee: ServiceProxy.EmployeeDto
+2025.02.18 11:40:07,106 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод CommonService.IsThereUnfinishedTask...
+2025.02.18 11:40:07,106 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:07,107 [170590558][1.46.2.1063] DEBUG - 	employeeId: 000046
+2025.02.18 11:40:07,216 [170590558][1.46.2.1063] DEBUG - <<< Метод CommonService.IsThereUnfinishedTask успешно завершен. Возвращаемое значение: False
+2025.02.18 11:40:07,222 [170590558][1.46.2.1063] DEBUG - <<< Метод BusinessLogicService.GetUnfinishedTaskAndGoToExecution успешно завершен. Возвращаемое значение: False
+2025.02.18 11:40:07,230 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод BusinessLogicService.LoadFirstPriorityTask...
+2025.02.18 11:40:07,230 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:07,230 [170590558][1.46.2.1063] DEBUG - 	employeeId: 000046
+2025.02.18 11:40:07,231 [170590558][1.46.2.1063] DEBUG - 	forkliftId: telezhka
+2025.02.18 11:40:07,231 [170590558][1.46.2.1063] DEBUG - 	nearestLocationId: 88-888-88
+2025.02.18 11:40:07,400 [170590558][1.46.2.1063] DEBUG - <<< Метод BusinessLogicService.LoadFirstPriorityTask успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:07,449 [170590558][1.46.2.1063] DEBUG - reader_ReadNotify
+2025.02.18 11:40:07,453 [170590558][1.46.2.1063] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2025.02.18 11:40:07,458 [170590558][1.46.2.1063] DEBUG - reader_ReadNotify - выход
+2025.02.18 11:40:08,950 [170590558][1.46.2.1063] ERROR - Выведено сообщение об ошибке:
+Заданий нет!
+2025.02.18 11:40:08,955 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnNearestLocationInputted успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:15,395 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 11:40:15,396 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:15,396 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:40:15,396 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:15,401 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:15,509 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 11:40:15,510 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:15,510 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:40:15,510 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:15,515 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:15,609 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 11:40:15,610 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:15,610 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:40:15,610 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:15,615 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:15,694 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 11:40:15,695 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:15,695 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:40:15,695 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:15,700 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:15,829 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 11:40:15,829 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:15,830 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:40:15,830 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:15,834 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:15,975 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 11:40:15,975 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:15,976 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:40:15,976 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:15,981 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:16,057 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 11:40:16,057 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:16,058 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:40:16,058 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:16,063 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:16,127 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 11:40:16,127 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:16,128 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:40:16,128 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:16,132 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:16,263 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 11:40:16,263 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:16,263 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:40:16,263 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:16,268 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:16,381 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 11:40:16,381 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:16,381 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 11:40:16,381 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:16,386 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:16,449 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnNearestLocationInputted...
+2025.02.18 11:40:16,450 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:16,450 [170590558][1.46.2.1063] DEBUG - 	sender: InputField (label: ШК ячейки:, text: 88-888-88)
+2025.02.18 11:40:16,450 [170590558][1.46.2.1063] DEBUG - 	args: InputtedEventArgs (Text: 88-888-88, Source: Keyboard, BarcodeEventArgs: )
+2025.02.18 11:40:16,455 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод BusinessLogicService.GetUnfinishedTaskAndGoToExecution...
+2025.02.18 11:40:16,455 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:16,455 [170590558][1.46.2.1063] DEBUG - 	employee: ServiceProxy.EmployeeDto
+2025.02.18 11:40:16,460 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод CommonService.IsThereUnfinishedTask...
+2025.02.18 11:40:16,460 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:16,460 [170590558][1.46.2.1063] DEBUG - 	employeeId: 000046
+2025.02.18 11:40:16,542 [170590558][1.46.2.1063] DEBUG - <<< Метод CommonService.IsThereUnfinishedTask успешно завершен. Возвращаемое значение: False
+2025.02.18 11:40:16,547 [170590558][1.46.2.1063] DEBUG - <<< Метод BusinessLogicService.GetUnfinishedTaskAndGoToExecution успешно завершен. Возвращаемое значение: False
+2025.02.18 11:40:16,552 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод BusinessLogicService.LoadFirstPriorityTask...
+2025.02.18 11:40:16,553 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:16,553 [170590558][1.46.2.1063] DEBUG - 	employeeId: 000046
+2025.02.18 11:40:16,553 [170590558][1.46.2.1063] DEBUG - 	forkliftId: telezhka
+2025.02.18 11:40:16,553 [170590558][1.46.2.1063] DEBUG - 	nearestLocationId: 88-888-88
+2025.02.18 11:40:16,682 [170590558][1.46.2.1063] DEBUG - <<< Метод BusinessLogicService.LoadFirstPriorityTask успешно завершен. Возвращаемое значение: ServiceProxy.AutoTaskDto
+2025.02.18 11:40:16,687 [170590558][1.46.2.1063] DEBUG - Получено наиболее приоритетное задание: #TC18716336 с типом 25
+2025.02.18 11:40:16,702 [170590558][1.46.2.1063] DEBUG - Открывается TaskStatisticsForm...
+2025.02.18 11:40:16,791 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskStatisticsForm.OnTaskStatisticsFormLoad...
+2025.02.18 11:40:16,791 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:16,791 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Common.TaskStatisticsForm
+2025.02.18 11:40:16,791 [170590558][1.46.2.1063] DEBUG - 	e: System.EventArgs
+2025.02.18 11:40:16,797 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод CommonService.GetTaskStatistic...
+2025.02.18 11:40:16,797 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:16,798 [170590558][1.46.2.1063] DEBUG - 	employeeId: 000046
+2025.02.18 11:40:16,798 [170590558][1.46.2.1063] DEBUG - 	taskType: AllocationSectionalPallet
+2025.02.18 11:40:16,798 [170590558][1.46.2.1063] DEBUG - 	locationId: 88-888-88
+2025.02.18 11:40:17,183 [170590558][1.46.2.1063] DEBUG - <<< Метод CommonService.GetTaskStatistic успешно завершен. Возвращаемое значение: CommonServiceProxy.TaskStatisticDto
+2025.02.18 11:40:17,191 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskStatisticsForm.OnTaskStatisticsFormLoad успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:18,457 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskStatisticsForm.OnContinueButtonPressed...
+2025.02.18 11:40:18,458 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:18,458 [170590558][1.46.2.1063] DEBUG - 	sender: PushingButton (name: continueButton, text: Продолжить)
+2025.02.18 11:40:18,458 [170590558][1.46.2.1063] DEBUG - 	e: System.EventArgs
+2025.02.18 11:40:18,463 [170590558][1.46.2.1063] DEBUG - Закрывается TaskStatisticsForm...
+2025.02.18 11:40:18,468 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskStatisticsForm.OnContinueButtonPressed успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:27,857 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnKeyDown...
+2025.02.18 11:40:27,857 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:27,857 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Allocation.TaskSelectionForm
+2025.02.18 11:40:27,857 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:27,862 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:27,868 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnKeyDown...
+2025.02.18 11:40:27,868 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:27,869 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Allocation.TaskSelectionForm
+2025.02.18 11:40:27,869 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:27,873 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:28,060 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnKeyDown...
+2025.02.18 11:40:28,060 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:28,060 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Allocation.TaskSelectionForm
+2025.02.18 11:40:28,060 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:28,065 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:28,071 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnKeyDown...
+2025.02.18 11:40:28,071 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:28,071 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Allocation.TaskSelectionForm
+2025.02.18 11:40:28,071 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:28,076 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:28,736 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnKeyDown...
+2025.02.18 11:40:28,736 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:28,737 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Allocation.TaskSelectionForm
+2025.02.18 11:40:28,737 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:28,741 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:28,827 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnKeyDown...
+2025.02.18 11:40:28,828 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:28,828 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Allocation.TaskSelectionForm
+2025.02.18 11:40:28,828 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:28,833 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:29,103 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnKeyDown...
+2025.02.18 11:40:29,103 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:29,103 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Allocation.TaskSelectionForm
+2025.02.18 11:40:29,104 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:29,109 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:29,133 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnBufferInputted...
+2025.02.18 11:40:29,133 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:29,134 [170590558][1.46.2.1063] DEBUG - 	sender: InputField (label: V_01, text: V_01)
+2025.02.18 11:40:29,134 [170590558][1.46.2.1063] DEBUG - 	args: InputtedEventArgs (Text: V_01, Source: Keyboard, BarcodeEventArgs: )
+2025.02.18 11:40:29,138 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnBufferInputted успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:55,475 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnKeyDown...
+2025.02.18 11:40:55,476 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:55,476 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Allocation.TaskSelectionForm
+2025.02.18 11:40:55,476 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:55,481 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:55,487 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnKeyDown...
+2025.02.18 11:40:55,487 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:55,487 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Allocation.TaskSelectionForm
+2025.02.18 11:40:55,487 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:55,492 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:59,453 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnKeyDown...
+2025.02.18 11:40:59,454 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:59,454 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Allocation.TaskSelectionForm
+2025.02.18 11:40:59,454 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:59,459 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:40:59,465 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnKeyDown...
+2025.02.18 11:40:59,465 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:40:59,465 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Allocation.TaskSelectionForm
+2025.02.18 11:40:59,465 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:40:59,470 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:41:01,011 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnKeyDown...
+2025.02.18 11:41:01,011 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:41:01,012 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Allocation.TaskSelectionForm
+2025.02.18 11:41:01,012 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:41:01,017 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:41:01,283 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnKeyDown...
+2025.02.18 11:41:01,283 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:41:01,283 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Allocation.TaskSelectionForm
+2025.02.18 11:41:01,284 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:41:01,288 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:41:01,484 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnKeyDown...
+2025.02.18 11:41:01,484 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:41:01,484 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Allocation.TaskSelectionForm
+2025.02.18 11:41:01,485 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:41:01,490 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:41:02,587 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnKeyDown...
+2025.02.18 11:41:02,587 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:41:02,587 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Allocation.TaskSelectionForm
+2025.02.18 11:41:02,587 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:41:02,592 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:41:03,431 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnKeyDown...
+2025.02.18 11:41:03,431 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:41:03,431 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Allocation.TaskSelectionForm
+2025.02.18 11:41:03,432 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:41:03,436 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:41:03,682 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnKeyDown...
+2025.02.18 11:41:03,683 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:41:03,683 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Allocation.TaskSelectionForm
+2025.02.18 11:41:03,683 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:41:03,688 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:41:04,299 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnKeyDown...
+2025.02.18 11:41:04,300 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:41:04,300 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Allocation.TaskSelectionForm
+2025.02.18 11:41:04,300 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:41:04,305 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:41:04,677 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnKeyDown...
+2025.02.18 11:41:04,677 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:41:04,677 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Allocation.TaskSelectionForm
+2025.02.18 11:41:04,678 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:41:04,682 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:41:05,017 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnKeyDown...
+2025.02.18 11:41:05,017 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:41:05,017 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Allocation.TaskSelectionForm
+2025.02.18 11:41:05,017 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:41:05,022 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:41:05,599 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnKeyDown...
+2025.02.18 11:41:05,599 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:41:05,600 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Allocation.TaskSelectionForm
+2025.02.18 11:41:05,600 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:41:05,604 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:41:05,842 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnKeyDown...
+2025.02.18 11:41:05,842 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:41:05,842 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Allocation.TaskSelectionForm
+2025.02.18 11:41:05,842 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:41:05,847 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:41:05,983 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnKeyDown...
+2025.02.18 11:41:05,983 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:41:05,984 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Allocation.TaskSelectionForm
+2025.02.18 11:41:05,984 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:41:05,989 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:41:06,226 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnKeyDown...
+2025.02.18 11:41:06,227 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:41:06,227 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Allocation.TaskSelectionForm
+2025.02.18 11:41:06,227 [170590558][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 11:41:06,232 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:41:06,256 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnTaskInputted...
+2025.02.18 11:41:06,256 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:41:06,257 [170590558][1.46.2.1063] DEBUG - 	sender: InputField (label: Задание:, text: 299430733342)
+2025.02.18 11:41:06,257 [170590558][1.46.2.1063] DEBUG - 	args: InputtedEventArgs (Text: 299430733342, Source: Keyboard, BarcodeEventArgs: )
+2025.02.18 11:41:06,320 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод AllocationService.PickTask...
+2025.02.18 11:41:06,320 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:41:06,320 [170590558][1.46.2.1063] DEBUG - 	employeeId: 000046
+2025.02.18 11:41:06,321 [170590558][1.46.2.1063] DEBUG - 	taskId: 299430733342
+2025.02.18 11:41:06,321 [170590558][1.46.2.1063] DEBUG - 	taskType: AllocationSectionalPallet
+2025.02.18 11:41:06,321 [170590558][1.46.2.1063] DEBUG - 	forkliftId: telezhka
+2025.02.18 11:41:06,321 [170590558][1.46.2.1063] DEBUG - 	buffer: V_01
+2025.02.18 11:41:06,321 [170590558][1.46.2.1063] DEBUG - 	pickedTaskIds: не задано
+2025.02.18 11:41:06,481 [170590558][1.46.2.1063] DEBUG - <<< Метод AllocationService.PickTask успешно завершен. Возвращаемое значение: 0
+2025.02.18 11:41:06,534 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnTaskInputted успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:41:08,936 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnContinueButtonPressed...
+2025.02.18 11:41:08,936 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:41:08,936 [170590558][1.46.2.1063] DEBUG - 	sender: PushingButton (name: continueButton, text: Продолжить)
+2025.02.18 11:41:08,937 [170590558][1.46.2.1063] DEBUG - 	e: System.EventArgs
+2025.02.18 11:41:08,942 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод AllocationService.LoadAssignedTasks...
+2025.02.18 11:41:08,942 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:41:08,943 [170590558][1.46.2.1063] DEBUG - 	employeeId: 000046
+2025.02.18 11:41:09,054 [170590558][1.46.2.1063] DEBUG - <<< Метод AllocationService.LoadAssignedTasks успешно завершен. Возвращаемое значение: System.Collections.Generic.List`1[[AllocationServiceProxy.AllocationTaskDto, ScanCity.ConveyerTerminal.DeviceClient, Version=1.46.2.1063, Culture=neutral, PublicKeyToken=null]]
+2025.02.18 11:41:12,589 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод ExecutionForm.OnLocationInputted...
+2025.02.18 11:41:12,589 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:41:12,589 [170590558][1.46.2.1063] DEBUG - 	sender: InputField (label: В SCS_IN_01:, text: SCS_IN_01)
+2025.02.18 11:41:12,589 [170590558][1.46.2.1063] DEBUG - 	args: InputtedEventArgs (Text: SCS_IN_01, Source: Keyboard, BarcodeEventArgs: )
+2025.02.18 11:41:12,595 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод ExecutionForm.FinishTask...
+2025.02.18 11:41:12,596 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:41:12,596 [170590558][1.46.2.1063] DEBUG - 	qty: 0
+2025.02.18 11:41:12,602 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод AllocationService.FinishTask...
+2025.02.18 11:41:12,602 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:41:12,602 [170590558][1.46.2.1063] DEBUG - 	qty: 0
+2025.02.18 11:41:12,602 [170590558][1.46.2.1063] DEBUG - 	emplId: 000046
+2025.02.18 11:41:12,603 [170590558][1.46.2.1063] DEBUG - 	taskId: TC18716815
+2025.02.18 11:41:12,603 [170590558][1.46.2.1063] DEBUG - 	taskType: AllocationSectionalPallet
+2025.02.18 11:41:12,694 [170590558][1.46.2.1063] DEBUG - <<< Метод AllocationService.FinishTask успешно завершен. Возвращаемое значение: 0
+2025.02.18 11:41:12,699 [170590558][1.46.2.1063] DEBUG - <<< Метод ExecutionForm.FinishTask успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:41:12,704 [170590558][1.46.2.1063] DEBUG - <<< Метод ExecutionForm.OnLocationInputted успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:41:16,000 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод ExecutionForm.OnFinishButtonPressed...
+2025.02.18 11:41:16,001 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 11:41:16,001 [170590558][1.46.2.1063] DEBUG - 	sender: PushingButton (name: finishButton, text: Завершить)
+2025.02.18 11:41:16,001 [170590558][1.46.2.1063] DEBUG - 	e: System.EventArgs
+2025.02.18 11:41:16,006 [170590558][1.46.2.1063] DEBUG - <<< Метод ExecutionForm.OnFinishButtonPressed успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:41:16,105 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnContinueButtonPressed успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:41:16,218 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnNearestLocationInputted успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 11:42:15,988 [171442578][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.18 14:48:22,909 [171442578][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.18 14:48:39,719 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnTaskSelectionFormClosing...
+2025.02.18 14:48:39,735 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 14:48:39,735 [170590558][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 14:48:39,736 [170590558][1.46.2.1063] DEBUG - 	e: System.ComponentModel.CancelEventArgs
+2025.02.18 14:48:39,758 [170590558][1.46.2.1063] DEBUG - >>> Вызван метод AuthenticationService.LogoffUser...
+2025.02.18 14:48:39,758 [170590558][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 14:48:39,759 [170590558][1.46.2.1063] DEBUG - 	employeeId: 000046
+2025.02.18 14:48:43,164 [170590558][1.46.2.1063] DEBUG - <<< Метод AuthenticationService.LogoffUser успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 14:48:43,171 [170590558][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnTaskSelectionFormClosing успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 14:48:43,277 [170590558][1.46.2.1063] DEBUG - <<< Метод AuthenticationForm.OnEmployeeInputted успешно завершен. Возвращаемое значение: отсутствует
+******************* Приложение запущено 2025.02.18 14:52:13,603 [v1.46.2.1063] **************************
+2025.02.18 14:52:13,655 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод CommonService.GetSettings...
+2025.02.18 14:52:17,491 [192610530][1.46.2.1063] DEBUG - <<< Метод CommonService.GetSettings успешно завершен. Возвращаемое значение: CommonServiceProxy.SetupDto
+2025.02.18 14:52:17,511 [192610530][1.46.2.1063] DEBUG - Получены настройки: InterfaceUnlockAvailable=False, TsdSettings={SerialNumber=73E65B7606490108011510102E7C0600, InterfaceUnlocked=True}
+2025.02.18 14:52:17,524 [192610530][1.46.2.1063] INFO - Сервер 172.16.15.31:14215, customTimeout=
+2025.02.18 14:52:17,711 [192610530][1.46.2.1063] INFO - Загружены настройки сканера из файла \Application\ScanCity.Convey\ScannerSettings_20101011174300.usi
+2025.02.18 14:52:17,974 [192610530][1.46.2.1063] INFO - Модель терминала: Unknown
+2025.02.18 14:52:18,306 [192610530][1.46.2.1063] DEBUG - Файл pdb.ini найден и считан (56 строк)
+2025.02.18 14:52:18,326 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод AuthenticationForm.RenderControls...
+2025.02.18 14:52:18,419 [192610530][1.46.2.1063] DEBUG - <<< Метод AuthenticationForm.RenderControls успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 14:52:18,782 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify
+2025.02.18 14:52:18,893 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2025.02.18 14:52:18,906 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify - выход
+2025.02.18 14:52:18,928 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify
+2025.02.18 14:52:18,936 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2025.02.18 14:52:18,943 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify - выход
+2025.02.18 14:52:19,435 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод CommonService.UpdateSettings...
+2025.02.18 14:52:19,435 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 14:52:19,436 [192610530][1.46.2.1063] DEBUG - 	scannerSettingsFileName: ScannerSettings_20101011174300.usi
+2025.02.18 14:52:19,935 [192610530][1.46.2.1063] DEBUG - <<< Метод CommonService.UpdateSettings успешно завершен. Возвращаемое значение: CommonServiceProxy.SettingsDto
+2025.02.18 14:52:40,081 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.18 14:54:48,040 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.18 14:54:48,272 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify
+2025.02.18 14:54:48,281 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify: Barcode='44444', Type='Code128'
+2025.02.18 14:54:48,292 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify - выход
+2025.02.18 14:54:48,337 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод AuthenticationForm.OnEmployeeInputted...
+2025.02.18 14:54:48,337 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 14:54:48,338 [192610530][1.46.2.1063] DEBUG - 	sender: InputField (label: ШК сотрудника:, text: 44444)
+2025.02.18 14:54:48,338 [192610530][1.46.2.1063] DEBUG - 	args: InputtedEventArgs (Text: 44444, Source: BarcodeScanner, BarcodeEventArgs: ScanCity.Barcode.BarcodeReadEventArgs)
+2025.02.18 14:54:48,408 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод AuthenticationService.LogonUser...
+2025.02.18 14:54:48,409 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 14:54:48,409 [192610530][1.46.2.1063] DEBUG - 	barcode: 44444
+2025.02.18 14:54:48,410 [192610530][1.46.2.1063] DEBUG - 	employee: не задано
+2025.02.18 14:54:54,630 [192610530][1.46.2.1063] DEBUG - <<< Метод AuthenticationService.LogonUser успешно завершен. Возвращаемое значение: 0
+2025.02.18 14:54:54,645 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод CommonService.IsThereRequestUnprocessedByAx...
+2025.02.18 14:54:54,645 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 14:54:54,646 [192610530][1.46.2.1063] DEBUG - 	employeeId: 1471
+2025.02.18 14:54:54,741 [192610530][1.46.2.1063] DEBUG - <<< Метод CommonService.IsThereRequestUnprocessedByAx успешно завершен. Возвращаемое значение: False
+2025.02.18 14:54:54,756 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод CommonService.GetPersonalizationSettings...
+2025.02.18 14:54:54,756 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 14:54:54,757 [192610530][1.46.2.1063] DEBUG - 	employeeId: 1471
+2025.02.18 14:54:54,901 [192610530][1.46.2.1063] DEBUG - <<< Метод CommonService.GetPersonalizationSettings успешно завершен. Возвращаемое значение: CommonServiceProxy.PersonalizationDto
+2025.02.18 14:54:55,060 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод BusinessLogicService.GetUnfinishedTaskAndGoToExecution...
+2025.02.18 14:54:55,061 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 14:54:55,062 [192610530][1.46.2.1063] DEBUG - 	employee: ServiceProxy.EmployeeDto
+2025.02.18 14:54:55,078 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод CommonService.IsThereUnfinishedTask...
+2025.02.18 14:54:55,079 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 14:54:55,079 [192610530][1.46.2.1063] DEBUG - 	employeeId: 1471
+2025.02.18 14:54:55,248 [192610530][1.46.2.1063] DEBUG - <<< Метод CommonService.IsThereUnfinishedTask успешно завершен. Возвращаемое значение: False
+2025.02.18 14:54:55,261 [192610530][1.46.2.1063] DEBUG - <<< Метод BusinessLogicService.GetUnfinishedTaskAndGoToExecution успешно завершен. Возвращаемое значение: False
+2025.02.18 14:54:55,616 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.AllocateControls...
+2025.02.18 14:54:55,839 [192610530][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.AllocateControls успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 14:55:04,178 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 14:55:04,179 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 14:55:04,179 [192610530][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 14:55:04,180 [192610530][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 14:55:04,193 [192610530][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 14:55:05,442 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnFormKeyDown...
+2025.02.18 14:55:05,443 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 14:55:05,443 [192610530][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 14:55:05,444 [192610530][1.46.2.1063] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2025.02.18 14:55:05,458 [192610530][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 14:55:07,529 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnSortingButtonPressed...
+2025.02.18 14:55:07,529 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 14:55:07,530 [192610530][1.46.2.1063] DEBUG - 	sender: PushingButton (name: _sortingButton, text: 6. Сортировка по магазинам)
+2025.02.18 14:55:07,531 [192610530][1.46.2.1063] DEBUG - 	e: System.EventArgs
+2025.02.18 14:55:07,614 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод SubMenuForm.RenderControls...
+2025.02.18 14:55:07,685 [192610530][1.46.2.1063] DEBUG - <<< Метод SubMenuForm.RenderControls успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 14:55:19,131 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод SubMenuForm.OnSortingScsButtonPressed...
+2025.02.18 14:55:19,132 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 14:55:19,133 [192610530][1.46.2.1063] DEBUG - 	sender: PushingButton (name: _sortingScsButton, text: 6. Сортировка SCS)
+2025.02.18 14:55:19,133 [192610530][1.46.2.1063] DEBUG - 	e: System.EventArgs
+2025.02.18 14:55:19,198 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод SortingScsSelectionForm.RenderControls...
+2025.02.18 14:55:19,230 [192610530][1.46.2.1063] DEBUG - <<< Метод SortingScsSelectionForm.RenderControls успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 14:55:27,970 [192610530][1.46.2.1063] DEBUG - <<< Метод SubMenuForm.OnSortingScsButtonPressed успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 14:55:30,494 [192610530][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnSortingButtonPressed успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 14:55:59,966 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.18 14:59:13,493 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_UNATTENDED (0x400000)
+2025.02.18 14:59:13,873 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_SUSPEND (0x200000)
+2025.02.18 15:02:09,027 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_PASSWORD (0x10000000)
+2025.02.18 15:02:10,113 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_RESUME, Flags=0 (0x0)
+2025.02.18 15:02:10,128 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.18 15:02:10,383 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.18 15:02:11,658 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify
+2025.02.18 15:02:11,682 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify - выход
+2025.02.18 15:02:12,211 [192610530][1.46.2.1063] DEBUG - Initialize
+2025.02.18 15:02:13,065 [192610530][1.46.2.1063] DEBUG - Initialize => _reader.Actions.Read
+2025.02.18 15:02:13,200 [192610530][1.46.2.1063] DEBUG - Initialize - выход
+2025.02.18 15:02:41,234 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.18 15:02:43,425 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.18 15:02:43,525 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify
+2025.02.18 15:02:43,532 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify: Barcode='telezhka', Type='Code128'
+2025.02.18 15:02:43,539 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify - выход
+2025.02.18 15:02:43,627 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnForkliftInputted...
+2025.02.18 15:02:43,628 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:02:43,628 [192610530][1.46.2.1063] DEBUG - 	sender: InputField (label: ШК погрузчика:, text: telezhka)
+2025.02.18 15:02:43,628 [192610530][1.46.2.1063] DEBUG - 	args: InputtedEventArgs (Text: telezhka, Source: BarcodeScanner, BarcodeEventArgs: ScanCity.Barcode.BarcodeReadEventArgs)
+2025.02.18 15:02:43,651 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод BusinessLogicService.ValidateForkliftId...
+2025.02.18 15:02:43,651 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:02:43,652 [192610530][1.46.2.1063] DEBUG - 	barcode: telezhka
+2025.02.18 15:02:43,755 [192610530][1.46.2.1063] DEBUG - <<< Метод BusinessLogicService.ValidateForkliftId успешно завершен. Возвращаемое значение: True
+2025.02.18 15:02:43,760 [192610530][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnForkliftInputted успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:03:13,726 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.18 15:05:20,668 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.18 15:05:20,909 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnSortingButtonPressed...
+2025.02.18 15:05:20,909 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:05:20,910 [192610530][1.46.2.1063] DEBUG - 	sender: PushingButton (name: _sortingButton, text: 6. Сортировка по магазинам)
+2025.02.18 15:05:20,910 [192610530][1.46.2.1063] DEBUG - 	e: System.EventArgs
+2025.02.18 15:05:20,981 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод SubMenuForm.RenderControls...
+2025.02.18 15:05:21,076 [192610530][1.46.2.1063] DEBUG - <<< Метод SubMenuForm.RenderControls успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:05:23,182 [192610530][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnSortingButtonPressed успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:05:24,949 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnTaskSelectionFormClosing...
+2025.02.18 15:05:24,949 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:05:24,950 [192610530][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 15:05:24,950 [192610530][1.46.2.1063] DEBUG - 	e: System.ComponentModel.CancelEventArgs
+2025.02.18 15:05:24,955 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод AuthenticationService.LogoffUser...
+2025.02.18 15:05:24,955 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:05:24,956 [192610530][1.46.2.1063] DEBUG - 	employeeId: 1471
+2025.02.18 15:05:25,019 [192610530][1.46.2.1063] DEBUG - <<< Метод AuthenticationService.LogoffUser успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:05:25,024 [192610530][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnTaskSelectionFormClosing успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:05:25,126 [192610530][1.46.2.1063] DEBUG - <<< Метод AuthenticationForm.OnEmployeeInputted успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:05:43,244 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify
+2025.02.18 15:05:43,250 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify: Barcode='44444', Type='Code128'
+2025.02.18 15:05:43,256 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify - выход
+2025.02.18 15:05:43,281 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод AuthenticationForm.OnEmployeeInputted...
+2025.02.18 15:05:43,281 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:05:43,281 [192610530][1.46.2.1063] DEBUG - 	sender: InputField (label: ШК сотрудника:, text: 44444)
+2025.02.18 15:05:43,282 [192610530][1.46.2.1063] DEBUG - 	args: InputtedEventArgs (Text: 44444, Source: BarcodeScanner, BarcodeEventArgs: ScanCity.Barcode.BarcodeReadEventArgs)
+2025.02.18 15:05:43,288 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод AuthenticationService.LogonUser...
+2025.02.18 15:05:43,288 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:05:43,289 [192610530][1.46.2.1063] DEBUG - 	barcode: 44444
+2025.02.18 15:05:43,289 [192610530][1.46.2.1063] DEBUG - 	employee: не задано
+2025.02.18 15:05:43,404 [192610530][1.46.2.1063] DEBUG - <<< Метод AuthenticationService.LogonUser успешно завершен. Возвращаемое значение: 0
+2025.02.18 15:05:43,418 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод CommonService.IsThereRequestUnprocessedByAx...
+2025.02.18 15:05:43,418 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:05:43,419 [192610530][1.46.2.1063] DEBUG - 	employeeId: 1471
+2025.02.18 15:05:43,619 [192610530][1.46.2.1063] DEBUG - <<< Метод CommonService.IsThereRequestUnprocessedByAx успешно завершен. Возвращаемое значение: False
+2025.02.18 15:05:43,633 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод CommonService.GetPersonalizationSettings...
+2025.02.18 15:05:43,633 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:05:43,634 [192610530][1.46.2.1063] DEBUG - 	employeeId: 1471
+2025.02.18 15:05:43,789 [192610530][1.46.2.1063] DEBUG - <<< Метод CommonService.GetPersonalizationSettings успешно завершен. Возвращаемое значение: CommonServiceProxy.PersonalizationDto
+2025.02.18 15:05:43,809 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод BusinessLogicService.GetUnfinishedTaskAndGoToExecution...
+2025.02.18 15:05:43,809 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:05:43,810 [192610530][1.46.2.1063] DEBUG - 	employee: ServiceProxy.EmployeeDto
+2025.02.18 15:05:43,822 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод CommonService.IsThereUnfinishedTask...
+2025.02.18 15:05:43,823 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:05:43,823 [192610530][1.46.2.1063] DEBUG - 	employeeId: 1471
+2025.02.18 15:05:43,940 [192610530][1.46.2.1063] DEBUG - <<< Метод CommonService.IsThereUnfinishedTask успешно завершен. Возвращаемое значение: False
+2025.02.18 15:05:43,953 [192610530][1.46.2.1063] DEBUG - <<< Метод BusinessLogicService.GetUnfinishedTaskAndGoToExecution успешно завершен. Возвращаемое значение: False
+2025.02.18 15:05:44,146 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.AllocateControls...
+2025.02.18 15:05:44,374 [192610530][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.AllocateControls успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:05:55,673 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify
+2025.02.18 15:05:55,679 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify: Barcode='telezhka', Type='Code128'
+2025.02.18 15:05:55,685 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify - выход
+2025.02.18 15:05:55,770 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnForkliftInputted...
+2025.02.18 15:05:55,770 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:05:55,771 [192610530][1.46.2.1063] DEBUG - 	sender: InputField (label: ШК погрузчика:, text: telezhka)
+2025.02.18 15:05:55,771 [192610530][1.46.2.1063] DEBUG - 	args: InputtedEventArgs (Text: telezhka, Source: BarcodeScanner, BarcodeEventArgs: ScanCity.Barcode.BarcodeReadEventArgs)
+2025.02.18 15:05:55,777 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод BusinessLogicService.ValidateForkliftId...
+2025.02.18 15:05:55,778 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:05:55,778 [192610530][1.46.2.1063] DEBUG - 	barcode: telezhka
+2025.02.18 15:05:55,908 [192610530][1.46.2.1063] DEBUG - <<< Метод BusinessLogicService.ValidateForkliftId успешно завершен. Возвращаемое значение: True
+2025.02.18 15:05:55,921 [192610530][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnForkliftInputted успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:06:46,355 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnPersonalizationButtonPressed...
+2025.02.18 15:06:46,390 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:06:46,391 [192610530][1.46.2.1063] DEBUG - 	sender: PushingButton (name: _personalizationButton, text: )
+2025.02.18 15:06:46,392 [192610530][1.46.2.1063] DEBUG - 	e: System.EventArgs
+2025.02.18 15:06:46,507 [192610530][1.46.2.1063] DEBUG - Открывается форма PersonalizationForm
+2025.02.18 15:06:46,744 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод CommonService.GetInterfaceColors...
+2025.02.18 15:06:47,628 [192610530][1.46.2.1063] DEBUG - <<< Метод CommonService.GetInterfaceColors успешно завершен. Возвращаемое значение: имеет 12 элементов
+2025.02.18 15:06:47,650 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод CommonService.GetInterfaceFonts...
+2025.02.18 15:06:47,819 [192610530][1.46.2.1063] DEBUG - <<< Метод CommonService.GetInterfaceFonts успешно завершен. Возвращаемое значение: имеет 8 элементов
+2025.02.18 15:06:47,826 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод CommonService.GetPersonalizationSettings...
+2025.02.18 15:06:47,826 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:06:47,827 [192610530][1.46.2.1063] DEBUG - 	employeeId: 1471
+2025.02.18 15:06:48,272 [192610530][1.46.2.1063] DEBUG - <<< Метод CommonService.GetPersonalizationSettings успешно завершен. Возвращаемое значение: CommonServiceProxy.PersonalizationDto
+2025.02.18 15:06:59,648 [192610530][1.46.2.1063] DEBUG - Закрывается форма PersonalizationForm
+2025.02.18 15:06:59,833 [192610530][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnPersonalizationButtonPressed успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:08:01,203 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.18 15:09:57,838 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.18 15:09:59,379 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify
+2025.02.18 15:09:59,389 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify: Barcode='V_01', Type='Code128'
+2025.02.18 15:09:59,399 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify - выход
+2025.02.18 15:09:59,565 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnNearestLocationInputted...
+2025.02.18 15:09:59,566 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:09:59,566 [192610530][1.46.2.1063] DEBUG - 	sender: InputField (label: ШК ячейки:, text: V_01)
+2025.02.18 15:09:59,567 [192610530][1.46.2.1063] DEBUG - 	args: InputtedEventArgs (Text: V_01, Source: BarcodeScanner, BarcodeEventArgs: ScanCity.Barcode.BarcodeReadEventArgs)
+2025.02.18 15:09:59,624 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод BusinessLogicService.GetUnfinishedTaskAndGoToExecution...
+2025.02.18 15:09:59,625 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:09:59,625 [192610530][1.46.2.1063] DEBUG - 	employee: ServiceProxy.EmployeeDto
+2025.02.18 15:09:59,639 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод CommonService.IsThereUnfinishedTask...
+2025.02.18 15:09:59,639 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:09:59,640 [192610530][1.46.2.1063] DEBUG - 	employeeId: 1471
+2025.02.18 15:10:00,494 [192610530][1.46.2.1063] DEBUG - <<< Метод CommonService.IsThereUnfinishedTask успешно завершен. Возвращаемое значение: False
+2025.02.18 15:10:00,507 [192610530][1.46.2.1063] DEBUG - <<< Метод BusinessLogicService.GetUnfinishedTaskAndGoToExecution успешно завершен. Возвращаемое значение: False
+2025.02.18 15:10:00,524 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод BusinessLogicService.LoadFirstPriorityTask...
+2025.02.18 15:10:00,524 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:10:00,525 [192610530][1.46.2.1063] DEBUG - 	employeeId: 1471
+2025.02.18 15:10:00,525 [192610530][1.46.2.1063] DEBUG - 	forkliftId: telezhka
+2025.02.18 15:10:00,526 [192610530][1.46.2.1063] DEBUG - 	nearestLocationId: V_01
+2025.02.18 15:10:01,186 [192610530][1.46.2.1063] DEBUG - <<< Метод BusinessLogicService.LoadFirstPriorityTask успешно завершен. Возвращаемое значение: ServiceProxy.AutoTaskDto
+2025.02.18 15:10:01,199 [192610530][1.46.2.1063] DEBUG - Получено наиболее приоритетное задание: #TC18716336 с типом 25
+2025.02.18 15:10:01,277 [192610530][1.46.2.1063] DEBUG - Открывается TaskStatisticsForm...
+2025.02.18 15:10:01,552 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод TaskStatisticsForm.OnTaskStatisticsFormLoad...
+2025.02.18 15:10:01,553 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:10:01,553 [192610530][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Common.TaskStatisticsForm
+2025.02.18 15:10:01,554 [192610530][1.46.2.1063] DEBUG - 	e: System.EventArgs
+2025.02.18 15:10:01,568 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод CommonService.GetTaskStatistic...
+2025.02.18 15:10:01,569 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:10:01,570 [192610530][1.46.2.1063] DEBUG - 	employeeId: 1471
+2025.02.18 15:10:01,570 [192610530][1.46.2.1063] DEBUG - 	taskType: AllocationSectionalPallet
+2025.02.18 15:10:01,571 [192610530][1.46.2.1063] DEBUG - 	locationId: V_01
+2025.02.18 15:10:02,041 [192610530][1.46.2.1063] DEBUG - <<< Метод CommonService.GetTaskStatistic успешно завершен. Возвращаемое значение: CommonServiceProxy.TaskStatisticDto
+2025.02.18 15:10:02,059 [192610530][1.46.2.1063] DEBUG - <<< Метод TaskStatisticsForm.OnTaskStatisticsFormLoad успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:10:29,573 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.18 15:11:38,601 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.18 15:11:40,939 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод TaskStatisticsForm.OnContinueButtonPressed...
+2025.02.18 15:11:40,973 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:11:40,974 [192610530][1.46.2.1063] DEBUG - 	sender: PushingButton (name: continueButton, text: Продолжить)
+2025.02.18 15:11:40,975 [192610530][1.46.2.1063] DEBUG - 	e: System.EventArgs
+2025.02.18 15:11:41,037 [192610530][1.46.2.1063] DEBUG - Закрывается TaskStatisticsForm...
+2025.02.18 15:11:41,055 [192610530][1.46.2.1063] DEBUG - <<< Метод TaskStatisticsForm.OnContinueButtonPressed успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:13:07,792 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.18 15:13:09,355 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.18 15:13:09,514 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify
+2025.02.18 15:13:09,523 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify: Barcode='V_01', Type='Code128'
+2025.02.18 15:13:09,531 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify - выход
+2025.02.18 15:13:09,579 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnBufferInputted...
+2025.02.18 15:13:09,580 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:13:09,580 [192610530][1.46.2.1063] DEBUG - 	sender: InputField (label: V_01, text: V_01)
+2025.02.18 15:13:09,580 [192610530][1.46.2.1063] DEBUG - 	args: InputtedEventArgs (Text: V_01, Source: BarcodeScanner, BarcodeEventArgs: ScanCity.Barcode.BarcodeReadEventArgs)
+2025.02.18 15:13:09,586 [192610530][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnBufferInputted успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:14:15,860 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.18 15:15:38,492 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.18 15:15:38,594 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify
+2025.02.18 15:15:38,599 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify: Barcode='299198281501', Type='Code128'
+2025.02.18 15:15:38,604 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify - выход
+2025.02.18 15:15:38,631 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnTaskInputted...
+2025.02.18 15:15:38,632 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:15:38,632 [192610530][1.46.2.1063] DEBUG - 	sender: InputField (label: Задание:, text: 299198281501)
+2025.02.18 15:15:38,632 [192610530][1.46.2.1063] DEBUG - 	args: InputtedEventArgs (Text: 299198281501, Source: BarcodeScanner, BarcodeEventArgs: ScanCity.Barcode.BarcodeReadEventArgs)
+2025.02.18 15:15:38,696 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод AllocationService.PickTask...
+2025.02.18 15:15:38,697 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:15:38,697 [192610530][1.46.2.1063] DEBUG - 	employeeId: 1471
+2025.02.18 15:15:38,697 [192610530][1.46.2.1063] DEBUG - 	taskId: 299198281501
+2025.02.18 15:15:38,697 [192610530][1.46.2.1063] DEBUG - 	taskType: AllocationSectionalPallet
+2025.02.18 15:15:38,698 [192610530][1.46.2.1063] DEBUG - 	forkliftId: telezhka
+2025.02.18 15:15:38,698 [192610530][1.46.2.1063] DEBUG - 	buffer: V_01
+2025.02.18 15:15:38,698 [192610530][1.46.2.1063] DEBUG - 	pickedTaskIds: не задано
+2025.02.18 15:15:39,072 [192610530][1.46.2.1063] DEBUG - <<< Метод AllocationService.PickTask успешно завершен. Возвращаемое значение: 0
+2025.02.18 15:15:39,127 [192610530][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnTaskInputted успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:16:45,942 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.18 15:18:07,819 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.18 15:18:08,003 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnContinueButtonPressed...
+2025.02.18 15:18:08,003 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:18:08,004 [192610530][1.46.2.1063] DEBUG - 	sender: PushingButton (name: continueButton, text: Продолжить)
+2025.02.18 15:18:08,004 [192610530][1.46.2.1063] DEBUG - 	e: System.EventArgs
+2025.02.18 15:18:08,010 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод AllocationService.LoadAssignedTasks...
+2025.02.18 15:18:08,010 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:18:08,010 [192610530][1.46.2.1063] DEBUG - 	employeeId: 1471
+2025.02.18 15:18:08,110 [192610530][1.46.2.1063] DEBUG - <<< Метод AllocationService.LoadAssignedTasks успешно завершен. Возвращаемое значение: System.Collections.Generic.List`1[[AllocationServiceProxy.AllocationTaskDto, ScanCity.ConveyerTerminal.DeviceClient, Version=1.46.2.1063, Culture=neutral, PublicKeyToken=null]]
+2025.02.18 15:19:07,984 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.18 15:28:52,379 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.18 15:28:52,429 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify
+2025.02.18 15:28:52,434 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify: Barcode='SCS_IN_01', Type='Code128'
+2025.02.18 15:28:52,439 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify - выход
+2025.02.18 15:28:52,476 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод ExecutionForm.OnLocationInputted...
+2025.02.18 15:28:52,476 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:28:52,476 [192610530][1.46.2.1063] DEBUG - 	sender: InputField (label: В SCS_IN_01:, text: SCS_IN_01)
+2025.02.18 15:28:52,477 [192610530][1.46.2.1063] DEBUG - 	args: InputtedEventArgs (Text: SCS_IN_01, Source: BarcodeScanner, BarcodeEventArgs: ScanCity.Barcode.BarcodeReadEventArgs)
+2025.02.18 15:28:52,483 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод ExecutionForm.FinishTask...
+2025.02.18 15:28:52,483 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:28:52,483 [192610530][1.46.2.1063] DEBUG - 	qty: 0
+2025.02.18 15:28:52,510 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод AllocationService.FinishTask...
+2025.02.18 15:28:52,511 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:28:52,512 [192610530][1.46.2.1063] DEBUG - 	qty: 0
+2025.02.18 15:28:52,512 [192610530][1.46.2.1063] DEBUG - 	emplId: 1471
+2025.02.18 15:28:52,512 [192610530][1.46.2.1063] DEBUG - 	taskId: TC23285400
+2025.02.18 15:28:52,513 [192610530][1.46.2.1063] DEBUG - 	taskType: AllocationSectionalPallet
+2025.02.18 15:28:52,648 [192610530][1.46.2.1063] DEBUG - <<< Метод AllocationService.FinishTask успешно завершен. Возвращаемое значение: 0
+2025.02.18 15:28:52,654 [192610530][1.46.2.1063] DEBUG - <<< Метод ExecutionForm.FinishTask успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:28:52,659 [192610530][1.46.2.1063] DEBUG - <<< Метод ExecutionForm.OnLocationInputted успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:29:22,612 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.18 15:29:53,557 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.18 15:29:57,563 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод ExecutionForm.OnFinishButtonPressed...
+2025.02.18 15:29:57,563 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:29:57,563 [192610530][1.46.2.1063] DEBUG - 	sender: PushingButton (name: finishButton, text: Завершить)
+2025.02.18 15:29:57,564 [192610530][1.46.2.1063] DEBUG - 	e: System.EventArgs
+2025.02.18 15:29:57,568 [192610530][1.46.2.1063] DEBUG - <<< Метод ExecutionForm.OnFinishButtonPressed успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:29:57,673 [192610530][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnContinueButtonPressed успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:29:57,789 [192610530][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnNearestLocationInputted успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:30:22,115 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify
+2025.02.18 15:30:22,122 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify: Barcode='telezhka', Type='Code128'
+2025.02.18 15:30:22,128 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify - выход
+2025.02.18 15:30:22,220 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnForkliftInputted...
+2025.02.18 15:30:22,220 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:30:22,221 [192610530][1.46.2.1063] DEBUG - 	sender: InputField (label: ШК погрузчика:, text: telezhka)
+2025.02.18 15:30:22,221 [192610530][1.46.2.1063] DEBUG - 	args: InputtedEventArgs (Text: telezhka, Source: BarcodeScanner, BarcodeEventArgs: ScanCity.Barcode.BarcodeReadEventArgs)
+2025.02.18 15:30:22,243 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод BusinessLogicService.ValidateForkliftId...
+2025.02.18 15:30:22,244 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:30:22,245 [192610530][1.46.2.1063] DEBUG - 	barcode: telezhka
+2025.02.18 15:30:22,697 [192610530][1.46.2.1063] DEBUG - <<< Метод BusinessLogicService.ValidateForkliftId успешно завершен. Возвращаемое значение: True
+2025.02.18 15:30:22,710 [192610530][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnForkliftInputted успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:30:39,723 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify
+2025.02.18 15:30:39,728 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify: Barcode='BF_PR_OUT', Type='Code128'
+2025.02.18 15:30:39,733 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify - выход
+2025.02.18 15:30:39,806 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnNearestLocationInputted...
+2025.02.18 15:30:39,806 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:30:39,806 [192610530][1.46.2.1063] DEBUG - 	sender: InputField (label: ШК ячейки:, text: BF_PR_OUT)
+2025.02.18 15:30:39,806 [192610530][1.46.2.1063] DEBUG - 	args: InputtedEventArgs (Text: BF_PR_OUT, Source: BarcodeScanner, BarcodeEventArgs: ScanCity.Barcode.BarcodeReadEventArgs)
+2025.02.18 15:30:39,822 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод BusinessLogicService.GetUnfinishedTaskAndGoToExecution...
+2025.02.18 15:30:39,822 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:30:39,823 [192610530][1.46.2.1063] DEBUG - 	employee: ServiceProxy.EmployeeDto
+2025.02.18 15:30:39,828 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод CommonService.IsThereUnfinishedTask...
+2025.02.18 15:30:39,828 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:30:39,829 [192610530][1.46.2.1063] DEBUG - 	employeeId: 1471
+2025.02.18 15:30:39,919 [192610530][1.46.2.1063] DEBUG - <<< Метод CommonService.IsThereUnfinishedTask успешно завершен. Возвращаемое значение: False
+2025.02.18 15:30:39,924 [192610530][1.46.2.1063] DEBUG - <<< Метод BusinessLogicService.GetUnfinishedTaskAndGoToExecution успешно завершен. Возвращаемое значение: False
+2025.02.18 15:30:39,930 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод BusinessLogicService.LoadFirstPriorityTask...
+2025.02.18 15:30:39,931 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:30:39,931 [192610530][1.46.2.1063] DEBUG - 	employeeId: 1471
+2025.02.18 15:30:39,931 [192610530][1.46.2.1063] DEBUG - 	forkliftId: telezhka
+2025.02.18 15:30:39,931 [192610530][1.46.2.1063] DEBUG - 	nearestLocationId: BF_PR_OUT
+2025.02.18 15:30:40,062 [192610530][1.46.2.1063] DEBUG - <<< Метод BusinessLogicService.LoadFirstPriorityTask успешно завершен. Возвращаемое значение: ServiceProxy.AutoTaskDto
+2025.02.18 15:30:40,067 [192610530][1.46.2.1063] DEBUG - Получено наиболее приоритетное задание: #TC18716336 с типом 25
+2025.02.18 15:30:40,089 [192610530][1.46.2.1063] DEBUG - Открывается TaskStatisticsForm...
+2025.02.18 15:30:40,181 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод TaskStatisticsForm.OnTaskStatisticsFormLoad...
+2025.02.18 15:30:40,181 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:30:40,182 [192610530][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Common.TaskStatisticsForm
+2025.02.18 15:30:40,182 [192610530][1.46.2.1063] DEBUG - 	e: System.EventArgs
+2025.02.18 15:30:40,187 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод CommonService.GetTaskStatistic...
+2025.02.18 15:30:40,187 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:30:40,188 [192610530][1.46.2.1063] DEBUG - 	employeeId: 1471
+2025.02.18 15:30:40,188 [192610530][1.46.2.1063] DEBUG - 	taskType: AllocationSectionalPallet
+2025.02.18 15:30:40,188 [192610530][1.46.2.1063] DEBUG - 	locationId: BF_PR_OUT
+2025.02.18 15:30:40,242 [192610530][1.46.2.1063] DEBUG - <<< Метод CommonService.GetTaskStatistic успешно завершен. Возвращаемое значение: CommonServiceProxy.TaskStatisticDto
+2025.02.18 15:30:40,249 [192610530][1.46.2.1063] DEBUG - <<< Метод TaskStatisticsForm.OnTaskStatisticsFormLoad успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:31:10,006 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.18 15:31:44,743 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.18 15:31:45,018 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод TaskStatisticsForm.OnContinueButtonPressed...
+2025.02.18 15:31:45,018 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:31:45,019 [192610530][1.46.2.1063] DEBUG - 	sender: PushingButton (name: continueButton, text: Продолжить)
+2025.02.18 15:31:45,019 [192610530][1.46.2.1063] DEBUG - 	e: System.EventArgs
+2025.02.18 15:31:45,051 [192610530][1.46.2.1063] DEBUG - Закрывается TaskStatisticsForm...
+2025.02.18 15:31:45,065 [192610530][1.46.2.1063] DEBUG - <<< Метод TaskStatisticsForm.OnContinueButtonPressed успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:32:19,327 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify
+2025.02.18 15:32:19,334 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify: Barcode='V_01', Type='Code128'
+2025.02.18 15:32:19,340 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify - выход
+2025.02.18 15:32:19,372 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnBufferInputted...
+2025.02.18 15:32:19,372 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:32:19,373 [192610530][1.46.2.1063] DEBUG - 	sender: InputField (label: V_01, text: V_01)
+2025.02.18 15:32:19,373 [192610530][1.46.2.1063] DEBUG - 	args: InputtedEventArgs (Text: V_01, Source: BarcodeScanner, BarcodeEventArgs: ScanCity.Barcode.BarcodeReadEventArgs)
+2025.02.18 15:32:19,379 [192610530][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnBufferInputted успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:32:49,570 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.18 15:32:54,977 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.18 15:32:55,826 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify
+2025.02.18 15:32:55,832 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify: Barcode='399543080003', Type='Code128'
+2025.02.18 15:32:55,838 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify - выход
+2025.02.18 15:32:55,871 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnTaskInputted...
+2025.02.18 15:32:55,871 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:32:55,872 [192610530][1.46.2.1063] DEBUG - 	sender: InputField (label: Задание:, text: 399543080003)
+2025.02.18 15:32:55,872 [192610530][1.46.2.1063] DEBUG - 	args: InputtedEventArgs (Text: 399543080003, Source: BarcodeScanner, BarcodeEventArgs: ScanCity.Barcode.BarcodeReadEventArgs)
+2025.02.18 15:32:55,878 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод AllocationService.PickTask...
+2025.02.18 15:32:55,879 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:32:55,879 [192610530][1.46.2.1063] DEBUG - 	employeeId: 1471
+2025.02.18 15:32:55,907 [192610530][1.46.2.1063] DEBUG - 	taskId: 399543080003
+2025.02.18 15:32:55,908 [192610530][1.46.2.1063] DEBUG - 	taskType: AllocationSectionalPallet
+2025.02.18 15:32:55,908 [192610530][1.46.2.1063] DEBUG - 	forkliftId: telezhka
+2025.02.18 15:32:55,908 [192610530][1.46.2.1063] DEBUG - 	buffer: V_01
+2025.02.18 15:32:55,909 [192610530][1.46.2.1063] DEBUG - 	pickedTaskIds: не задано
+2025.02.18 15:32:56,047 [192610530][1.46.2.1063] DEBUG - <<< Метод AllocationService.PickTask успешно завершен. Возвращаемое значение: 0
+2025.02.18 15:32:56,055 [192610530][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnTaskInputted успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:33:01,864 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnContinueButtonPressed...
+2025.02.18 15:33:01,865 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:33:01,866 [192610530][1.46.2.1063] DEBUG - 	sender: PushingButton (name: continueButton, text: Продолжить)
+2025.02.18 15:33:01,866 [192610530][1.46.2.1063] DEBUG - 	e: System.EventArgs
+2025.02.18 15:33:01,879 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод AllocationService.LoadAssignedTasks...
+2025.02.18 15:33:01,880 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:33:01,881 [192610530][1.46.2.1063] DEBUG - 	employeeId: 1471
+2025.02.18 15:33:02,068 [192610530][1.46.2.1063] DEBUG - <<< Метод AllocationService.LoadAssignedTasks успешно завершен. Возвращаемое значение: System.Collections.Generic.List`1[[AllocationServiceProxy.AllocationTaskDto, ScanCity.ConveyerTerminal.DeviceClient, Version=1.46.2.1063, Culture=neutral, PublicKeyToken=null]]
+2025.02.18 15:33:31,895 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.18 15:34:00,592 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.18 15:34:05,765 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify
+2025.02.18 15:34:05,771 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify: Barcode='SCS_IN_01', Type='Code128'
+2025.02.18 15:34:05,778 [192610530][1.46.2.1063] DEBUG - reader_ReadNotify - выход
+2025.02.18 15:34:05,823 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод ExecutionForm.OnLocationInputted...
+2025.02.18 15:34:05,823 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:34:05,823 [192610530][1.46.2.1063] DEBUG - 	sender: InputField (label: В SCS_IN_01:, text: SCS_IN_01)
+2025.02.18 15:34:05,824 [192610530][1.46.2.1063] DEBUG - 	args: InputtedEventArgs (Text: SCS_IN_01, Source: BarcodeScanner, BarcodeEventArgs: ScanCity.Barcode.BarcodeReadEventArgs)
+2025.02.18 15:34:05,830 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод ExecutionForm.FinishTask...
+2025.02.18 15:34:05,830 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:34:05,831 [192610530][1.46.2.1063] DEBUG - 	qty: 0
+2025.02.18 15:34:05,837 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод AllocationService.FinishTask...
+2025.02.18 15:34:05,837 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:34:05,838 [192610530][1.46.2.1063] DEBUG - 	qty: 0
+2025.02.18 15:34:05,838 [192610530][1.46.2.1063] DEBUG - 	emplId: 1471
+2025.02.18 15:34:05,838 [192610530][1.46.2.1063] DEBUG - 	taskId: TC26053344
+2025.02.18 15:34:05,839 [192610530][1.46.2.1063] DEBUG - 	taskType: AllocationSectionalPallet
+2025.02.18 15:34:05,922 [192610530][1.46.2.1063] DEBUG - <<< Метод AllocationService.FinishTask успешно завершен. Возвращаемое значение: 0
+2025.02.18 15:34:05,928 [192610530][1.46.2.1063] DEBUG - <<< Метод ExecutionForm.FinishTask успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:34:05,934 [192610530][1.46.2.1063] DEBUG - <<< Метод ExecutionForm.OnLocationInputted успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:34:10,503 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод ExecutionForm.OnFinishButtonPressed...
+2025.02.18 15:34:10,504 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:34:10,504 [192610530][1.46.2.1063] DEBUG - 	sender: PushingButton (name: finishButton, text: Завершить)
+2025.02.18 15:34:10,505 [192610530][1.46.2.1063] DEBUG - 	e: System.EventArgs
+2025.02.18 15:34:10,517 [192610530][1.46.2.1063] DEBUG - <<< Метод ExecutionForm.OnFinishButtonPressed успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:34:10,670 [192610530][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnContinueButtonPressed успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:34:10,855 [192610530][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnNearestLocationInputted успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:34:19,954 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод TaskSelectionForm.OnTaskSelectionFormClosing...
+2025.02.18 15:34:19,954 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:34:19,955 [192610530][1.46.2.1063] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm
+2025.02.18 15:34:19,955 [192610530][1.46.2.1063] DEBUG - 	e: System.ComponentModel.CancelEventArgs
+2025.02.18 15:34:19,969 [192610530][1.46.2.1063] DEBUG - >>> Вызван метод AuthenticationService.LogoffUser...
+2025.02.18 15:34:19,970 [192610530][1.46.2.1063] DEBUG - Параметры метода: 
+2025.02.18 15:34:19,970 [192610530][1.46.2.1063] DEBUG - 	employeeId: 1471
+2025.02.18 15:34:20,162 [192610530][1.46.2.1063] DEBUG - <<< Метод AuthenticationService.LogoffUser успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:34:20,176 [192610530][1.46.2.1063] DEBUG - <<< Метод TaskSelectionForm.OnTaskSelectionFormClosing успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:34:20,333 [192610530][1.46.2.1063] DEBUG - <<< Метод AuthenticationForm.OnEmployeeInputted успешно завершен. Возвращаемое значение: отсутствует
+2025.02.18 15:35:28,632 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.18 15:44:28,674 [173277378][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+******************* Приложение остановлено [v1.46.2.1063] **************************
+******************* Ïðèëîæåíèå çàïóùåíî 2025.02.18 15:49:08,825 [v1.48.0.1065] **************************
+2025.02.18 15:49:08,851 [168427858][1.48.0.1065] DEBUG - Получены настройки: InterfaceUnlockAvailable=False, TsdSettings={SerialNumber=73E65B7606490108011510102E7C0600, InterfaceUnlocked=True}
+2025.02.18 15:49:08,885 [168427858][1.48.0.1065] INFO - Сервер 172.16.15.31:14215, customTimeout=
+2025.02.18 15:49:08,954 [168427858][1.48.0.1065] INFO - Загружены настройки сканера из файла \Application\ScanCity.Convey\ScannerSettings_20101011174300.usi
+2025.02.18 15:49:09,174 [168427858][1.48.0.1065] INFO - Модель терминала: Unknown
+2025.02.18 15:49:09,286 [168427858][1.48.0.1065] DEBUG - Файл pdb.ini найден и считан (56 строк)
+2025.02.18 15:49:09,450 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.18 15:49:09,500 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2025.02.18 15:49:09,509 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.18 15:49:09,523 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.18 15:49:09,528 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2025.02.18 15:49:09,533 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.18 15:49:11,444 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.18 15:49:11,450 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='44444', Type='Code128'
+2025.02.18 15:49:11,458 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.18 15:49:54,804 [185336098][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.18 15:50:10,057 [185336098][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.18 15:50:10,346 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.18 15:50:10,368 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='44444', Type='Code128'
+2025.02.18 15:50:10,373 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.18 15:50:40,598 [185336098][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.18 15:50:58,178 [185336098][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.18 15:51:04,203 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.18 15:51:04,208 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='44444', Type='Code128'
+2025.02.18 15:51:04,212 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.18 15:51:16,127 [168427858][1.48.0.1065] DEBUG - Открывается PlacementByArrivalListExecutionForm...
+2025.02.18 15:51:16,139 [168427858][1.48.0.1065] DEBUG - Режим: ByCargoPackage
+2025.02.18 15:51:46,085 [185336098][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.18 15:51:51,207 [185336098][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.18 15:51:51,286 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.18 15:51:51,293 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='3170970000142', Type='Code128'
+2025.02.18 15:51:51,299 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.18 15:51:51,667 [168427858][1.48.0.1065] DEBUG - Сотруднику 1471 назначается задание TC28613747
+2025.02.18 15:52:21,560 [185336098][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.18 15:53:42,306 [185336098][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.18 15:53:44,047 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.18 15:53:44,053 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='3614223562350', Type='Code128'
+2025.02.18 15:53:44,060 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.18 15:53:44,263 [168427858][1.48.0.1065] DEBUG - Открывается EnterQtyForm...
+2025.02.18 15:54:27,620 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.18 15:54:27,627 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='KT01-01-3a', Type='Code128'
+2025.02.18 15:54:27,633 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.18 15:54:27,858 [168427858][1.48.0.1065] DEBUG - Открывается ScanMarkingKodeForm...
+2025.02.18 15:54:57,907 [185336098][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.18 16:16:41,757 [185336098][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.18 16:16:45,437 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.18 16:16:45,443 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='0100085715321817217DV220191123492125d5sDD4mvjduwhHHHHHHHHHHbnxnchfjm,.l;fdsw', Type='Unknown'
+2025.02.18 16:16:45,450 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.18 16:16:45,720 [168427858][1.48.0.1065] ERROR - Произошла ошибка при выполнении обработки: System.InvalidOperationException
+2025.02.18 16:16:45,720 [168427858][1.48.0.1065] ERROR - There was an error generating the XML document.
+2025.02.18 16:16:45,721 [168427858][1.48.0.1065] ERROR -    at System.Xml.Serialization.XmlSerializer.Serialize(XmlWriter xmlWriter, Object o, XmlSerializerNamespaces namespaces, String encodingStyle)
+2025.02.18 16:16:45,721 [168427858][1.48.0.1065] ERROR -    at Microsoft.Tools.ServiceModel.CFClientBase`1.CFContractSerializer.WriteObject(XmlDictionaryWriter writer, Object graph)
+2025.02.18 16:16:45,721 [168427858][1.48.0.1065] ERROR -    at System.ServiceModel.Channels.XmlObjectSerializerBodyWriter.OnWriteBodyContents(XmlDictionaryWriter writer)
+2025.02.18 16:16:45,722 [168427858][1.48.0.1065] ERROR -    at System.ServiceModel.Channels.BodyWriter.WriteBodyContents(XmlDictionaryWriter writer)
+2025.02.18 16:16:45,722 [168427858][1.48.0.1065] ERROR -    at System.ServiceModel.Channels.BodyWriterMessage.OnWriteBodyContents(XmlDictionaryWriter writer)
+2025.02.18 16:16:45,722 [168427858][1.48.0.1065] ERROR -    at System.ServiceModel.Channels.Message.OnWriteMessage(XmlDictionaryWriter writer)
+2025.02.18 16:16:45,722 [168427858][1.48.0.1065] ERROR -    at System.ServiceModel.Channels.Message.WriteMessage(XmlDictionaryWriter writer)
+2025.02.18 16:16:45,723 [168427858][1.48.0.1065] ERROR -    at System.ServiceModel.Channels.BufferedMessageWriter.WriteMessage(Message message, BufferManager bufferManager, Int32 initialOffset, Int32 maxSizeQuota)
+2025.02.18 16:16:45,723 [168427858][1.48.0.1065] ERROR -    at System.ServiceModel.Channels.TextMessageEncoderFactory.TextMessageEncoder.WriteMessage(Message message, Int32 maxMessageSize, BufferManager bufferManager, Int32 messageOffset)
+2025.02.18 16:16:45,723 [168427858][1.48.0.1065] ERROR -    at System.ServiceModel.Channels.HttpOutput.SerializeBufferedMessage(Message message)
+2025.02.18 16:16:45,724 [168427858][1.48.0.1065] ERROR -    at System.ServiceModel.Channels.HttpOutput.Send(TimeSpan timeout)
+2025.02.18 16:16:45,724 [168427858][1.48.0.1065] ERROR -    at System.ServiceModel.Channels.HttpChannelFactory.HttpRequestChannel.HttpChannelRequest.SendRequest(Message message, TimeSpan timeout)
+2025.02.18 16:16:45,724 [168427858][1.48.0.1065] ERROR -    at System.ServiceModel.Channels.RequestChannel.Request(Message message, TimeSpan timeout)
+2025.02.18 16:16:45,724 [168427858][1.48.0.1065] ERROR -    at System.ServiceModel.Channels.RequestChannel.Request(Message message)
+2025.02.18 16:16:45,725 [168427858][1.48.0.1065] ERROR -    at Microsoft.Tools.ServiceModel.CFClientBase`1.getReply(Message msg)
+2025.02.18 16:16:45,725 [168427858][1.48.0.1065] ERROR -    at Microsoft.Tools.ServiceModel.CFClientBase`1.Invoke[TREQUEST,TRESPONSE](CFInvokeInfo info, ScanningMarkingCodeRequest request)
+2025.02.18 16:16:45,725 [168427858][1.48.0.1065] ERROR -    at RefundPlacementServiceProxy.RefundPlacementServiceClient.ScanningMarkingCode(ScanningMarkingCodeRequest request)
+2025.02.18 16:16:45,726 [168427858][1.48.0.1065] ERROR -    at RefundPlacementServiceProxy.RefundPlacementServiceClient.ScanningMarkingCode(String taskId, String itemId, String markingCode)
+2025.02.18 16:16:45,726 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.BLL.Services.RefundPlacementService.ScanningMarkingCode(String taskId, String itemId, String markingCode)
+2025.02.18 16:16:45,726 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.Accept2.RefundPlacement.PlacementByArrivalList.ScanMarkingСodeForm.OnMarkingCodeInputted(Object sender, InputtedEventArgs args)
+2025.02.18 16:16:45,726 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.InputField.RaiseInputted(InputtedEventArgs args)
+2025.02.18 16:16:45,727 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.BaseForm.OnBarcodeScanned(Object sender, BarcodeReadEventArgs e)
+2025.02.18 16:16:45,727 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.ServiceLayer.BarcodeScannerService.OnConsumerBarcodeRead(Object sender, BarcodeReadEventArgs e)
+2025.02.18 16:16:45,727 [168427858][1.48.0.1065] ERROR -    at ScanCity.Barcode.BarcodeConsumer.RaiseEvent(BarcodeReadEventArgs args)
+2025.02.18 16:16:45,728 [168427858][1.48.0.1065] ERROR -    at ScanCity.Barcode.BarcodeConsumer.BarcodeReader_BarcodeRead(Object sender, BarcodeReadEventArgs e)
+2025.02.18 16:16:45,728 [168427858][1.48.0.1065] ERROR -    at ScanCity.Barcode.BarcodeReader.<>c__DisplayClass1.<BeginProcessBarcode>b__0()
+2025.02.18 16:16:45,728 [168427858][1.48.0.1065] ERROR -    at System.Reflection.RuntimeMethodInfo.InternalInvoke(RuntimeMethodInfo rtmi, Object obj, BindingFlags invokeAttr, Binder binder, Object parameters, CultureInfo culture, Boolean isBinderDefault, Assembly caller, Boolean verifyAccess, StackCrawlMark& stackMark)
+2025.02.18 16:16:45,729 [168427858][1.48.0.1065] ERROR -    at System.Reflection.RuntimeMethodInfo.InternalInvoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture, Boolean verifyAccess, StackCrawlMark& stackMark)
+2025.02.18 16:16:45,729 [168427858][1.48.0.1065] ERROR -    at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+2025.02.18 16:16:45,729 [168427858][1.48.0.1065] ERROR -    at System.Reflection.MethodBase.Invoke(Object obj, Object[] parameters)
+2025.02.18 16:16:45,730 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control.TASK.Invoke()
+2025.02.18 16:16:45,730 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control._InvokeAll()
+2025.02.18 16:16:45,730 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control.WnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,737 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.ContainerControl.WnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,737 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Form.WnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,738 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control._InternalWnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,738 [168427858][1.48.0.1065] ERROR -    at Microsoft.AGL.Forms.EVL.EnterModalDialog(IntPtr hwnModal)
+2025.02.18 16:16:45,738 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Form.ShowDialog()
+2025.02.18 16:16:45,739 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.Accept2.RefundPlacement.PlacementByArrivalList.EnterQtyForm.OnDestLocationInputFieldInputted(Object sender, InputtedEventArgs e)
+2025.02.18 16:16:45,739 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.InputField.RaiseInputted(InputtedEventArgs args)
+2025.02.18 16:16:45,739 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.BaseForm.OnBarcodeScanned(Object sender, BarcodeReadEventArgs e)
+2025.02.18 16:16:45,740 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.ServiceLayer.BarcodeScannerService.OnConsumerBarcodeRead(Object sender, BarcodeReadEventArgs e)
+2025.02.18 16:16:45,740 [168427858][1.48.0.1065] ERROR -    at ScanCity.Barcode.BarcodeConsumer.RaiseEvent(BarcodeReadEventArgs args)
+2025.02.18 16:16:45,740 [168427858][1.48.0.1065] ERROR -    at ScanCity.Barcode.BarcodeConsumer.BarcodeReader_BarcodeRead(Object sender, BarcodeReadEventArgs e)
+2025.02.18 16:16:45,741 [168427858][1.48.0.1065] ERROR -    at ScanCity.Barcode.BarcodeReader.<>c__DisplayClass1.<BeginProcessBarcode>b__0()
+2025.02.18 16:16:45,741 [168427858][1.48.0.1065] ERROR -    at System.Reflection.RuntimeMethodInfo.InternalInvoke(RuntimeMethodInfo rtmi, Object obj, BindingFlags invokeAttr, Binder binder, Object parameters, CultureInfo culture, Boolean isBinderDefault, Assembly caller, Boolean verifyAccess, StackCrawlMark& stackMark)
+2025.02.18 16:16:45,742 [168427858][1.48.0.1065] ERROR -    at System.Reflection.RuntimeMethodInfo.InternalInvoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture, Boolean verifyAccess, StackCrawlMark& stackMark)
+2025.02.18 16:16:45,742 [168427858][1.48.0.1065] ERROR -    at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+2025.02.18 16:16:45,742 [168427858][1.48.0.1065] ERROR -    at System.Reflection.MethodBase.Invoke(Object obj, Object[] parameters)
+2025.02.18 16:16:45,743 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control.TASK.Invoke()
+2025.02.18 16:16:45,743 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control._InvokeAll()
+2025.02.18 16:16:45,743 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control.WnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,744 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.ContainerControl.WnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,744 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Form.WnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,744 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control._InternalWnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,745 [168427858][1.48.0.1065] ERROR -    at Microsoft.AGL.Forms.EVL.EnterModalDialog(IntPtr hwnModal)
+2025.02.18 16:16:45,745 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Form.ShowDialog()
+2025.02.18 16:16:45,746 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.Accept2.RefundPlacement.PlacementByArrivalList.PlacementByArrivalListExecutionForm.EnterQtyLogic()
+2025.02.18 16:16:45,746 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.Accept2.RefundPlacement.PlacementByArrivalList.PlacementByArrivalListExecutionForm.OnNomenclatureInputFieldInputted(Object sender, InputtedEventArgs e)
+2025.02.18 16:16:45,746 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.InputField.RaiseInputted(InputtedEventArgs args)
+2025.02.18 16:16:45,747 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.BaseForm.OnBarcodeScanned(Object sender, BarcodeReadEventArgs e)
+2025.02.18 16:16:45,747 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.ServiceLayer.BarcodeScannerService.OnConsumerBarcodeRead(Object sender, BarcodeReadEventArgs e)
+2025.02.18 16:16:45,747 [168427858][1.48.0.1065] ERROR -    at ScanCity.Barcode.BarcodeConsumer.RaiseEvent(BarcodeReadEventArgs args)
+2025.02.18 16:16:45,748 [168427858][1.48.0.1065] ERROR -    at ScanCity.Barcode.BarcodeConsumer.BarcodeReader_BarcodeRead(Object sender, BarcodeReadEventArgs e)
+2025.02.18 16:16:45,748 [168427858][1.48.0.1065] ERROR -    at ScanCity.Barcode.BarcodeReader.<>c__DisplayClass1.<BeginProcessBarcode>b__0()
+2025.02.18 16:16:45,748 [168427858][1.48.0.1065] ERROR -    at System.Reflection.RuntimeMethodInfo.InternalInvoke(RuntimeMethodInfo rtmi, Object obj, BindingFlags invokeAttr, Binder binder, Object parameters, CultureInfo culture, Boolean isBinderDefault, Assembly caller, Boolean verifyAccess, StackCrawlMark& stackMark)
+2025.02.18 16:16:45,749 [168427858][1.48.0.1065] ERROR -    at System.Reflection.RuntimeMethodInfo.InternalInvoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture, Boolean verifyAccess, StackCrawlMark& stackMark)
+2025.02.18 16:16:45,749 [168427858][1.48.0.1065] ERROR -    at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+2025.02.18 16:16:45,750 [168427858][1.48.0.1065] ERROR -    at System.Reflection.MethodBase.Invoke(Object obj, Object[] parameters)
+2025.02.18 16:16:45,750 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control.TASK.Invoke()
+2025.02.18 16:16:45,751 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control._InvokeAll()
+2025.02.18 16:16:45,751 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control.WnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,751 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.ContainerControl.WnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,752 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Form.WnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,752 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control._InternalWnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,757 [168427858][1.48.0.1065] ERROR -    at Microsoft.AGL.Forms.EVL.EnterModalDialog(IntPtr hwnModal)
+2025.02.18 16:16:45,758 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Form.ShowDialog()
+2025.02.18 16:16:45,758 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.Accept2.RefundPlacement.RefundPlacementSubMenu.OnPlacementByCargoPackageButtonPressed(Object sender, EventArgs e)
+2025.02.18 16:16:45,758 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.PushingButton.OnButtonClick(Object sender, EventArgs args)
+2025.02.18 16:16:45,759 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control.OnClick(EventArgs e)
+2025.02.18 16:16:45,759 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Button.OnClick(EventArgs e)
+2025.02.18 16:16:45,760 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.ButtonBase.WnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,760 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control._InternalWnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,760 [168427858][1.48.0.1065] ERROR -    at Microsoft.AGL.Forms.EVL.EnterModalDialog(IntPtr hwnModal)
+2025.02.18 16:16:45,761 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Form.ShowDialog()
+2025.02.18 16:16:45,761 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.Accept2.Accept2SubMenu.OnRefundPlacementButtonPressed(Object sender, EventArgs e)
+2025.02.18 16:16:45,762 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.PushingButton.OnButtonClick(Object sender, EventArgs args)
+2025.02.18 16:16:45,762 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control.OnClick(EventArgs e)
+2025.02.18 16:16:45,762 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Button.OnClick(EventArgs e)
+2025.02.18 16:16:45,763 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.ButtonBase.WnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,763 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control._InternalWnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,764 [168427858][1.48.0.1065] ERROR -    at Microsoft.AGL.Forms.EVL.EnterModalDialog(IntPtr hwnModal)
+2025.02.18 16:16:45,764 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Form.ShowDialog()
+2025.02.18 16:16:45,764 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm.OnAccept2ButtonPressed(Object sender, EventArgs e)
+2025.02.18 16:16:45,765 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.PushingButton.OnButtonClick(Object sender, EventArgs args)
+2025.02.18 16:16:45,765 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control.OnClick(EventArgs e)
+2025.02.18 16:16:45,766 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Button.OnClick(EventArgs e)
+2025.02.18 16:16:45,766 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.ButtonBase.WnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,766 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control._InternalWnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,767 [168427858][1.48.0.1065] ERROR -    at Microsoft.AGL.Forms.EVL.EnterModalDialog(IntPtr hwnModal)
+2025.02.18 16:16:45,767 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Form.ShowDialog()
+2025.02.18 16:16:45,768 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.AuthenticationForm.OnEmployeeInputted(Object sender, InputtedEventArgs args)
+2025.02.18 16:16:45,768 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.InputField.RaiseInputted(InputtedEventArgs args)
+2025.02.18 16:16:45,773 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.BaseForm.OnBarcodeScanned(Object sender, BarcodeReadEventArgs e)
+2025.02.18 16:16:45,774 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.ServiceLayer.BarcodeScannerService.OnConsumerBarcodeRead(Object sender, BarcodeReadEventArgs e)
+2025.02.18 16:16:45,774 [168427858][1.48.0.1065] ERROR -    at ScanCity.Barcode.BarcodeConsumer.RaiseEvent(BarcodeReadEventArgs args)
+2025.02.18 16:16:45,775 [168427858][1.48.0.1065] ERROR -    at ScanCity.Barcode.BarcodeConsumer.BarcodeReader_BarcodeRead(Object sender, BarcodeReadEventArgs e)
+2025.02.18 16:16:45,775 [168427858][1.48.0.1065] ERROR -    at ScanCity.Barcode.BarcodeReader.<>c__DisplayClass1.<BeginProcessBarcode>b__0()
+2025.02.18 16:16:45,776 [168427858][1.48.0.1065] ERROR -    at System.Reflection.RuntimeMethodInfo.InternalInvoke(RuntimeMethodInfo rtmi, Object obj, BindingFlags invokeAttr, Binder binder, Object parameters, CultureInfo culture, Boolean isBinderDefault, Assembly caller, Boolean verifyAccess, StackCrawlMark& stackMark)
+2025.02.18 16:16:45,776 [168427858][1.48.0.1065] ERROR -    at System.Reflection.RuntimeMethodInfo.InternalInvoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture, Boolean verifyAccess, StackCrawlMark& stackMark)
+2025.02.18 16:16:45,776 [168427858][1.48.0.1065] ERROR -    at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+2025.02.18 16:16:45,777 [168427858][1.48.0.1065] ERROR -    at System.Reflection.MethodBase.Invoke(Object obj, Object[] parameters)
+2025.02.18 16:16:45,777 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control.TASK.Invoke()
+2025.02.18 16:16:45,778 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control._InvokeAll()
+2025.02.18 16:16:45,778 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control.WnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,779 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.ContainerControl.WnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,779 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Form.WnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,780 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control._InternalWnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,780 [168427858][1.48.0.1065] ERROR -    at Microsoft.AGL.Forms.EVL.EnterMainLoop(IntPtr hwnMain)
+2025.02.18 16:16:45,781 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Application.Run(Form fm)
+2025.02.18 16:16:45,785 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.Program.Main(String[] args)
+2025.02.18 16:16:45,786 [168427858][1.48.0.1065] ERROR - Содержит внутреннее исключение:System.ArgumentException
+2025.02.18 16:16:45,786 [168427858][1.48.0.1065] ERROR - '', hexadecimal value 0x1D, is an invalid character.
+2025.02.18 16:16:45,787 [168427858][1.48.0.1065] ERROR -    at System.Xml.XmlUtf8RawTextWriter.InvalidXmlChar(Int32 ch, Byte* pDst, Boolean entitize)
+2025.02.18 16:16:45,787 [168427858][1.48.0.1065] ERROR -    at System.Xml.XmlUtf8RawTextWriter.WriteElementTextBlock(Char* pSrc, Char* pSrcEnd)
+2025.02.18 16:16:45,788 [168427858][1.48.0.1065] ERROR -    at System.Xml.XmlUtf8RawTextWriter.WriteString(String text)
+2025.02.18 16:16:45,788 [168427858][1.48.0.1065] ERROR -    at System.Xml.XmlWellFormedWriter.WriteString(String text)
+2025.02.18 16:16:45,789 [168427858][1.48.0.1065] ERROR -    at System.Xml.XmlDictionaryWriter.XmlWrappedWriter.WriteString(String text)
+2025.02.18 16:16:45,789 [168427858][1.48.0.1065] ERROR -    at System.Xml.Serialization.XmlSerializationWriter.SerializePrimitiveAsElement(LogicalType serializeAs, Accessor accessor, Object value, SerializationQueue delayedWork, Boolean recursiveCall, Boolean requiresTypeAttr, XmlSerializerNamespaces serializerNs)
+2025.02.18 16:16:45,789 [168427858][1.48.0.1065] ERROR -    at System.Xml.Serialization.XmlSerializationWriter.SerializeAsElement(Accessor accessor, Object value, Object fetcherTarget, SerializationQueue delayedWork, Boolean recursiveCall, Boolean schemaReqTypeAttr, XmlSerializerNamespaces serializerNs)
+2025.02.18 16:16:45,790 [168427858][1.48.0.1065] ERROR -    at System.Xml.Serialization.XmlSerializationWriter.serializeMembers(SerializationQueue queue, SerializationQueue delayedWork, Boolean recursiveCall, Boolean schemaReqTypeAttr, XmlSerializerNamespaces serializeNs)
+2025.02.18 16:16:45,790 [168427858][1.48.0.1065] ERROR -    at System.Xml.Serialization.XmlSerializationWriter.SerializeComplexAsElement(LogicalType serializeAs, Accessor accessor, Object value, SerializationQueue delayedWork, Boolean recursiveCall, Boolean requiresTypeAttr, XmlSerializerNamespaces serializerNs)
+2025.02.18 16:16:45,791 [168427858][1.48.0.1065] ERROR -    at System.Xml.Serialization.XmlSerializationWriter.SerializeAsElement(Accessor accessor, Object value, Object fetcherTarget, SerializationQueue delayedWork, Boolean recursiveCall, Boolean schemaReqTypeAttr, XmlSerializerNamespaces serializerNs)
+2025.02.18 16:16:45,791 [168427858][1.48.0.1065] ERROR -    at System.Xml.Serialization.XmlSerializationWriter.SerializeAsElement(Accessor accessor, Object value, XmlSerializerNamespaces ns)
+2025.02.18 16:16:45,792 [168427858][1.48.0.1065] ERROR -    at System.Xml.Serialization.XmlSerializer.Serialize(XmlWriter xmlWriter, Object o, XmlSerializerNamespaces namespaces, String encodingStyle)
+2025.02.18 16:16:45,792 [168427858][1.48.0.1065] ERROR -    at Microsoft.Tools.ServiceModel.CFClientBase`1.CFContractSerializer.WriteObject(XmlDictionaryWriter writer, Object graph)
+2025.02.18 16:16:45,793 [168427858][1.48.0.1065] ERROR -    at System.ServiceModel.Channels.XmlObjectSerializerBodyWriter.OnWriteBodyContents(XmlDictionaryWriter writer)
+2025.02.18 16:16:45,793 [168427858][1.48.0.1065] ERROR -    at System.ServiceModel.Channels.BodyWriter.WriteBodyContents(XmlDictionaryWriter writer)
+2025.02.18 16:16:45,798 [168427858][1.48.0.1065] ERROR -    at System.ServiceModel.Channels.BodyWriterMessage.OnWriteBodyContents(XmlDictionaryWriter writer)
+2025.02.18 16:16:45,798 [168427858][1.48.0.1065] ERROR -    at System.ServiceModel.Channels.Message.OnWriteMessage(XmlDictionaryWriter writer)
+2025.02.18 16:16:45,799 [168427858][1.48.0.1065] ERROR -    at System.ServiceModel.Channels.Message.WriteMessage(XmlDictionaryWriter writer)
+2025.02.18 16:16:45,799 [168427858][1.48.0.1065] ERROR -    at System.ServiceModel.Channels.BufferedMessageWriter.WriteMessage(Message message, BufferManager bufferManager, Int32 initialOffset, Int32 maxSizeQuota)
+2025.02.18 16:16:45,800 [168427858][1.48.0.1065] ERROR -    at System.ServiceModel.Channels.TextMessageEncoderFactory.TextMessageEncoder.WriteMessage(Message message, Int32 maxMessageSize, BufferManager bufferManager, Int32 messageOffset)
+2025.02.18 16:16:45,800 [168427858][1.48.0.1065] ERROR -    at System.ServiceModel.Channels.HttpOutput.SerializeBufferedMessage(Message message)
+2025.02.18 16:16:45,801 [168427858][1.48.0.1065] ERROR -    at System.ServiceModel.Channels.HttpOutput.Send(TimeSpan timeout)
+2025.02.18 16:16:45,801 [168427858][1.48.0.1065] ERROR -    at System.ServiceModel.Channels.HttpChannelFactory.HttpRequestChannel.HttpChannelRequest.SendRequest(Message message, TimeSpan timeout)
+2025.02.18 16:16:45,802 [168427858][1.48.0.1065] ERROR -    at System.ServiceModel.Channels.RequestChannel.Request(Message message, TimeSpan timeout)
+2025.02.18 16:16:45,802 [168427858][1.48.0.1065] ERROR -    at System.ServiceModel.Channels.RequestChannel.Request(Message message)
+2025.02.18 16:16:45,803 [168427858][1.48.0.1065] ERROR -    at Microsoft.Tools.ServiceModel.CFClientBase`1.getReply(Message msg)
+2025.02.18 16:16:45,803 [168427858][1.48.0.1065] ERROR -    at Microsoft.Tools.ServiceModel.CFClientBase`1.Invoke[TREQUEST,TRESPONSE](CFInvokeInfo info, ScanningMarkingCodeRequest request)
+2025.02.18 16:16:45,804 [168427858][1.48.0.1065] ERROR -    at RefundPlacementServiceProxy.RefundPlacementServiceClient.ScanningMarkingCode(ScanningMarkingCodeRequest request)
+2025.02.18 16:16:45,804 [168427858][1.48.0.1065] ERROR -    at RefundPlacementServiceProxy.RefundPlacementServiceClient.ScanningMarkingCode(String taskId, String itemId, String markingCode)
+2025.02.18 16:16:45,805 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.BLL.Services.RefundPlacementService.ScanningMarkingCode(String taskId, String itemId, String markingCode)
+2025.02.18 16:16:45,805 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.Accept2.RefundPlacement.PlacementByArrivalList.ScanMarkingСodeForm.OnMarkingCodeInputted(Object sender, InputtedEventArgs args)
+2025.02.18 16:16:45,806 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.InputField.RaiseInputted(InputtedEventArgs args)
+2025.02.18 16:16:45,810 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.BaseForm.OnBarcodeScanned(Object sender, BarcodeReadEventArgs e)
+2025.02.18 16:16:45,811 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.ServiceLayer.BarcodeScannerService.OnConsumerBarcodeRead(Object sender, BarcodeReadEventArgs e)
+2025.02.18 16:16:45,812 [168427858][1.48.0.1065] ERROR -    at ScanCity.Barcode.BarcodeConsumer.RaiseEvent(BarcodeReadEventArgs args)
+2025.02.18 16:16:45,812 [168427858][1.48.0.1065] ERROR -    at ScanCity.Barcode.BarcodeConsumer.BarcodeReader_BarcodeRead(Object sender, BarcodeReadEventArgs e)
+2025.02.18 16:16:45,812 [168427858][1.48.0.1065] ERROR -    at ScanCity.Barcode.BarcodeReader.<>c__DisplayClass1.<BeginProcessBarcode>b__0()
+2025.02.18 16:16:45,813 [168427858][1.48.0.1065] ERROR -    at System.Reflection.RuntimeMethodInfo.InternalInvoke(RuntimeMethodInfo rtmi, Object obj, BindingFlags invokeAttr, Binder binder, Object parameters, CultureInfo culture, Boolean isBinderDefault, Assembly caller, Boolean verifyAccess, StackCrawlMark& stackMark)
+2025.02.18 16:16:45,813 [168427858][1.48.0.1065] ERROR -    at System.Reflection.RuntimeMethodInfo.InternalInvoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture, Boolean verifyAccess, StackCrawlMark& stackMark)
+2025.02.18 16:16:45,814 [168427858][1.48.0.1065] ERROR -    at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+2025.02.18 16:16:45,814 [168427858][1.48.0.1065] ERROR -    at System.Reflection.MethodBase.Invoke(Object obj, Object[] parameters)
+2025.02.18 16:16:45,815 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control.TASK.Invoke()
+2025.02.18 16:16:45,815 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control._InvokeAll()
+2025.02.18 16:16:45,816 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control.WnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,816 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.ContainerControl.WnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,817 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Form.WnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,817 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control._InternalWnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,818 [168427858][1.48.0.1065] ERROR -    at Microsoft.AGL.Forms.EVL.EnterModalDialog(IntPtr hwnModal)
+2025.02.18 16:16:45,818 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Form.ShowDialog()
+2025.02.18 16:16:45,823 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.Accept2.RefundPlacement.PlacementByArrivalList.EnterQtyForm.OnDestLocationInputFieldInputted(Object sender, InputtedEventArgs e)
+2025.02.18 16:16:45,824 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.InputField.RaiseInputted(InputtedEventArgs args)
+2025.02.18 16:16:45,824 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.BaseForm.OnBarcodeScanned(Object sender, BarcodeReadEventArgs e)
+2025.02.18 16:16:45,825 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.ServiceLayer.BarcodeScannerService.OnConsumerBarcodeRead(Object sender, BarcodeReadEventArgs e)
+2025.02.18 16:16:45,825 [168427858][1.48.0.1065] ERROR -    at ScanCity.Barcode.BarcodeConsumer.RaiseEvent(BarcodeReadEventArgs args)
+2025.02.18 16:16:45,826 [168427858][1.48.0.1065] ERROR -    at ScanCity.Barcode.BarcodeConsumer.BarcodeReader_BarcodeRead(Object sender, BarcodeReadEventArgs e)
+2025.02.18 16:16:45,826 [168427858][1.48.0.1065] ERROR -    at ScanCity.Barcode.BarcodeReader.<>c__DisplayClass1.<BeginProcessBarcode>b__0()
+2025.02.18 16:16:45,827 [168427858][1.48.0.1065] ERROR -    at System.Reflection.RuntimeMethodInfo.InternalInvoke(RuntimeMethodInfo rtmi, Object obj, BindingFlags invokeAttr, Binder binder, Object parameters, CultureInfo culture, Boolean isBinderDefault, Assembly caller, Boolean verifyAccess, StackCrawlMark& stackMark)
+2025.02.18 16:16:45,827 [168427858][1.48.0.1065] ERROR -    at System.Reflection.RuntimeMethodInfo.InternalInvoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture, Boolean verifyAccess, StackCrawlMark& stackMark)
+2025.02.18 16:16:45,828 [168427858][1.48.0.1065] ERROR -    at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+2025.02.18 16:16:45,828 [168427858][1.48.0.1065] ERROR -    at System.Reflection.MethodBase.Invoke(Object obj, Object[] parameters)
+2025.02.18 16:16:45,829 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control.TASK.Invoke()
+2025.02.18 16:16:45,829 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control._InvokeAll()
+2025.02.18 16:16:45,830 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control.WnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,830 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.ContainerControl.WnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,831 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Form.WnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,832 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control._InternalWnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,836 [168427858][1.48.0.1065] ERROR -    at Microsoft.AGL.Forms.EVL.EnterModalDialog(IntPtr hwnModal)
+2025.02.18 16:16:45,837 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Form.ShowDialog()
+2025.02.18 16:16:45,838 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.Accept2.RefundPlacement.PlacementByArrivalList.PlacementByArrivalListExecutionForm.EnterQtyLogic()
+2025.02.18 16:16:45,838 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.Accept2.RefundPlacement.PlacementByArrivalList.PlacementByArrivalListExecutionForm.OnNomenclatureInputFieldInputted(Object sender, InputtedEventArgs e)
+2025.02.18 16:16:45,839 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.InputField.RaiseInputted(InputtedEventArgs args)
+2025.02.18 16:16:45,839 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.BaseForm.OnBarcodeScanned(Object sender, BarcodeReadEventArgs e)
+2025.02.18 16:16:45,840 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.ServiceLayer.BarcodeScannerService.OnConsumerBarcodeRead(Object sender, BarcodeReadEventArgs e)
+2025.02.18 16:16:45,840 [168427858][1.48.0.1065] ERROR -    at ScanCity.Barcode.BarcodeConsumer.RaiseEvent(BarcodeReadEventArgs args)
+2025.02.18 16:16:45,841 [168427858][1.48.0.1065] ERROR -    at ScanCity.Barcode.BarcodeConsumer.BarcodeReader_BarcodeRead(Object sender, BarcodeReadEventArgs e)
+2025.02.18 16:16:45,841 [168427858][1.48.0.1065] ERROR -    at ScanCity.Barcode.BarcodeReader.<>c__DisplayClass1.<BeginProcessBarcode>b__0()
+2025.02.18 16:16:45,842 [168427858][1.48.0.1065] ERROR -    at System.Reflection.RuntimeMethodInfo.InternalInvoke(RuntimeMethodInfo rtmi, Object obj, BindingFlags invokeAttr, Binder binder, Object parameters, CultureInfo culture, Boolean isBinderDefault, Assembly caller, Boolean verifyAccess, StackCrawlMark& stackMark)
+2025.02.18 16:16:45,843 [168427858][1.48.0.1065] ERROR -    at System.Reflection.RuntimeMethodInfo.InternalInvoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture, Boolean verifyAccess, StackCrawlMark& stackMark)
+2025.02.18 16:16:45,843 [168427858][1.48.0.1065] ERROR -    at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+2025.02.18 16:16:45,844 [168427858][1.48.0.1065] ERROR -    at System.Reflection.MethodBase.Invoke(Object obj, Object[] parameters)
+2025.02.18 16:16:45,844 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control.TASK.Invoke()
+2025.02.18 16:16:45,849 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control._InvokeAll()
+2025.02.18 16:16:45,850 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control.WnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,851 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.ContainerControl.WnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,852 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Form.WnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,852 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control._InternalWnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,853 [168427858][1.48.0.1065] ERROR -    at Microsoft.AGL.Forms.EVL.EnterModalDialog(IntPtr hwnModal)
+2025.02.18 16:16:45,853 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Form.ShowDialog()
+2025.02.18 16:16:45,854 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.Accept2.RefundPlacement.RefundPlacementSubMenu.OnPlacementByCargoPackageButtonPressed(Object sender, EventArgs e)
+2025.02.18 16:16:45,855 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.PushingButton.OnButtonClick(Object sender, EventArgs args)
+2025.02.18 16:16:45,855 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control.OnClick(EventArgs e)
+2025.02.18 16:16:45,856 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Button.OnClick(EventArgs e)
+2025.02.18 16:16:45,856 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.ButtonBase.WnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,857 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control._InternalWnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,858 [168427858][1.48.0.1065] ERROR -    at Microsoft.AGL.Forms.EVL.EnterModalDialog(IntPtr hwnModal)
+2025.02.18 16:16:45,858 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Form.ShowDialog()
+2025.02.18 16:16:45,864 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.Accept2.Accept2SubMenu.OnRefundPlacementButtonPressed(Object sender, EventArgs e)
+2025.02.18 16:16:45,865 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.PushingButton.OnButtonClick(Object sender, EventArgs args)
+2025.02.18 16:16:45,866 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control.OnClick(EventArgs e)
+2025.02.18 16:16:45,867 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Button.OnClick(EventArgs e)
+2025.02.18 16:16:45,867 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.ButtonBase.WnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,868 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control._InternalWnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,869 [168427858][1.48.0.1065] ERROR -    at Microsoft.AGL.Forms.EVL.EnterModalDialog(IntPtr hwnModal)
+2025.02.18 16:16:45,869 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Form.ShowDialog()
+2025.02.18 16:16:45,870 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.TaskSelectionForm.OnAccept2ButtonPressed(Object sender, EventArgs e)
+2025.02.18 16:16:45,871 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.PushingButton.OnButtonClick(Object sender, EventArgs args)
+2025.02.18 16:16:45,871 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control.OnClick(EventArgs e)
+2025.02.18 16:16:45,872 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Button.OnClick(EventArgs e)
+2025.02.18 16:16:45,872 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.ButtonBase.WnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,873 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control._InternalWnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,878 [168427858][1.48.0.1065] ERROR -    at Microsoft.AGL.Forms.EVL.EnterModalDialog(IntPtr hwnModal)
+2025.02.18 16:16:45,878 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Form.ShowDialog()
+2025.02.18 16:16:45,879 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.AuthenticationForm.OnEmployeeInputted(Object sender, InputtedEventArgs args)
+2025.02.18 16:16:45,879 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.InputField.RaiseInputted(InputtedEventArgs args)
+2025.02.18 16:16:45,880 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.UI.BaseForm.OnBarcodeScanned(Object sender, BarcodeReadEventArgs e)
+2025.02.18 16:16:45,881 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.ServiceLayer.BarcodeScannerService.OnConsumerBarcodeRead(Object sender, BarcodeReadEventArgs e)
+2025.02.18 16:16:45,881 [168427858][1.48.0.1065] ERROR -    at ScanCity.Barcode.BarcodeConsumer.RaiseEvent(BarcodeReadEventArgs args)
+2025.02.18 16:16:45,882 [168427858][1.48.0.1065] ERROR -    at ScanCity.Barcode.BarcodeConsumer.BarcodeReader_BarcodeRead(Object sender, BarcodeReadEventArgs e)
+2025.02.18 16:16:45,882 [168427858][1.48.0.1065] ERROR -    at ScanCity.Barcode.BarcodeReader.<>c__DisplayClass1.<BeginProcessBarcode>b__0()
+2025.02.18 16:16:45,883 [168427858][1.48.0.1065] ERROR -    at System.Reflection.RuntimeMethodInfo.InternalInvoke(RuntimeMethodInfo rtmi, Object obj, BindingFlags invokeAttr, Binder binder, Object parameters, CultureInfo culture, Boolean isBinderDefault, Assembly caller, Boolean verifyAccess, StackCrawlMark& stackMark)
+2025.02.18 16:16:45,883 [168427858][1.48.0.1065] ERROR -    at System.Reflection.RuntimeMethodInfo.InternalInvoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture, Boolean verifyAccess, StackCrawlMark& stackMark)
+2025.02.18 16:16:45,884 [168427858][1.48.0.1065] ERROR -    at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+2025.02.18 16:16:45,884 [168427858][1.48.0.1065] ERROR -    at System.Reflection.MethodBase.Invoke(Object obj, Object[] parameters)
+2025.02.18 16:16:45,889 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control.TASK.Invoke()
+2025.02.18 16:16:45,890 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control._InvokeAll()
+2025.02.18 16:16:45,890 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control.WnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,891 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.ContainerControl.WnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,892 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Form.WnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,892 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Control._InternalWnProc(WM wm, Int32 wParam, Int32 lParam)
+2025.02.18 16:16:45,893 [168427858][1.48.0.1065] ERROR -    at Microsoft.AGL.Forms.EVL.EnterMainLoop(IntPtr hwnMain)
+2025.02.18 16:16:45,893 [168427858][1.48.0.1065] ERROR -    at System.Windows.Forms.Application.Run(Form fm)
+2025.02.18 16:16:45,894 [168427858][1.48.0.1065] ERROR -    at ScanCity.ConveyerTerminal.DeviceClient.Program.Main(String[] args)
+2025.02.18 16:17:15,924 [185336098][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.18 16:21:11,817 [185336098][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.18 16:21:14,980 [168427858][1.48.0.1065] ERROR - Выведено сообщение об ошибке:
+Произошла ошибка при выполнении обработки!
+2025.02.18 16:22:23,158 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.18 16:22:23,223 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='0100085715321817217DV220191123492125d5sDD4mvjduwhHHHHHHHHHHbnxnchfjm,.l;fdsw', Type='Unknown'
+2025.02.18 16:22:23,239 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.18 16:22:53,581 [185336098][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.18 16:46:55,013 [185336098][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.18 16:46:55,499 [168427858][1.48.0.1065] ERROR - Выведено сообщение об ошибке:
+Причина ошибки: Некорректный код!
+2025.02.18 16:47:55,293 [185336098][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.18 17:15:55,365 [185336098][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.18 17:15:57,575 [168427858][1.48.0.1065] DEBUG - Закрывается ScanMarkingKodeForm...
+2025.02.18 17:16:11,103 [168427858][1.48.0.1065] DEBUG - Закрывается PlacementByArrivalListExecutionForm...
+2025.02.18 17:16:11,108 [168427858][1.48.0.1065] DEBUG - Режим: ByCargoPackage
+2025.02.18 17:17:49,957 [185336098][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.19 15:12:33,292 [185336098][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.19 15:13:25,429 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.19 15:13:25,434 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2025.02.19 15:13:25,439 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.19 15:13:31,246 [168427858][1.48.0.1065] ERROR - Выведено сообщение об ошибке:
+Заданий нет!
+2025.02.19 15:14:26,224 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.19 15:14:26,229 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2025.02.19 15:14:26,234 [168427858][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.19 15:14:29,801 [168427858][1.48.0.1065] ERROR - Выведено сообщение об ошибке:
+Заданий нет!
+2025.02.19 15:15:29,592 [185336098][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.20 10:30:56,334 [185336098][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+******************* Ïðèëîæåíèå çàïóùåíî 2025.02.20 10:32:20,148 [v1.48.0.1065] **************************
+2025.02.20 10:32:20,174 [181272938][1.48.0.1065] DEBUG - Получены настройки: InterfaceUnlockAvailable=False, TsdSettings={SerialNumber=73E65B7606490108011510102E7C0600, InterfaceUnlocked=True}
+2025.02.20 10:32:20,213 [181272938][1.48.0.1065] INFO - Сервер 172.16.15.31:14215, customTimeout=
+2025.02.20 10:32:20,285 [181272938][1.48.0.1065] INFO - Загружены настройки сканера из файла \Application\ScanCity.Convey\ScannerSettings_20101011174300.usi
+2025.02.20 10:32:20,507 [181272938][1.48.0.1065] INFO - Модель терминала: Unknown
+2025.02.20 10:32:20,622 [181272938][1.48.0.1065] DEBUG - Файл pdb.ini найден и считан (56 строк)
+2025.02.20 10:32:20,794 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.20 10:32:20,845 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2025.02.20 10:32:20,854 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.20 10:32:20,890 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.20 10:32:20,895 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2025.02.20 10:32:20,900 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.20 10:34:11,079 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.20 10:34:11,084 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2025.02.20 10:34:11,089 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.20 10:34:16,184 [181272938][1.48.0.1065] ERROR - Выведено сообщение об ошибке:
+Задание найдено, но у сотрудника нет прав на его выполнение!
+2025.02.20 10:35:15,979 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.20 10:35:24,196 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.20 10:37:02,486 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.20 10:39:04,468 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.20 10:39:54,468 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.20 10:39:54,472 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2025.02.20 10:39:54,478 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.20 10:41:28,717 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.20 11:00:52,998 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.20 11:01:24,334 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.20 11:01:43,448 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.20 11:03:18,872 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.20 11:09:34,309 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.20 11:10:12,180 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.20 11:10:12,186 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2025.02.20 11:10:12,191 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.20 11:11:29,134 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.20 11:13:28,719 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.20 11:14:07,913 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.20 11:14:13,904 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.20 11:14:13,972 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.20 11:14:13,978 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='2920003271', Type='Code128'
+2025.02.20 11:14:13,986 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.20 11:14:44,111 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.20 11:15:18,852 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.20 11:15:21,017 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.20 11:15:21,024 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='SHBT30', Type='Code128'
+2025.02.20 11:15:21,030 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.20 11:15:43,208 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.20 11:15:43,214 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='BF_PR_OUT', Type='Code128'
+2025.02.20 11:15:43,220 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.20 11:15:43,659 [181272938][1.48.0.1065] DEBUG - Получено наиболее приоритетное задание: #1799136-89 с типом 51
+2025.02.20 11:15:43,675 [181272938][1.48.0.1065] DEBUG - Открывается TaskStatisticsForm...
+2025.02.20 11:16:13,427 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.20 11:16:14,769 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.20 11:16:14,933 [181272938][1.48.0.1065] DEBUG - Закрывается TaskStatisticsForm...
+2025.02.20 11:16:44,962 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.20 11:18:10,699 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.20 11:18:40,824 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.20 11:21:04,888 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.20 11:21:44,471 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.20 11:21:44,477 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2025.02.20 11:21:44,481 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.20 11:21:47,523 [181272938][1.48.0.1065] ERROR - Выведено сообщение об ошибке:
+Неверная упаковка!
+2025.02.20 11:22:54,921 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.20 11:23:01,561 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.20 11:23:21,170 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.20 11:23:21,182 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2025.02.20 11:23:21,194 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.20 11:23:25,324 [181272938][1.48.0.1065] ERROR - Выведено сообщение об ошибке:
+Задание найдено, но у сотрудника нет прав на его выполнение!
+2025.02.20 11:24:05,039 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.20 11:24:27,013 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.20 11:24:50,429 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.20 11:24:50,434 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2025.02.20 11:24:50,439 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.20 11:25:00,041 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.20 11:25:00,046 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2025.02.20 11:25:00,050 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.20 11:25:04,581 [181272938][1.48.0.1065] ERROR - Выведено сообщение об ошибке:
+Штрихкод лотка не совпадает с 50020067
+2025.02.20 11:25:40,840 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.20 11:30:19,665 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.20 11:31:36,488 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.20 11:32:23,196 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.20 11:33:26,012 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.20 11:41:09,432 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.20 11:41:18,628 [181272938][1.48.0.1065] INFO - Выведено сообщение с вопросом: Завершить?
+2025.02.20 11:41:18,678 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.20 11:41:18,682 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2025.02.20 11:41:18,687 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.20 11:41:20,592 [181272938][1.48.0.1065] INFO - Пользователь выбрал да
+2025.02.20 11:43:21,192 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.20 11:44:23,347 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.20 11:44:47,561 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.20 11:44:47,566 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2025.02.20 11:44:47,571 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.20 11:45:51,370 [181272938][1.48.0.1065] ERROR - Выведено сообщение об ошибке:
+Введите значение в поле Количество!
+2025.02.20 11:48:30,623 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.20 11:48:44,715 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.20 11:48:50,169 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.20 11:48:50,174 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2025.02.20 11:48:50,179 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.20 11:48:55,645 [181272938][1.48.0.1065] ERROR - Выведено сообщение об ошибке:
+Невозможно  выгрузить привязку лотка. Запись уже существует!
+2025.02.20 11:50:56,183 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.20 11:50:56,188 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2025.02.20 11:50:56,192 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.20 11:51:01,507 [181272938][1.48.0.1065] ERROR - Выведено сообщение об ошибке:
+Невозможно  выгрузить привязку лотка. Запись уже существует!
+2025.02.20 11:52:34,156 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.20 11:52:34,161 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2025.02.20 11:52:34,165 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.20 11:53:49,610 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.20 12:00:12,007 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.20 12:01:33,685 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.20 12:01:33,690 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2025.02.20 12:01:33,694 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.20 12:02:49,874 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.20 12:05:34,691 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.20 12:06:44,611 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.20 12:06:44,616 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2025.02.20 12:06:44,620 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.20 12:06:47,215 [181272938][1.48.0.1065] ERROR - Выведено сообщение об ошибке:
+Номенклатура с штрихкодом 460130792770 в системе не найдена!
+2025.02.20 12:08:14,800 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.20 12:29:08,042 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.20 12:29:48,696 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.20 12:29:48,701 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2025.02.20 12:29:48,705 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.20 12:30:57,942 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.20 12:34:29,080 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.20 12:35:17,918 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.20 12:35:17,922 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2025.02.20 12:35:17,927 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.20 12:36:27,278 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2025.02.20 12:36:53,792 [197525866][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2025.02.20 12:37:42,366 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.20 12:37:42,371 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2025.02.20 12:37:42,375 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.20 12:37:52,833 [181272938][1.48.0.1065] INFO - Выведено информационное сообщение: Весь товар из лотка 399665723078 разложен. Завершайте задание.
+2025.02.20 12:37:52,884 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.20 12:37:52,889 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2025.02.20 12:37:52,894 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.20 12:38:12,967 [181272938][1.48.0.1065] INFO - Выведено сообщение с вопросом: Завершить?
+2025.02.20 12:38:13,017 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify
+2025.02.20 12:38:13,022 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2025.02.20 12:38:13,026 [181272938][1.48.0.1065] DEBUG - reader_ReadNotify - выход
+2025.02.20 12:38:15,101 [181272938][1.48.0.1065] INFO - Пользователь выбрал да

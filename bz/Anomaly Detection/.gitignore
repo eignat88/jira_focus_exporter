@@ -1,7 +1,8 @@
 # Data
-data/raw/*
-data/processed/*
-data/external/*
+data/
+*.db
+*.sqlite
+*.sqlite3
 !data/**/.gitkeep
 
 # Models
@@ -10,8 +11,21 @@ models/*.h5
 models/*.joblib
 models/*.pt
 
+# Archives
+archive/
+
+# Logs
+logs/
+ax_to_postgres_etl/logs/
+
+# Python bytecode
+**/__pycache__/
+*.pyc
+*.pyo
+
 # Environment
 .env
+.env.*
 .venv/
 venv/
 env/
@@ -27,5 +41,21 @@ env/
 .DS_Store
 Thumbs.db
 
-# Logs
-logs/*.log
+# Monitoring output
+monitoring/output/
+monitoring/reports/
+
+# Generated SQL
+generated_sql/
+
+# Benchmark CSVs
+*.csv
+!docs/**/*.csv
+
+# ETL bundles
+ax_to_postgres_etl/etl_refactor_bundle/
+ax_to_postgres_etl/etl_refactor_bundle.zip
+ax_to_postgres_etl/fetch_benchmark_*.csv
+
+# Notebooks archive
+notebooks/archive/

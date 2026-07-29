@@ -1,0 +1,616 @@
+"""
+Parallel loader v2 with universal resume mechanism.
+
+Uses etl.load_run and etl.load_chunk for progress tracking.
+Each worker atomically claims chunks via FOR UPDATE SKIP LOCKED.
+
+Usage:
+    from loader.parallel_loader_v2 import ParallelLoaderV2
+    loader = ParallelLoaderV2(ss_conn_str, pg_connector, config)
+    loader.load_table(table_name, columns=None, load_mode='resume')
+"""
+
+import time
+import io
+import csv
+import queue
+import threading
+import hashlib
+from queue import Queue
+from typing import Any, Callable, Optional, List, Tuple
+from dataclasses import dataclass
+from datetime import datetime
+
+import psycopg2
+import psycopg2.extras
+
+try:
+    from ax_to_postgres_etl.domain import LoadStatus, LoadResult
+    from ax_to_postgres_etl.core.run_manager import RunManager
+    from ax_to_postgres_etl.core.chunk_manager import ChunkManager
+    from ax_to_postgres_etl.core.strategies import get_strategy
+    from ax_to_postgres_etl.core.retry import RetryPolicy, RetryConfig
+except ImportError:
+    from domain import LoadStatus, LoadResult
+    from core.run_manager import RunManager
+    from core.chunk_manager import ChunkManager
+    from core.strategies import get_strategy
+    from core.retry import RetryPolicy, RetryConfig
+
+
+SENTINEL = object()
+
+
+def escape_copy_text(value):
+    """Convert value to PostgreSQL COPY TEXT format."""
+    if value is None:
+        return r"\N"
+    if isinstance(value, bytes):
+        text = value.decode("utf-8", errors="replace")
+    elif isinstance(value, bytearray):
+        text = bytes(value).decode("utf-8", errors="replace")
+    elif isinstance(value, memoryview):
+        text = value.tobytes().decode("utf-8", errors="replace")
+    elif isinstance(value, bool):
+        text = "t" if value else "f"
+    else:
+        text = str(value)
+    return (
+        text
+        .replace("\\", "\\\\")
+        .replace("\t", "\\t")
+        .replace("\r", "\\r")
+        .replace("\n", "\\n")
+    )
+
+
+def _build_copy_buffer(rows: list, col_count: int, log_func=None, columns=None) -> Tuple[str, int]:
+    """Build buffer for PostgreSQL COPY FORMAT TEXT."""
+    output = io.StringIO()
+    skipped = 0
+    for row_number, row in enumerate(rows, start=1):
+        if len(row) != col_count:
+            skipped += 1
+            if log_func:
+                log_func(f"  COPY WARNING: row {row_number} skipped: expected {col_count} columns, got {len(row)}")
+            continue
+        output.write("\t".join(escape_copy_text(value) for value in row))
+        output.write("\n")
+    return output.getvalue(), skipped
+
+
+class ParallelLoaderV2:
+    """Parallel loader with universal resume mechanism."""
+
+    def __init__(self, ss_conn_str, pg, config, log_func=None, use_new_resume=True):
+        self.ss_conn_str = ss_conn_str
+        self.pg = pg
+        self.config = config
+        self.log_func = log_func
+        self.use_new_resume = use_new_resume
+
+        etl_config = config.get("etl", {})
+        parallel_config = etl_config.get("parallel", {})
+        self.workers = parallel_config.get("workers", 4)
+        self.fetch_size = parallel_config.get("fetch_size", 5000)
+        self.commit_size = parallel_config.get("commit_size", 50000)
+        self.batch_size = etl_config.get("batch_size", 100000)
+
+        self.running = True
+        self.stop_event = threading.Event()
+        self._counter_lock = threading.Lock()
+        self.write_queue = Queue(maxsize=100)
+
+        self.total_fetched = 0
+        self.total_inserted = 0
+        self.total_conflicted = 0
+        self.total_committed = 0
+        self.total_errors = 0
+        self.writer_error = None
+        self.worker_error = None
+
+        retry_config = config.get("retry", {})
+        self.retry_policy = RetryPolicy(RetryConfig(
+            max_attempts=retry_config.get("max_attempts", 5),
+            initial_delay_seconds=retry_config.get("initial_delay_seconds", 5),
+            max_delay_seconds=retry_config.get("max_delay_seconds", 300),
+            backoff_multiplier=retry_config.get("backoff_multiplier", 2),
+        ))
+
+        heartbeat_config = config.get("heartbeat", {})
+        self.heartbeat_interval = heartbeat_config.get("interval_seconds", 30)
+        self.heartbeat_timeout = heartbeat_config.get("timeout_seconds", 600)
+
+        self.pipeline_name = "ax_to_postgres_etl"
+
+    def load_table(self, table_name, columns=None, load_mode="full"):
+        if self.log_func:
+            self.log_func(f"START PARALLEL LOAD V2: {table_name} (mode={load_mode})")
+
+        start_time = time.time()
+        self._reset_counters()
+
+        # table_config — инициализировать ДО любых ветвлений
+        table_config = self.config.get("tables", {}).get(table_name, {})
+        chunk_strategy = table_config.get("chunk_strategy", "numeric_range")
+        chunk_column = table_config.get("chunk_column", "RECID")
+        chunk_count = int(table_config.get("chunk_count", 100))
+
+        pg_conn = psycopg2.connect(
+            host=self.pg.conn.info.host,
+            port=self.pg.conn.info.port,
+            dbname=self.pg.conn.info.dbname,
+            user=self.pg.conn.info.user,
+            password=self.pg.conn.info.password,
+        )
+        pg_conn.autocommit = False
+
+        try:
+            run_manager = RunManager(pg_conn)
+            chunk_manager = ChunkManager(pg_conn)
+
+            if not run_manager.acquire_advisory_lock(table_name):
+                raise RuntimeError(f"ETL load for {table_name} is already running")
+
+            try:
+                run = None
+                if load_mode == "resume":
+                    run = run_manager.find_resumable_run(
+                        source_table=table_name,
+                        target_table=table_name,
+                        config=table_config,
+                    )
+                    if run:
+                        if self.log_func:
+                            self.log_func(f"  Found resumable run: {run.run_id}")
+
+                if run is None:
+                    run = run_manager.create_run(
+                        pipeline_name=self.pipeline_name,
+                        source_system="SQL Server",
+                        source_table=table_name,
+                        target_schema=self.pg.schema,
+                        target_table=table_name,
+                        load_mode=load_mode,
+                        chunk_strategy=chunk_strategy,
+                        chunk_column=chunk_column,
+                        source_database=self.config.get("source", {}).get("database"),
+                        source_schema=table_config.get("source_schema", "dbo"),
+                        config=table_config,
+                    )
+                    if self.log_func:
+                        self.log_func(f"  Created new run: {run.run_id}")
+
+                run_manager.update_run_status(run.run_id, "running")
+
+                if load_mode in ("reload", "full"):
+                    self._truncate_table(table_name)
+                    pg_conn.cursor().execute(
+                        "UPDATE etl.load_chunk SET status = 'cancelled' "
+                        "WHERE run_id = %s AND status != 'completed'",
+                        (run.run_id,),
+                    )
+                    pg_conn.commit()
+
+                strategy = get_strategy(chunk_strategy)
+                boundaries = strategy.get_boundaries(
+                    self._get_ss_connection(),
+                    table_config.get("source_schema", "dbo"),
+                    table_name,
+                    chunk_column,
+                )
+
+                chunk_column = table_config.get("chunk_column", "RECID")
+                chunk_count = table_config.get("chunk_count", 100)
+
+                if columns:
+                    selected = list(columns)
+                    if chunk_column and not any(c.upper() == chunk_column.upper() for c in selected):
+                        selected.append(chunk_column)
+                    ss_col_names = selected
+                    pg_col_names = [c.lower() for c in selected]
+                    col_list = ", ".join(ss_col_names)
+                else:
+                    ss_col_names, pg_col_names = self._get_columns(table_name)
+                    col_list = ", ".join(ss_col_names)
+
+                chunk_col_index = None
+                for i, col in enumerate(ss_col_names):
+                    if col.upper() == chunk_column.upper():
+                        chunk_col_index = i
+                        break
+                if chunk_col_index is None:
+                    raise RuntimeError(f"{table_name}: {chunk_column} not found in column list")
+
+                existing_chunks = chunk_manager.get_pending_chunks(run.run_id)
+                if not existing_chunks:
+                    ranges = strategy.build_ranges(boundaries, chunk_count)
+                    chunk_manager.create_chunks(
+                        run_id=run.run_id,
+                        chunk_strategy=table_config.get("chunk_strategy", "numeric_range"),
+                        chunk_column=chunk_column,
+                        ranges=ranges,
+                    )
+                    run_manager.update_run_counts(run.run_id, chunk_count)
+
+                stats = chunk_manager.get_chunk_stats(run.run_id)
+                if self.log_func:
+                    self.log_func(f"  Chunk stats: {stats}")
+
+                if load_mode == "resume" and stats["pending"] == 0 and stats["retry"] == 0 and stats["failed"] == 0:
+                    elapsed = time.time() - start_time
+                    return LoadResult(
+                        table_name=table_name,
+                        status=LoadStatus.ALREADY_COMPLETE,
+                        chunks_total=stats["completed"],
+                        chunks_completed=stats["completed"],
+                        elapsed_seconds=elapsed,
+                    )
+
+                source_count = self._get_source_count(table_name)
+                target_count = self._get_target_count(table_name)
+
+                self._start_workers(
+                    table_name=table_name,
+                    col_list=col_list,
+                    chunk_manager=chunk_manager,
+                    run_id=run.run_id,
+                    chunk_col_index=chunk_col_index,
+                    pg_col_names=pg_col_names,
+                )
+
+                if self.writer_error is not None:
+                    run_manager.update_run_status(run.run_id, "failed", str(self.writer_error))
+                    raise RuntimeError(f"Writer failed: {self.writer_error}")
+
+                if self.worker_error is not None:
+                    run_manager.update_run_status(run.run_id, "failed", str(self.worker_error))
+                    raise RuntimeError(f"Worker failed: {self.worker_error}")
+
+                run_manager.update_run_stats(run.run_id)
+                final_stats = chunk_manager.get_total_stats(run.run_id)
+                target_count = self._get_target_count(table_name)
+
+                completed_chunks = int(final_stats.get("completed") or 0)
+                failed_chunks = int(final_stats.get("failed") or 0)
+                total_chunks = int(final_stats.get("total_chunks") or 0)
+                current_stats = chunk_manager.get_chunk_stats(run.run_id)
+
+                success = (
+                    self.writer_error is None
+                    and self.worker_error is None
+                    and completed_chunks == total_chunks
+                    and failed_chunks == 0
+                    and current_stats.get("running", 0) == 0
+                    and current_stats.get("pending", 0) == 0
+                    and current_stats.get("retry", 0) == 0
+                )
+
+                run_status = "completed" if success else "failed"
+                run_manager.update_run_status(run.run_id, run_status)
+
+                elapsed = time.time() - start_time
+                rows_inserted = int(final_stats.get("rows_inserted") or 0)
+                speed = rows_inserted / elapsed if elapsed > 0 else 0.0
+
+                if self.log_func:
+                    self.log_func(f"DONE {table_name}: {run_status}")
+                    self.log_func(f"  Chunks: {completed_chunks}/{total_chunks}")
+                    self.log_func(f"  Rows inserted: {rows_inserted:,}")
+                    self.log_func(f"  Duration: {elapsed:.1f}s, {speed:,.0f} rows/sec")
+
+                return LoadResult(
+                    table_name=table_name,
+                    status=LoadStatus.SUCCESS if success else LoadStatus.FAILED,
+                    rows_fetched=self.total_fetched,
+                    rows_inserted=rows_inserted,
+                    rows_conflicted=int(final_stats.get("rows_conflicted") or 0),
+                    chunks_total=total_chunks,
+                    chunks_completed=completed_chunks,
+                    target_count=target_count,
+                    elapsed_seconds=elapsed,
+                )
+
+            finally:
+                run_manager.release_advisory_lock(table_name)
+                pg_conn.close()
+
+        except Exception as e:
+            pg_conn.close()
+            raise
+
+    def _start_workers(self, table_name, col_list, chunk_manager, run_id, chunk_col_index, pg_col_names):
+        if self.log_func:
+            self.log_func(f"  Starting {self.workers} fetch workers + 1 writer")
+
+        writer = threading.Thread(
+            target=self._write_worker_v2,
+            args=(table_name, pg_col_names, chunk_manager, run_id),
+            daemon=True,
+        )
+        writer.start()
+
+        fetch_threads = []
+        for worker_id in range(self.workers):
+            t = threading.Thread(
+                target=self._fetch_worker_v2,
+                args=(worker_id, table_name, col_list, chunk_manager, run_id, chunk_col_index),
+                daemon=True,
+            )
+            t.start()
+            fetch_threads.append(t)
+
+        for t in fetch_threads:
+            t.join()
+
+        self.write_queue.put(SENTINEL)
+        writer.join()
+
+    def _fetch_worker_v2(self, worker_id, table_name, col_list, chunk_manager, run_id, chunk_col_index):
+        import pyodbc
+
+        worker_id_str = f"worker_{worker_id}"
+        if self.log_func:
+            self.log_func(f"  Worker {worker_id_str}: STARTED")
+
+        conn = None
+        rows_fetched = 0
+        last_heartbeat = time.time()
+
+        try:
+            conn = pyodbc.connect(self.ss_conn_str, timeout=30)
+            cursor = conn.cursor()
+            cursor.arraysize = self.fetch_size
+
+            while self.running and not self.stop_event.is_set():
+                chunk = chunk_manager.claim_chunk(run_id, worker_id_str, self.heartbeat_timeout // 60)
+                if chunk is None:
+                    break
+
+                chunk_id = chunk.chunk_id
+                range_start = chunk.range_start_bigint
+                range_end = chunk.range_end_bigint
+
+                last_recid = range_start - 1
+                chunk_rows_fetched = 0
+                retry_attempt = 0
+
+                try:
+                    while self.running and not self.stop_event.is_set() and last_recid < range_end:
+                        where_column = getattr(chunk, 'chunk_column', None) or 'RECID'
+                        sql = f"""
+                            SELECT TOP ({self.fetch_size}) {col_list} FROM {table_name}
+                            WHERE {where_column} > {last_recid}
+                            AND {where_column} <= {range_end}
+                            ORDER BY {where_column}
+                        """
+                        cursor.execute(sql)
+                        batch = cursor.fetchmany(self.fetch_size)
+
+                        if not batch:
+                            break
+
+                        last_recid = int(batch[-1][chunk_col_index])
+                        chunk_rows_fetched += len(batch)
+                        rows_fetched += len(batch)
+                        retry_attempt = 0
+
+                        with self._counter_lock:
+                            self.total_fetched += len(batch)
+
+                        now = time.monotonic()
+                        if now - last_heartbeat >= self.heartbeat_interval:
+                            chunk_manager.heartbeat(chunk_id)
+                            last_heartbeat = now
+
+                        batch_with_meta = {
+                            'rows': batch,
+                            'chunk_id': chunk_id,
+                            'chunk_no': chunk.chunk_no,
+                            'range_start': range_start,
+                            'range_end': range_end,
+                            'last_recid': last_recid,
+                            'is_last_batch': False,
+                        }
+
+                        queued = False
+                        while not queued and not self.stop_event.is_set():
+                            try:
+                                self.write_queue.put(batch_with_meta, timeout=1)
+                                queued = True
+                            except queue.Full:
+                                time.sleep(0.5)
+
+                except Exception as e:
+                    retry_attempt += 1
+                    if self.retry_policy.is_retriable(e) and retry_attempt <= self.retry_policy.config.max_attempts:
+                        delay = self.retry_policy.get_delay(retry_attempt)
+                        try:
+                            cursor.close()
+                            conn.close()
+                        except Exception:
+                            pass
+                        time.sleep(delay)
+                        try:
+                            conn = pyodbc.connect(self.ss_conn_str, timeout=30)
+                            cursor = conn.cursor()
+                            cursor.arraysize = self.fetch_size
+                        except Exception:
+                            raise
+                        continue
+                    raise
+
+        except Exception as e:
+            self.worker_error = e
+            self.running = False
+            self.total_errors += 1
+        finally:
+            if conn:
+                try:
+                    conn.close()
+                except Exception:
+                    pass
+
+    def _write_worker_v2(self, table_name, pg_col_names, chunk_manager, run_id):
+        pg_conn = None
+        try:
+            pg_conn = psycopg2.connect(
+                host=self.pg.conn.info.host,
+                port=self.pg.conn.info.port,
+                dbname=self.pg.conn.info.dbname,
+                user=self.pg.conn.info.user,
+                password=self.pg.conn.info.password,
+            )
+            pg_conn.autocommit = False
+        except Exception as e:
+            self.writer_error = e
+            self.stop_event.set()
+            return
+
+        staging_table = f"{self.pg.schema}._staging_{table_name}"
+        chunk_rows = {}
+
+        try:
+            cursor = pg_conn.cursor()
+            cursor.execute(f"DROP TABLE IF EXISTS {staging_table}")
+            col_defs = ", ".join([f"{c} text" for c in pg_col_names])
+            cursor.execute(f"CREATE UNLOGGED TABLE {staging_table} ({col_defs})")
+            pg_conn.commit()
+
+            while True:
+                item = self.write_queue.get()
+
+                if item is SENTINEL:
+                    break
+
+                rows = item['rows']
+                chunk_id = item['chunk_id']
+
+                if chunk_id not in chunk_rows:
+                    chunk_rows[chunk_id] = 0
+                chunk_rows[chunk_id] += len(rows)
+
+                content, skipped = _build_copy_buffer(rows, len(pg_col_names), log_func=self.log_func, columns=pg_col_names)
+                buffer_content = content
+                rows_in_buffer = len(rows) - skipped
+
+                self._commit_buffer(pg_conn, table_name, staging_table, pg_col_names, buffer_content, rows_in_buffer)
+
+                self.write_queue.task_done()
+
+            # Mark all chunks as completed
+            for cid in chunk_rows:
+                try:
+                    chunk_manager.complete_chunk(
+                        chunk_id=cid,
+                        rows_read=chunk_rows[cid],
+                        rows_inserted=chunk_rows[cid],
+                    )
+                except Exception as e:
+                    if self.log_func:
+                        self.log_func(f"  Writer: WARNING complete_chunk failed for {cid}: {e}")
+
+        except Exception as e:
+            pg_conn.rollback()
+            self.writer_error = e
+            self.stop_event.set()
+        finally:
+            try:
+                pg_conn.cursor().execute(f"DROP TABLE IF EXISTS {staging_table}")
+                pg_conn.commit()
+            except Exception:
+                pass
+            if pg_conn and not pg_conn.closed:
+                pg_conn.close()
+
+    def _commit_buffer(self, pg_conn, table_name, staging_table, pg_col_names, buffer_content, rows_in_buffer):
+        try:
+            col_names = ", ".join(pg_col_names)
+            cursor = pg_conn.cursor()
+            cursor.execute(f"TRUNCATE {staging_table}")
+
+            copy_sql = (
+                f"COPY {staging_table} ({col_names}) "
+                "FROM STDIN WITH (FORMAT text, DELIMITER E'\\t', NULL E'\\\\N')"
+            )
+            buffer = io.StringIO(buffer_content)
+            cursor.copy_expert(copy_sql, buffer)
+
+            upsert_sql = (
+                f"INSERT INTO {self.pg.schema}.{table_name} ({col_names}) "
+                f"SELECT {col_names} FROM {staging_table} "
+                f"ON CONFLICT (recid) DO NOTHING"
+            )
+            cursor.execute(upsert_sql)
+            inserted = cursor.rowcount
+            conflicts = rows_in_buffer - inserted
+
+            pg_conn.commit()
+
+            with self._counter_lock:
+                self.total_inserted += inserted
+                self.total_conflicted += conflicts
+                self.total_committed += rows_in_buffer
+
+        except Exception:
+            pg_conn.rollback()
+            raise
+
+    def _reset_counters(self):
+        self.total_fetched = 0
+        self.total_inserted = 0
+        self.total_conflicted = 0
+        self.total_committed = 0
+        self.total_errors = 0
+        self.writer_error = None
+        self.worker_error = None
+
+    def _truncate_table(self, table_name):
+        try:
+            cursor = self.pg.conn.cursor()
+            cursor.execute(f"TRUNCATE TABLE {self.pg.schema}.{table_name}")
+            self.pg.conn.commit()
+        except Exception:
+            pass
+
+    def _get_ss_connection(self):
+        import pyodbc
+        return pyodbc.connect(self.ss_conn_str)
+
+    def _get_columns(self, table_name):
+        import pyodbc
+        conn = pyodbc.connect(self.ss_conn_str)
+        cursor = conn.cursor()
+        cursor.execute(f"SELECT TOP 1 * FROM {table_name}")
+        columns = [desc[0] for desc in cursor.description]
+        cursor.close()
+        conn.close()
+        return columns, [c.lower() for c in columns]
+
+    def _get_source_count(self, table_name):
+        import pyodbc
+        try:
+            conn = pyodbc.connect(self.ss_conn_str, timeout=10)
+            cursor = conn.cursor()
+            cursor.execute(f"SELECT COUNT_BIG(*) FROM {table_name}")
+            count = cursor.fetchone()[0]
+            cursor.close()
+            conn.close()
+            return count
+        except Exception:
+            return 0
+
+    def _get_target_count(self, table_name):
+        try:
+            cursor = self.pg.conn.cursor()
+            cursor.execute(f"SELECT COUNT(*) FROM {self.pg.schema}.{table_name}")
+            count = cursor.fetchone()[0]
+            cursor.close()
+            return count
+        except Exception:
+            return 0
+
+    def _compute_config_hash(self, config):
+        import json
+        config_str = json.dumps(config, sort_keys=True, default=str)
+        return hashlib.sha256(config_str.encode()).hexdigest()[:16]

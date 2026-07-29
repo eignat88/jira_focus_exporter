@@ -1,0 +1,107 @@
+-- Основной способ поиска заказов для закрытия для сортировки
+
+select T1.WMSPICKINGROUTEID as 'МК',
+T1.PICKINGWAVEID as 'Волна',
+T1.SUBORDERID as 'Подчиненный',
+T1.WMSLOCATIONID as 'Ячейка',
+T1.SalesID as 'Заказ',
+T1.SCSSTATID as 'Станция'
+from LFL_SCSPICKINGWAVEITEMS T1 join LFL_SCSPICKINGWAVETABLE T2
+on T1.PICKINGWAVEID = T2.PICKINGWAVEID and t1.DATAAREAID = t2.DATAAREAID and t1.PARTITION = t2.PARTITION
+where t2.STATUS = 10 and t1.NOSCSONHAND = 1 and t1.DATAAREAID = 'dat' and t1.PARTITION = 5637144576
+go
+
+
+-- Закрытие одноштучных заказов
+
+WITH FilteredItems AS (
+    SELECT DISTINCT
+        T1.SalesID,
+        T1.WMSLOCATIONID,
+        T1.SUBORDERID
+    FROM LFL_SCSPICKINGWAVEITEMS T1 
+    INNER JOIN LFL_SCSPICKINGWAVETABLE T2
+        ON T1.PICKINGWAVEID = T2.PICKINGWAVEID 
+        AND T1.DATAAREAID = T2.DATAAREAID 
+        AND T1.PARTITION = T2.PARTITION
+    INNER JOIN SALESTABLE t3 
+        ON T1.SALESID = t3.SALESID 
+        AND T1.DATAAREAID = t3.DATAAREAID 
+        AND T1.PARTITION = t3.PARTITION
+    WHERE T2.STATUS = 10 
+        AND t3.SalesPoolId = 'ИМ' 
+        AND t3.SALESSTATUS = 6 
+        AND t3.LFL_SCSOrderFinished = 0 
+        AND t3.LFL_SHIPMENTDENIED = 0 
+        AND T1.SCSSortLocationType = 'ИМ Одноштучный' 
+        AND T1.ISSORTTASKCREATED = 1 
+        AND T1.PACKTASKID = '' 
+        AND T1.ORDERTOFINISH = 0 
+        AND T1.DATAAREAID = 'dat' 
+        AND T1.PARTITION = 5637144576
+),
+ZeroSortedItems AS (
+    SELECT DISTINCT
+        WMSLOCATIONID,
+        SUBORDERID
+    FROM LFL_SCSPICKINGWAVEITEMS
+    WHERE SortedQty = 0 
+       -- AND NOSCSONHAND = 0
+        AND DATAAREAID = 'dat' 
+        AND PARTITION = 5637144576
+)
+SELECT 
+    f.SalesID as 'Заказ',
+    f.WMSLOCATIONID as 'Ячейка'
+FROM FilteredItems f
+WHERE NOT EXISTS (
+    SELECT 1 
+    FROM ZeroSortedItems z
+    WHERE z.WMSLOCATIONID = f.WMSLOCATIONID
+        AND z.SUBORDERID = f.SUBORDERID
+)
+GROUP BY f.WMSLOCATIONID, f.SalesID
+GO
+
+
+-- Закрытие многоштучных заказов
+
+SELECT 
+    t1.SALESID as 'Заказ', 
+    t1.WMSLOCATIONID as 'Ячейка'
+FROM LFL_SCSPICKINGWAVEITEMS T1 
+INNER JOIN LFL_SCSPICKINGWAVETABLE T2
+    ON T1.PICKINGWAVEID = T2.PICKINGWAVEID 
+    AND t1.DATAAREAID = t2.DATAAREAID 
+    AND t1.PARTITION = t2.PARTITION
+INNER JOIN SALESTABLE t3 
+    ON t1.SALESID = t3.SALESID 
+    AND t1.DATAAREAID = t3.DATAAREAID 
+    AND t1.PARTITION = t3.PARTITION
+WHERE t2.STATUS = 10 
+    AND t3.SalesPoolId = 'ИМ' 
+    AND t3.SALESSTATUS = 6 
+    AND t3.LFL_SCSOrderFinished = 0 
+    AND t3.LFL_SHIPMENTDENIED = 0 
+    AND t1.SCSSortLocationType = 'ИМ' 
+    AND t1.ISSORTTASKCREATED = 1 
+    AND t1.PACKTASKID = '' 
+    AND t1.OrderToFinish = 0 
+    AND t1.DATAAREAID = 'dat' 
+    AND t1.PARTITION = 5637144576
+    -- Проверка через IN с подзапросом
+    AND t1.SALESID IN (
+        SELECT SALESID
+        FROM LFL_SCSPICKINGWAVEITEMS
+        WHERE DATAAREAID = 'dat' 
+            AND PARTITION = 5637144576
+        GROUP BY SALESID
+        HAVING 
+            -- Условие 1: Нет строк с SortedQty = 0
+            COUNT(CASE WHEN SortedQty = 0 THEN 1 END) = 0
+            -- ИЛИ Условие 2: У всех строк с SortedQty = 0 есть NOSCSONHAND = 1
+            OR COUNT(CASE WHEN SortedQty = 0 AND NOSCSONHAND != 1 THEN 1 END) = 0
+    )
+GROUP BY T1.SALESID, T1.WMSLOCATIONID
+OPTION (maxdop 1, loop join)
+GO

@@ -1,0 +1,63 @@
+# Data & databases
+data/
+*.db
+*.sqlite
+*.sqlite3
+
+# Archives
+archive/
+
+# Logs
+logs/
+ax_to_postgres_etl/logs/
+
+# Python bytecode
+**/__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Monitoring output
+monitoring/output/
+monitoring/reports/
+
+# Generated SQL
+generated_sql/
+
+# Benchmark CSVs
+*.csv
+!docs/**/*.csv
+
+# ETL bundles
+ax_to_postgres_etl/etl_refactor_bundle/
+ax_to_postgres_etl/etl_refactor_bundle.zip
+ax_to_postgres_etl/fetch_benchmark_*.csv
+
+# Large data files
+*.parquet
+*.h5
+*.pkl
+*.joblib
+*.pt
+
+# Notebooks archive
+notebooks/archive/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.*

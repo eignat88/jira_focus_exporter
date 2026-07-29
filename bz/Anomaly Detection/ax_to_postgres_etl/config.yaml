@@ -1,0 +1,86 @@
+source:
+  server: SWS-DB-T1
+  database: AX63_WMS_TEST
+  driver: SQL Server
+
+target:
+  host: localhost
+  port: 5432
+  database: wms_analysis
+  schema: raw_ax
+  user: postgres
+  # password: read from DB_PASSWORD env var or .env file
+
+etl:
+  batch_size: 100000
+  profiling: true
+  # Load mode: full | resume | incremental | reload
+  load_mode: full
+  # Column analysis: рекомендации по исключению пустых колонок
+  #   auto_exclude_columns: false — только рекомендация, НЕ исключает автоматически
+  #   auto_exclude_columns: true  — исключает колонки с >95% NULL автоматически
+  # auto_exclude_columns: false = загружать ВСЕ колонки (для raw_ax)
+  # auto_exclude_columns: true = исключать пустые колонки
+  auto_exclude_columns: false
+  null_threshold: 95
+  parallel:
+    enabled: true
+    workers: 4
+    fetch_size: 5000
+    commit_size: 50000
+
+# Retry policy
+retry:
+  max_attempts: 5
+  initial_delay_seconds: 5
+  max_delay_seconds: 300
+  backoff_multiplier: 2
+
+# Heartbeat configuration
+heartbeat:
+  interval_seconds: 30
+  timeout_seconds: 600
+
+# Tables with chunking strategies
+tables:
+  INVENTTABLE:
+    source_schema: dbo
+    target_schema: raw_ax
+    chunk_strategy: numeric_range
+    chunk_column: RECID
+    chunk_count: 20
+
+  ALK_MARKSERIAL:
+    source_schema: dbo
+    target_schema: raw_ax
+    chunk_strategy: numeric_range
+    chunk_column: RECID
+    chunk_count: 100
+
+  LFL_SCSPACKTASK:
+    source_schema: dbo
+    target_schema: raw_ax
+    chunk_strategy: numeric_range
+    chunk_column: RECID
+    chunk_count: 20
+
+  WMSORDERTRANS:
+    source_schema: dbo
+    target_schema: raw_ax
+    chunk_strategy: numeric_range
+    chunk_column: RECID
+    chunk_count: 500
+
+  SALESTABLE:
+    source_schema: dbo
+    target_schema: raw_ax
+    chunk_strategy: numeric_range
+    chunk_column: RECID
+    chunk_count: 10
+
+  PURCHTABLE:
+    source_schema: dbo
+    target_schema: raw_ax
+    chunk_strategy: numeric_range
+    chunk_column: RECID
+    chunk_count: 5

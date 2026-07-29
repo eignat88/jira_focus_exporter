@@ -1,0 +1,474 @@
+﻿******************* Приложение запущено 2024.07.18 20:22:00,380 [v1.47.0.1064] **************************
+2024.07.18 20:22:00,415 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод CommonService.GetSettings...
+2024.07.18 20:22:01,715 [196280786][1.47.0.1064] DEBUG - <<< Метод CommonService.GetSettings успешно завершен. Возвращаемое значение: CommonServiceProxy.SetupDto
+2024.07.18 20:22:01,722 [196280786][1.47.0.1064] DEBUG - Получены настройки: InterfaceUnlockAvailable=False, TsdSettings={SerialNumber=73E65B7606490108011510102E7C0600, InterfaceUnlocked=True}
+2024.07.18 20:22:01,728 [196280786][1.47.0.1064] INFO - Сервер sws-wms-test:14215, customTimeout=
+2024.07.18 20:22:01,793 [196280786][1.47.0.1064] INFO - Загружены настройки сканера из файла \Application\ScanCity.Convey\ScannerSettings_20101011174300.usi
+2024.07.18 20:22:02,016 [196280786][1.47.0.1064] INFO - Модель терминала: Unknown
+2024.07.18 20:22:02,102 [196280786][1.47.0.1064] DEBUG - Файл pdb.ini найден и считан (56 строк)
+2024.07.18 20:22:02,111 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод AuthenticationForm.RenderControls...
+2024.07.18 20:22:02,128 [196280786][1.47.0.1064] DEBUG - <<< Метод AuthenticationForm.RenderControls успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:22:02,289 [196280786][1.47.0.1064] DEBUG - reader_ReadNotify
+2024.07.18 20:22:02,339 [196280786][1.47.0.1064] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2024.07.18 20:22:02,348 [196280786][1.47.0.1064] DEBUG - reader_ReadNotify - выход
+2024.07.18 20:22:02,360 [196280786][1.47.0.1064] DEBUG - reader_ReadNotify
+2024.07.18 20:22:02,372 [196280786][1.47.0.1064] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2024.07.18 20:22:02,378 [196280786][1.47.0.1064] DEBUG - reader_ReadNotify - выход
+2024.07.18 20:22:03,090 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод CommonService.UpdateSettings...
+2024.07.18 20:22:03,091 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:22:03,091 [196280786][1.47.0.1064] DEBUG - 	scannerSettingsFileName: ScannerSettings_20101011174300.usi
+2024.07.18 20:22:04,388 [196280786][1.47.0.1064] DEBUG - <<< Метод CommonService.UpdateSettings успешно завершен. Возвращаемое значение: CommonServiceProxy.SettingsDto
+2024.07.18 20:22:07,464 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод AuthenticationForm.OnEmployeeInputted...
+2024.07.18 20:22:07,464 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:22:07,464 [196280786][1.47.0.1064] DEBUG - 	sender: InputField (label: ШК сотрудника:, text: 2920009607)
+2024.07.18 20:22:07,464 [196280786][1.47.0.1064] DEBUG - 	args: InputtedEventArgs (Text: 2920009607, Source: Keyboard, BarcodeEventArgs: )
+2024.07.18 20:22:07,501 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод AuthenticationService.LogonUser...
+2024.07.18 20:22:07,501 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:22:07,502 [196280786][1.47.0.1064] DEBUG - 	barcode: 2920009607
+2024.07.18 20:22:07,502 [196280786][1.47.0.1064] DEBUG - 	employee: не задано
+2024.07.18 20:22:07,955 [196280786][1.47.0.1064] DEBUG - <<< Метод AuthenticationService.LogonUser успешно завершен. Возвращаемое значение: 0
+2024.07.18 20:22:07,961 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод CommonService.IsThereRequestUnprocessedByAx...
+2024.07.18 20:22:07,961 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:22:07,961 [196280786][1.47.0.1064] DEBUG - 	employeeId: 0000072400
+2024.07.18 20:22:08,006 [196280786][1.47.0.1064] DEBUG - <<< Метод CommonService.IsThereRequestUnprocessedByAx успешно завершен. Возвращаемое значение: False
+2024.07.18 20:22:08,073 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод BusinessLogicService.GetUnfinishedTaskAndGoToExecution...
+2024.07.18 20:22:08,073 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:22:08,074 [196280786][1.47.0.1064] DEBUG - 	employee: ServiceProxy.EmployeeDto
+2024.07.18 20:22:08,086 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод CommonService.IsThereUnfinishedTask...
+2024.07.18 20:22:08,086 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:22:08,086 [196280786][1.47.0.1064] DEBUG - 	employeeId: 0000072400
+2024.07.18 20:22:08,139 [196280786][1.47.0.1064] DEBUG - <<< Метод CommonService.IsThereUnfinishedTask успешно завершен. Возвращаемое значение: False
+2024.07.18 20:22:08,144 [196280786][1.47.0.1064] DEBUG - <<< Метод BusinessLogicService.GetUnfinishedTaskAndGoToExecution успешно завершен. Возвращаемое значение: False
+2024.07.18 20:22:08,232 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод TaskSelectionForm.AllocateControls...
+2024.07.18 20:22:08,316 [196280786][1.47.0.1064] DEBUG - <<< Метод TaskSelectionForm.AllocateControls успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:22:10,350 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод TaskSelectionForm.OnSortingButtonPressed...
+2024.07.18 20:22:10,350 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:22:10,350 [196280786][1.47.0.1064] DEBUG - 	sender: PushingButton (name: _sortingButton, text: 6. Сортировка по магазинам)
+2024.07.18 20:22:10,350 [196280786][1.47.0.1064] DEBUG - 	e: System.EventArgs
+2024.07.18 20:22:10,396 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SubMenuForm.RenderControls...
+2024.07.18 20:22:10,424 [196280786][1.47.0.1064] DEBUG - <<< Метод SubMenuForm.RenderControls успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:22:12,513 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SubMenuForm.OnSortingMezonineButtonPressed...
+2024.07.18 20:22:12,513 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:22:12,514 [196280786][1.47.0.1064] DEBUG - 	sender: PushingButton (name: _sortingMezonineButton, text: 7. Сортировка в мезонине)
+2024.07.18 20:22:12,514 [196280786][1.47.0.1064] DEBUG - 	e: System.EventArgs
+2024.07.18 20:22:12,541 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsSelectionForm.RenderControls...
+2024.07.18 20:22:12,553 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsSelectionForm.RenderControls успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:22:21,172 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsSelectionForm.OnFormKeyDown...
+2024.07.18 20:22:21,173 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:22:21,173 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsSelectionForm
+2024.07.18 20:22:21,173 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:22:21,178 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:22:21,343 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsSelectionForm.OnFormKeyDown...
+2024.07.18 20:22:21,343 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:22:21,343 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsSelectionForm
+2024.07.18 20:22:21,344 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:22:21,349 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:22:21,561 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsSelectionForm.OnFormKeyDown...
+2024.07.18 20:22:21,561 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:22:21,561 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsSelectionForm
+2024.07.18 20:22:21,561 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:22:21,566 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:22:24,329 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsSelectionForm.OnFormKeyDown...
+2024.07.18 20:22:24,330 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:22:24,330 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsSelectionForm
+2024.07.18 20:22:24,330 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:22:24,335 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:22:24,634 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsSelectionForm.OnFormKeyDown...
+2024.07.18 20:22:24,634 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:22:24,634 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsSelectionForm
+2024.07.18 20:22:24,635 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:22:24,640 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:22:26,561 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsSelectionForm.OnFormKeyDown...
+2024.07.18 20:22:26,561 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:22:26,561 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsSelectionForm
+2024.07.18 20:22:26,561 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:22:26,566 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:22:26,760 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsSelectionForm.OnFormKeyDown...
+2024.07.18 20:22:26,760 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:22:26,761 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsSelectionForm
+2024.07.18 20:22:26,761 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:22:26,766 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:22:26,921 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsSelectionForm.OnFormKeyDown...
+2024.07.18 20:22:26,921 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:22:26,921 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsSelectionForm
+2024.07.18 20:22:26,922 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:22:26,927 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:22:28,746 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsSelectionForm.OnFormKeyDown...
+2024.07.18 20:22:28,746 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:22:28,747 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsSelectionForm
+2024.07.18 20:22:28,747 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:22:28,751 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsSelectionForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:22:28,767 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsSelectionForm.OnBarcodeInputted...
+2024.07.18 20:22:28,768 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:22:28,768 [196280786][1.47.0.1064] DEBUG - 	sender: InputField (label: ШК лотка:, text: 78579507)
+2024.07.18 20:22:28,768 [196280786][1.47.0.1064] DEBUG - 	args: InputtedEventArgs (Text: 78579507, Source: Keyboard, BarcodeEventArgs: )
+2024.07.18 20:22:28,814 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsService.StartTask...
+2024.07.18 20:22:28,814 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:22:28,814 [196280786][1.47.0.1064] DEBUG - 	employeeId: 0000072400
+2024.07.18 20:22:28,815 [196280786][1.47.0.1064] DEBUG - 	cargoPackageId: 78579507
+2024.07.18 20:22:28,815 [196280786][1.47.0.1064] DEBUG - 	taskType: 48
+2024.07.18 20:22:28,815 [196280786][1.47.0.1064] DEBUG - 	task: не задано
+2024.07.18 20:22:29,119 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsService.StartTask успешно завершен. Возвращаемое значение: 0
+2024.07.18 20:22:29,173 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.RenderControls...
+2024.07.18 20:22:29,237 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.RenderControls успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:22:29,243 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsService.GetLinesQty...
+2024.07.18 20:22:29,243 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:22:29,243 [196280786][1.47.0.1064] DEBUG - 	taskId: MK71671532
+2024.07.18 20:22:29,243 [196280786][1.47.0.1064] DEBUG - 	qty: 0
+2024.07.18 20:22:29,350 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsService.GetLinesQty успешно завершен. Возвращаемое значение: 0
+2024.07.18 20:22:29,356 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsService.GetUnfinishedLines...
+2024.07.18 20:22:29,356 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:22:29,357 [196280786][1.47.0.1064] DEBUG - 	employeeId: 0000072400
+2024.07.18 20:22:29,357 [196280786][1.47.0.1064] DEBUG - 	taskId: MK71671532
+2024.07.18 20:22:29,357 [196280786][1.47.0.1064] DEBUG - 	lineCount: 0
+2024.07.18 20:22:29,357 [196280786][1.47.0.1064] DEBUG - 	message: не задано
+2024.07.18 20:22:29,448 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsService.GetUnfinishedLines успешно завершен. Возвращаемое значение: -2
+2024.07.18 20:23:27,025 [177930750][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x10010000)
+2024.07.18 20:23:52,522 [177930750][(null)] DEBUG - POWER_BROADCAST: Message=PBT_TRANSITION, Flags=POWER_STATE_ON, POWER_STATE_PASSWORD (0x12010000)
+2024.07.18 20:23:53,642 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:23:53,642 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:23:53,643 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:23:53,643 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:23:53,648 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:23:53,875 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:23:53,876 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:23:53,876 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:23:53,876 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:23:53,881 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:23:54,066 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:23:54,067 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:23:54,067 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:23:54,067 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:23:54,072 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:23:55,792 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:23:55,793 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:23:55,793 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:23:55,793 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:23:55,798 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:23:55,989 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:23:55,989 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:23:55,990 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:23:55,990 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:23:55,995 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:23:56,229 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:23:56,229 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:23:56,229 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:23:56,230 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:23:56,234 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:23:58,139 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:23:58,139 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:23:58,140 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:23:58,140 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:23:58,145 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:23:58,312 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:23:58,312 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:23:58,312 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:23:58,313 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:23:58,317 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:23:58,511 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:23:58,512 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:23:58,512 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:23:58,512 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:23:58,517 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:24:01,084 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:24:01,085 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:24:01,085 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:24:01,085 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:24:01,090 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:24:01,329 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:24:01,329 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:24:01,329 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:24:01,329 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:24:01,334 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:24:01,506 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:24:01,506 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:24:01,506 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:24:01,506 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:24:01,511 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:24:04,018 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:24:04,018 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:24:04,018 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:24:04,018 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:24:04,023 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:24:04,960 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:24:04,960 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:24:04,960 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:24:04,961 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:24:04,966 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:24:05,025 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnNomenclatureInputted...
+2024.07.18 20:24:05,025 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:24:05,025 [196280786][1.47.0.1064] DEBUG - 	sender: InputField (label: ШК товара:, text: 4607012144119)
+2024.07.18 20:24:05,025 [196280786][1.47.0.1064] DEBUG - 	args: InputtedEventArgs (Text: 4607012144119, Source: Keyboard, BarcodeEventArgs: )
+2024.07.18 20:24:05,031 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnItemBarcodeEnter...
+2024.07.18 20:24:05,031 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:24:05,032 [196280786][1.47.0.1064] DEBUG - 	itemBarcode: 4607012144119
+2024.07.18 20:24:05,038 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsService.OnItemBarcodeEnter...
+2024.07.18 20:24:05,039 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:24:05,039 [196280786][1.47.0.1064] DEBUG - 	employeeId: 0000072400
+2024.07.18 20:24:05,039 [196280786][1.47.0.1064] DEBUG - 	taskId: MK71671532
+2024.07.18 20:24:05,039 [196280786][1.47.0.1064] DEBUG - 	taskType: 48
+2024.07.18 20:24:05,039 [196280786][1.47.0.1064] DEBUG - 	itemBarcode: 4607012144119
+2024.07.18 20:24:05,040 [196280786][1.47.0.1064] DEBUG - 	itemQty: 0
+2024.07.18 20:24:05,040 [196280786][1.47.0.1064] DEBUG - 	givenQty: 0
+2024.07.18 20:24:05,040 [196280786][1.47.0.1064] DEBUG - 	itemName: не задано
+2024.07.18 20:24:05,040 [196280786][1.47.0.1064] DEBUG - 	itemId: не задано
+2024.07.18 20:24:05,040 [196280786][1.47.0.1064] DEBUG - 	expiryDate: не задано
+2024.07.18 20:24:05,041 [196280786][1.47.0.1064] DEBUG - 	wmsLocationId: не задано
+2024.07.18 20:24:05,041 [196280786][1.47.0.1064] DEBUG - 	orderId: не задано
+2024.07.18 20:24:05,041 [196280786][1.47.0.1064] DEBUG - 	subOrderId: не задано
+2024.07.18 20:24:05,041 [196280786][1.47.0.1064] DEBUG - 	eShopAssemblyPriority: False
+2024.07.18 20:24:05,042 [196280786][1.47.0.1064] DEBUG - 	boxNumber: не задано
+2024.07.18 20:24:05,042 [196280786][1.47.0.1064] DEBUG - 	hostOrderId: не задано
+2024.07.18 20:24:05,042 [196280786][1.47.0.1064] DEBUG - 	sortingStation: не задано
+2024.07.18 20:24:05,042 [196280786][1.47.0.1064] DEBUG - 	itemGivenQtySum: 0
+2024.07.18 20:24:05,042 [196280786][1.47.0.1064] DEBUG - 	itemQtySum: 0
+2024.07.18 20:24:05,043 [196280786][1.47.0.1064] DEBUG - 	message: не задано
+2024.07.18 20:24:05,227 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsService.OnItemBarcodeEnter успешно завершен. Возвращаемое значение: -5
+2024.07.18 20:24:05,285 [196280786][1.47.0.1064] DEBUG - reader_ReadNotify
+2024.07.18 20:24:05,291 [196280786][1.47.0.1064] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2024.07.18 20:24:05,296 [196280786][1.47.0.1064] DEBUG - reader_ReadNotify - выход
+2024.07.18 20:24:10,358 [196280786][1.47.0.1064] ERROR - Выведено сообщение об ошибке:
+Номенклатура с штрихкодом 4607012144119 уже разложена!
+2024.07.18 20:24:10,363 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnItemBarcodeEnter успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:24:10,368 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnNomenclatureInputted успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:24:14,455 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:24:14,456 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:24:14,456 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:24:14,456 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:24:14,461 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:24:14,467 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:24:14,467 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:24:14,467 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:24:14,468 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:24:14,472 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:24:47,250 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:24:47,250 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:24:47,251 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:24:47,251 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:24:47,256 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:24:47,262 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:24:47,262 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:24:47,262 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:24:47,262 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:24:47,280 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:24:47,611 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:24:47,612 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:24:47,612 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:24:47,612 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:24:47,617 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:24:47,623 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:24:47,623 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:24:47,623 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:24:47,624 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:24:47,628 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:24:47,784 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:24:47,785 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:24:47,785 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:24:47,785 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:24:47,790 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:24:47,795 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:24:47,795 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:24:47,796 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:24:47,796 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:24:47,800 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:24:51,513 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:24:51,513 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:24:51,514 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:24:51,514 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:24:51,518 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:24:51,716 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:24:51,717 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:24:51,717 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:24:51,717 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:24:51,722 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:24:51,880 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:24:51,881 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:24:51,881 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:24:51,881 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:24:51,886 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:24:56,352 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:24:56,352 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:24:56,352 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:24:56,352 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:24:56,357 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:24:56,527 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:24:56,528 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:24:56,528 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:24:56,528 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:24:56,533 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:24:56,699 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:24:56,699 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:24:56,699 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:24:56,699 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:24:56,704 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:24:57,406 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:24:57,406 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:24:57,407 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:24:57,407 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:24:57,411 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:24:57,471 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnNomenclatureInputted...
+2024.07.18 20:24:57,471 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:24:57,471 [196280786][1.47.0.1064] DEBUG - 	sender: InputField (label: ШК товара:, text: MPL235358)
+2024.07.18 20:24:57,471 [196280786][1.47.0.1064] DEBUG - 	args: InputtedEventArgs (Text: MPL235358, Source: Keyboard, BarcodeEventArgs: )
+2024.07.18 20:24:57,476 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnItemBarcodeEnter...
+2024.07.18 20:24:57,477 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:24:57,477 [196280786][1.47.0.1064] DEBUG - 	itemBarcode: MPL235358
+2024.07.18 20:24:57,482 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsService.OnItemBarcodeEnter...
+2024.07.18 20:24:57,482 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:24:57,482 [196280786][1.47.0.1064] DEBUG - 	employeeId: 0000072400
+2024.07.18 20:24:57,482 [196280786][1.47.0.1064] DEBUG - 	taskId: MK71671532
+2024.07.18 20:24:57,483 [196280786][1.47.0.1064] DEBUG - 	taskType: 48
+2024.07.18 20:24:57,483 [196280786][1.47.0.1064] DEBUG - 	itemBarcode: MPL235358
+2024.07.18 20:24:57,483 [196280786][1.47.0.1064] DEBUG - 	itemQty: 0
+2024.07.18 20:24:57,483 [196280786][1.47.0.1064] DEBUG - 	givenQty: 0
+2024.07.18 20:24:57,484 [196280786][1.47.0.1064] DEBUG - 	itemName: не задано
+2024.07.18 20:24:57,484 [196280786][1.47.0.1064] DEBUG - 	itemId: не задано
+2024.07.18 20:24:57,484 [196280786][1.47.0.1064] DEBUG - 	expiryDate: не задано
+2024.07.18 20:24:57,484 [196280786][1.47.0.1064] DEBUG - 	wmsLocationId: не задано
+2024.07.18 20:24:57,484 [196280786][1.47.0.1064] DEBUG - 	orderId: не задано
+2024.07.18 20:24:57,485 [196280786][1.47.0.1064] DEBUG - 	subOrderId: не задано
+2024.07.18 20:24:57,485 [196280786][1.47.0.1064] DEBUG - 	eShopAssemblyPriority: False
+2024.07.18 20:24:57,485 [196280786][1.47.0.1064] DEBUG - 	boxNumber: не задано
+2024.07.18 20:24:57,485 [196280786][1.47.0.1064] DEBUG - 	hostOrderId: не задано
+2024.07.18 20:24:57,485 [196280786][1.47.0.1064] DEBUG - 	sortingStation: не задано
+2024.07.18 20:24:57,486 [196280786][1.47.0.1064] DEBUG - 	itemGivenQtySum: 0
+2024.07.18 20:24:57,486 [196280786][1.47.0.1064] DEBUG - 	itemQtySum: 0
+2024.07.18 20:24:57,486 [196280786][1.47.0.1064] DEBUG - 	message: не задано
+2024.07.18 20:24:57,765 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsService.OnItemBarcodeEnter успешно завершен. Возвращаемое значение: 0
+2024.07.18 20:24:57,770 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsService.GetLinesQty...
+2024.07.18 20:24:57,770 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:24:57,771 [196280786][1.47.0.1064] DEBUG - 	taskId: MK71671532
+2024.07.18 20:24:57,771 [196280786][1.47.0.1064] DEBUG - 	qty: 0
+2024.07.18 20:24:57,861 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsService.GetLinesQty успешно завершен. Возвращаемое значение: 0
+2024.07.18 20:24:57,866 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnItemBarcodeEnter успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:24:57,870 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnNomenclatureInputted успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:24:57,921 [196280786][1.47.0.1064] DEBUG - reader_ReadNotify
+2024.07.18 20:24:57,925 [196280786][1.47.0.1064] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2024.07.18 20:24:57,930 [196280786][1.47.0.1064] DEBUG - reader_ReadNotify - выход
+2024.07.18 20:25:06,874 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:25:06,874 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:25:06,874 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:25:06,874 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:25:06,879 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:25:09,452 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:25:09,452 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:25:09,453 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:25:09,453 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:25:09,457 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:25:09,511 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnQtyInputted...
+2024.07.18 20:25:09,511 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:25:09,511 [196280786][1.47.0.1064] DEBUG - 	sender: InputField (label: Количество:, text: 1)
+2024.07.18 20:25:09,511 [196280786][1.47.0.1064] DEBUG - 	args: InputtedEventArgs (Text: 1, Source: Keyboard, BarcodeEventArgs: )
+2024.07.18 20:25:09,517 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsService.OnQtyEnter...
+2024.07.18 20:25:09,517 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:25:09,518 [196280786][1.47.0.1064] DEBUG - 	employeeId: 0000072400
+2024.07.18 20:25:09,518 [196280786][1.47.0.1064] DEBUG - 	taskId: MK71671532
+2024.07.18 20:25:09,518 [196280786][1.47.0.1064] DEBUG - 	qty: 1
+2024.07.18 20:25:09,518 [196280786][1.47.0.1064] DEBUG - 	message: не задано
+2024.07.18 20:25:09,629 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsService.OnQtyEnter успешно завершен. Возвращаемое значение: 0
+2024.07.18 20:25:09,635 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnQtyInputted успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:25:11,868 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:25:11,869 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:25:11,869 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:25:11,869 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:25:11,874 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:25:12,991 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:25:12,992 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:25:12,992 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:25:12,992 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:25:12,997 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:25:13,192 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:25:13,193 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:25:13,193 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:25:13,193 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:25:13,198 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:25:13,408 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:25:13,409 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:25:13,409 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:25:13,409 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:25:13,414 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:25:14,176 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:25:14,177 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:25:14,177 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:25:14,177 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:25:14,182 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:25:14,433 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:25:14,434 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:25:14,434 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:25:14,434 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:25:14,439 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:25:14,638 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:25:14,638 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:25:14,638 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:25:14,639 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:25:14,644 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:25:14,866 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:25:14,866 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:25:14,866 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:25:14,866 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:25:14,871 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:25:44,510 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFormKeyDown...
+2024.07.18 20:25:44,510 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:25:44,510 [196280786][1.47.0.1064] DEBUG - 	sender: ScanCity.ConveyerTerminal.DeviceClient.UI.Sorting.SortingScsForm
+2024.07.18 20:25:44,510 [196280786][1.47.0.1064] DEBUG - 	e: System.Windows.Forms.KeyEventArgs
+2024.07.18 20:25:44,515 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFormKeyDown успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:25:44,570 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnBarcodeInputted...
+2024.07.18 20:25:44,571 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:25:44,571 [196280786][1.47.0.1064] DEBUG - 	sender: InputField (label: 50002770:, text: 50002770)
+2024.07.18 20:25:44,571 [196280786][1.47.0.1064] DEBUG - 	args: InputtedEventArgs (Text: 50002770, Source: Keyboard, BarcodeEventArgs: )
+2024.07.18 20:25:44,577 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsService.SearchToteMarriedByValues...
+2024.07.18 20:25:44,577 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:25:44,577 [196280786][1.47.0.1064] DEBUG - 	taskId: MK71671532
+2024.07.18 20:25:44,578 [196280786][1.47.0.1064] DEBUG - 	wmsLocationId: 1K09-002-3
+2024.07.18 20:25:44,578 [196280786][1.47.0.1064] DEBUG - 	orderId: 000349192
+2024.07.18 20:25:44,578 [196280786][1.47.0.1064] DEBUG - 	subOrderId: 51
+2024.07.18 20:25:44,578 [196280786][1.47.0.1064] DEBUG - 	taskType: 48
+2024.07.18 20:25:44,579 [196280786][1.47.0.1064] DEBUG - 	boxNumber: не задано
+2024.07.18 20:25:44,579 [196280786][1.47.0.1064] DEBUG - 	message: не задано
+2024.07.18 20:25:44,667 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsService.SearchToteMarriedByValues успешно завершен. Возвращаемое значение: 0
+2024.07.18 20:25:44,676 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsService.OnBarcodeEnter...
+2024.07.18 20:25:44,676 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:25:44,676 [196280786][1.47.0.1064] DEBUG - 	employeeId: 0000072400
+2024.07.18 20:25:44,676 [196280786][1.47.0.1064] DEBUG - 	taskId: MK71671532
+2024.07.18 20:25:44,677 [196280786][1.47.0.1064] DEBUG - 	qty: 1
+2024.07.18 20:25:44,677 [196280786][1.47.0.1064] DEBUG - 	boxNumber: 50002770
+2024.07.18 20:25:44,677 [196280786][1.47.0.1064] DEBUG - 	itemId: MPL235358
+2024.07.18 20:25:44,677 [196280786][1.47.0.1064] DEBUG - 	wmsLocationId: 1K09-002-3
+2024.07.18 20:25:44,677 [196280786][1.47.0.1064] DEBUG - 	orderId: 000349192
+2024.07.18 20:25:44,678 [196280786][1.47.0.1064] DEBUG - 	subOrderId: 51
+2024.07.18 20:25:44,678 [196280786][1.47.0.1064] DEBUG - 	expiryDate: 3/23/2026 12:00:00 AM
+2024.07.18 20:25:44,678 [196280786][1.47.0.1064] DEBUG - 	eShopAssemblyPriority: False
+2024.07.18 20:25:44,678 [196280786][1.47.0.1064] DEBUG - 	cargoPackageId: 78579507
+2024.07.18 20:25:44,678 [196280786][1.47.0.1064] DEBUG - 	message: не задано
+2024.07.18 20:25:45,470 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsService.OnBarcodeEnter успешно завершен. Возвращаемое значение: 0
+2024.07.18 20:25:45,475 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsService.GetLinesQty...
+2024.07.18 20:25:45,476 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:25:45,476 [196280786][1.47.0.1064] DEBUG - 	taskId: MK71671532
+2024.07.18 20:25:45,476 [196280786][1.47.0.1064] DEBUG - 	qty: 0
+2024.07.18 20:25:45,566 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsService.GetLinesQty успешно завершен. Возвращаемое значение: 0
+2024.07.18 20:25:45,571 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsService.GetUnfinishedLines...
+2024.07.18 20:25:45,571 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:25:45,571 [196280786][1.47.0.1064] DEBUG - 	employeeId: 0000072400
+2024.07.18 20:25:45,572 [196280786][1.47.0.1064] DEBUG - 	taskId: MK71671532
+2024.07.18 20:25:45,572 [196280786][1.47.0.1064] DEBUG - 	lineCount: 0
+2024.07.18 20:25:45,572 [196280786][1.47.0.1064] DEBUG - 	message: не задано
+2024.07.18 20:25:45,649 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsService.GetUnfinishedLines успешно завершен. Возвращаемое значение: -2
+2024.07.18 20:25:45,656 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnBarcodeInputted успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:25:49,181 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsForm.OnFinishButtonPressed...
+2024.07.18 20:25:49,181 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:25:49,182 [196280786][1.47.0.1064] DEBUG - 	sender: PushingButton (name: _finishButton, text: Завершить)
+2024.07.18 20:25:49,182 [196280786][1.47.0.1064] DEBUG - 	e: System.EventArgs
+2024.07.18 20:25:49,187 [196280786][1.47.0.1064] INFO - Выведено сообщение с вопросом: Завершить?
+2024.07.18 20:25:49,236 [196280786][1.47.0.1064] DEBUG - reader_ReadNotify
+2024.07.18 20:25:49,241 [196280786][1.47.0.1064] DEBUG - reader_ReadNotify: Barcode='', Type='Unknown'
+2024.07.18 20:25:49,246 [196280786][1.47.0.1064] DEBUG - reader_ReadNotify - выход
+2024.07.18 20:25:52,500 [196280786][1.47.0.1064] INFO - Пользователь выбрал да
+2024.07.18 20:25:52,506 [196280786][1.47.0.1064] DEBUG - >>> Вызван метод SortingScsService.OnFinishButton...
+2024.07.18 20:25:52,506 [196280786][1.47.0.1064] DEBUG - Параметры метода: 
+2024.07.18 20:25:52,506 [196280786][1.47.0.1064] DEBUG - 	employeeId: 0000072400
+2024.07.18 20:25:52,506 [196280786][1.47.0.1064] DEBUG - 	taskId: MK71671532
+2024.07.18 20:25:52,507 [196280786][1.47.0.1064] DEBUG - 	taskType: 48
+2024.07.18 20:25:52,507 [196280786][1.47.0.1064] DEBUG - 	message: не задано
+2024.07.18 20:25:52,871 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsService.OnFinishButton успешно завершен. Возвращаемое значение: 0
+2024.07.18 20:25:52,878 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsForm.OnFinishButtonPressed успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:25:52,988 [196280786][1.47.0.1064] DEBUG - <<< Метод SortingScsSelectionForm.OnBarcodeInputted успешно завершен. Возвращаемое значение: отсутствует

@@ -1,0 +1,52 @@
+Received: from smx-mbx01.ALKOR.RU (172.16.17.210) by smx-mbx02.ALKOR.RU
+ (172.16.17.211) with Microsoft SMTP Server (TLS) id 15.0.1497.48 via Mailbox
+ Transport; Mon, 18 May 2026 16:55:04 +0300
+Received: from smx-mbx01.ALKOR.RU (172.16.17.210) by smx-mbx01.ALKOR.RU
+ (172.16.17.210) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Mon, 18 May
+ 2026 16:55:04 +0300
+Received: from smx-mbx01.ALKOR.RU ([fe80::8420:3f11:19dc:8267]) by
+ smx-mbx01.ALKOR.RU ([fe80::8420:3f11:19dc:8267%12]) with mapi id
+ 15.00.1497.048; Mon, 18 May 2026 16:55:04 +0300
+From: Pavel Olonov <olonov@letutech.pro>
+To: Jira <ejr-jira-onprem@alkor.co.ru>
+Subject: =?utf-8?B?UkZDLTQxMTgg0KHQvtCz0LvQsNGB0LXQvQ==?=
+Thread-Topic: =?utf-8?B?UkZDLTQxMTgg0KHQvtCz0LvQsNGB0LXQvQ==?=
+Thread-Index: AQHc5s3tfTZ5i1iX20u6ak4ATN5xhg==
+Date: Mon, 18 May 2026 16:55:04 +0300
+Message-ID: <F1898F71-5268-4690-8E5A-E36113D0C5DB@contoso.com>
+Accept-Language: ru-RU, en-US
+Content-Language: ru-RU
+X-MS-Exchange-Organization-AuthAs: Internal
+X-MS-Exchange-Organization-AuthMechanism: 04
+X-MS-Exchange-Organization-AuthSource: smx-mbx01.ALKOR.RU
+X-MS-Has-Attach:
+X-MS-Exchange-Organization-SCL: -1
+X-MS-TNEF-Correlator:
+Content-Type: text/html; charset="utf-8"
+Content-ID: <8B946FD976EA2440BC79589498B4236A@letoile.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+
+PGh0bWwgeG1sbnM6bz0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6b2ZmaWNlIiB4
+bWxuczp3PSJ1cm46c2NoZW1hcy1taWNyb3NvZnQtY29tOm9mZmljZTp3b3JkIiB4bWxuczptPSJo
+dHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL29mZmljZS8yMDA0LzEyL29tbWwiIHhtbG5zPSJo
+dHRwOi8vd3d3LnczLm9yZy9UUi9SRUMtaHRtbDQwIj4NCjxoZWFkPg0KPG1ldGEgaHR0cC1lcXVp
+dj0iQ29udGVudC1UeXBlIiBjb250ZW50PSJ0ZXh0L2h0bWw7IGNoYXJzZXQ9dXRmLTgiPg0KPG1l
+dGEgbmFtZT0iR2VuZXJhdG9yIiBjb250ZW50PSJNaWNyb3NvZnQgV29yZCAxNSAoZmlsdGVyZWQg
+bWVkaXVtKSI+DQo8c3R5bGU+PCEtLQ0KLyogRm9udCBEZWZpbml0aW9ucyAqLw0KQGZvbnQtZmFj
+ZQ0KCXtmb250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsNCglwYW5vc2UtMToyIDQgNSAzIDUgNCA2
+IDMgMiA0O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6QXB0b3M7DQoJcGFub3NlLTE6MiAx
+MSAwIDQgMiAyIDIgMiAyIDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFs
+LCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCglmb250LXNpemU6
+MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJBcHRvcyIsc2Fucy1zZXJpZjt9DQpzcGFuLkVtYWlsU3R5
+bGUxOA0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1jb21wb3NlOw0KCWZvbnQtZmFtaWx5OiJD
+YWxpYnJpIixzYW5zLXNlcmlmOw0KCWNvbG9yOndpbmRvd3RleHQ7fQ0KLk1zb0NocERlZmF1bHQN
+Cgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7DQoJZm9udC1zaXplOjEwLjBwdDsNCgltc28t
+bGlnYXR1cmVzOm5vbmU7fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6NjEyLjBwdCA3OTIu
+MHB0Ow0KCW1hcmdpbjoyLjBjbSA0Mi41cHQgMi4wY20gMy4wY207fQ0KZGl2LldvcmRTZWN0aW9u
+MQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9DQotLT48L3N0eWxlPg0KPC9oZWFkPg0KPGJvZHkgbGFu
+Zz0iUlUiIGxpbms9IiMwNTYzQzEiIHZsaW5rPSIjOTU0RjcyIiBzdHlsZT0id29yZC13cmFwOmJy
+ZWFrLXdvcmQiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24xIj4NCjxkaXY+DQo8cCBjbGFzcz0i
+TXNvTm9ybWFsIj48c3BhbiBzdHlsZT0ibXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPtCh0L7Q
+s9C70LDRgdC10L08bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5
+Pg0KPC9odG1sPg0K

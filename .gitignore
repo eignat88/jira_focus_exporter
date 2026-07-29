@@ -1,8 +1,49 @@
-﻿.venv/
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Secrets
 .env
+.env.*
+
+# Logs
 logs/
-exports/
+**/logs/
+
+# Data files (auto-generated)
 data/
+**/data/*.csv
+**/data/*.log
+**/data/*.json
+
+# Exports and reports
+exports/
 reports/
+
+# Monitoring output
+monitoring/*.csv
+monitoring/*.log
+
+# Diagnostic scripts (local)
+diagnose_*.ps1
+
+# IDE
+.vscode/
+.idea/
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Archive
+archive/

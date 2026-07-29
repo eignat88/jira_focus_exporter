@@ -1,0 +1,83 @@
+{
+  "project": "Anomaly Detection",
+  "scan_date": "2026-07-27T09:43:23.685131",
+  "root": "D:\\py_pro\\jira_focus_exporter\\bz\\Anomaly Detection",
+  "summary": {
+    "total_files": 1307,
+    "total_size_kb": 14691370.28,
+    "directories": 126,
+    "errors": 0
+  },
+  "code_stats": {
+    "python_lines": 77269,
+    "sql_lines": 14657,
+    "powershell_lines": 7253,
+    "total_code_lines": 99616
+  },
+  "file_types": {
+    ".md": 154,
+    ".docx": 7,
+    ".txt": 178,
+    ".ps1": 46,
+    ".py": 306,
+    ".yaml": 8,
+    ".sql": 171,
+    ".bat": 5,
+    ".csv": 196,
+    ".zip": 21,
+    ".json": 8,
+    ".xpo": 12,
+    ".drawio": 1,
+    ".xpp": 1,
+    ".log": 165,
+    ".xlsx": 1,
+    ".pyc": 7,
+    ".tmp": 1,
+    "": 3,
+    ".ipynb": 9,
+    ".doc": 1,
+    ".cmd": 1,
+    ".sh": 1,
+    ".bak": 1,
+    ".db": 1,
+    ".mmd": 1,
+    ".html": 1
+  },
+  "tests": {
+    "count": 9,
+    "modules": [
+      "test_alk_markserial_resume.py",
+      "test_config.py",
+      "test_integration_inventtable.py",
+      "test_p12_features.py",
+      "test_parallel_inventtable.py",
+      "test_parallel_loader_v2.py",
+      "test_resume_mechanism.py",
+      "test_resume_v2.py",
+      "test_serialization.py"
+    ]
+  },
+  "git": {
+    "status": "dirty",
+    "changes": 661
+  },
+  "dependencies": {
+    "count": 13,
+    "list": [
+      "pandas>=2.0.0",
+      "numpy>=1.24.0",
+      "scikit-learn>=1.3.0",
+      "matplotlib>=3.7.0",
+      "seaborn>=0.12.0",
+      "plotly>=5.15.0",
+      "tensorflow>=2.13.0",
+      "keras>=2.13.0",
+      "jupyter>=1.0.0",
+      "ipykernel>=6.25.0",
+      "python-dotenv>=1.0.0",
+      "pyyaml>=6.0",
+      "loguru>=0.7.0"
+    ]
+  },
+  "errors": []
+}

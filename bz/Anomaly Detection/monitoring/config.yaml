@@ -1,0 +1,27 @@
+postgres:
+  host: localhost
+  port: 5432
+  database: wms_analysis
+  user: postgres
+  password: "123"
+
+monitoring:
+  interval_seconds: 30
+  duration_hours: 12
+  output_dir: output
+
+  targets:
+    tables:
+      - raw_ax.alk_markserial
+      - dds.serial_mark
+      - raw_ax.wmspickingroute
+      - dds.picking_route
+
+    queries:
+      - alk_markserial
+      - serial_mark
+
+alerts:
+  wal_speed_threshold_mb_min: 1000
+  long_query_threshold_seconds: 300
+  dead_tuple_threshold_percent: 10

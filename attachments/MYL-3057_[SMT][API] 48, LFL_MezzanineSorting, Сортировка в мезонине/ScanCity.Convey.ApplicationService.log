@@ -1,0 +1,731 @@
+******************* Служба запущена 2024.07.18 20:21:15,194 [v1.48.0.1065/1.48.0.1065] **************************
+NETFX.Version=2.0.50727.8813
+OS.Version=Microsoft Windows NT 6.2.9200.0
+2024.07.18 20:21:15,384 [thrd=4][ip=(null)][port=(null)][1.48.0.1065] INFO -  *** Приложение запущено *** 
+2024.07.18 20:21:15,426 [thrd=4][ip=(null)][port=(null)][1.48.0.1065] INFO - Конфиг обновлен.
+2024.07.18 20:21:15,426 [thrd=4][ip=(null)][port=(null)][1.48.0.1065] INFO - Считаны настройки сервиса: DatabaseConnectionString=Data Source =  sax-db-t1; Initial Catalog = TSD_WRK_AX12_STAGE;User Id = TSD-Test; Password = QWErty123;, ConveyDatabaseConnectionString=Data Source = sax-db-t1; Initial Catalog = SUP_Int2Convey_Copy;User Id = TSD-Test; Password = QWErty123;, AXTimeOut=50
+2024.07.18 20:21:15,771 [thrd=4][ip=(null)][port=(null)][1.48.0.1065] DEBUG - Созданы объекты служб
+2024.07.18 20:21:16,071 [thrd=4][ip=(null)][port=(null)][1.48.0.1065] DEBUG - Запущены все хосты служб
+2024.07.18 20:22:02,118 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод CommonService.GetSettings...
+Параметры метода: 
+	System.String serialNumber: 73E65B7606490108011510102E7C0600
+
+2024.07.18 20:22:02,209 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Common4Services.LoadSetup...
+Параметры метода: 
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.ISession session: ScanCity.ConveyerTerminal.ApplicationService.Dao.Session
+
+2024.07.18 20:22:02,214 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [Setup.Load]
+
+2024.07.18 20:22:02,256 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 1 строк; OutParams содержит 0 элементов.
+2024.07.18 20:22:02,267 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Common4Services.LoadSetup успешно завершен. Возвращаемое значение: SetupDto {SourceProblemStatusText=Пусто, DestProblemStatusText=Занято, DefaultInventLocationId=ЛК_ПД_ЦС, CtrlAreaId=Обл_Контр, ShipmentAcceptAreaCode=Отгрузка, DefaultShipmentAcceptLocationId=1D_36, ShipmentTransportAreaCode=ОСН_ОТГР, Integration2Convey=True, UseFloor=True, LoadToPalletConveyerAreaCode=InToPalCNV, ForceAssignPickingTasksFromSameLocation=False, NeedCreateNewLinePicking=False, DefaultCustAccount4Invent=АЛЬКОР_КО, UsePtl=True, PtlErrorColor=Blue, PtlControllerHost=172.24.0.23, PtlControllerPort=5003, PtlService=http://sws-ax01.alkor.ru:22222/Columbus.Devices.Services.LightPickPut/AIOILightPickPutTcpSvc/add, MezzanineSortBuffer=MEZSORTBUF, MezzanineSortBuffer=MEZBUFSTD, NumberSeriesTrayMez=5, InterfaceUnlockAvailable=False}>
+2024.07.18 20:22:02,270 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [Setup.GetTsdSettings]
+	System.Collections.Generic.KeyValuePair`2[System.String,System.Object][] args:
+		Key=@SerialNumber;Value=73E65B7606490108011510102E7C0600
+
+2024.07.18 20:22:02,273 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 1 строк; OutParams содержит 0 элементов.
+2024.07.18 20:22:02,290 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод CommonService.GetSettings успешно завершен. Возвращаемое значение: SetupDto {SourceProblemStatusText=Пусто, DestProblemStatusText=Занято, DefaultInventLocationId=ЛК_ПД_ЦС, CtrlAreaId=Обл_Контр, ShipmentAcceptAreaCode=Отгрузка, DefaultShipmentAcceptLocationId=1D_36, ShipmentTransportAreaCode=ОСН_ОТГР, Integration2Convey=True, UseFloor=True, LoadToPalletConveyerAreaCode=InToPalCNV, ForceAssignPickingTasksFromSameLocation=False, NeedCreateNewLinePicking=False, DefaultCustAccount4Invent=АЛЬКОР_КО, UsePtl=True, PtlErrorColor=Blue, PtlControllerHost=172.24.0.23, PtlControllerPort=5003, PtlService=http://sws-ax01.alkor.ru:22222/Columbus.Devices.Services.LightPickPut/AIOILightPickPutTcpSvc/add, MezzanineSortBuffer=MEZSORTBUF, MezzanineSortBuffer=MEZBUFSTD, NumberSeriesTrayMez=5, InterfaceUnlockAvailable=False}>
+2024.07.18 20:22:04,932 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод CommonService.UpdateSettings...
+Параметры метода: 
+	System.String scannerSettingsFileName: ScannerSettings_20101011174300.usi
+	System.Nullable`1[ScanCity.ConveyerTerminal.ApplicationService.Device] device: Motorola
+
+2024.07.18 20:22:04,947 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод CommonService.UpdateSettings успешно завершен. Возвращаемое значение: SettingsDto <ScannerSettings=, DateTimeInfo=DateTimeInfoDto <DateTime=18.07.2024 17:22:04, BiasOffset=180, SupportsDaylightSavingTime=True>>
+2024.07.18 20:22:08,954 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Service1.LogonUser...
+Параметры метода: 
+	System.String barcode: 2920009607
+	System.String terminalId: 73E65B7606490108011510102E7C0600
+	System.String clientVersion: 1.47.0.1064
+	ScanCity.ConveyerTerminal.ApplicationService.Dtos.EmployeeDto& employee: не задано
+
+2024.07.18 20:22:08,959 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Common4Services.GetEmployee...
+Параметры метода: 
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.ISession session: ScanCity.ConveyerTerminal.ApplicationService.Dao.Session
+	System.String userBarcode: 2920009607
+
+2024.07.18 20:22:08,959 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [Employee.LoadByBarcode]
+	System.Collections.Generic.KeyValuePair`2[System.String,System.Object][] args:
+		Key=@Barcode;Value=2920009607
+
+2024.07.18 20:22:08,970 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 2 строк; OutParams содержит 0 элементов.
+2024.07.18 20:22:08,993 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Common4Services.GetEmployee успешно завершен. Возвращаемое значение: EmployeeDto={Barcode="2920009607", Id="0000072400", Name="Дьяков Алекс Владимирович", PermissionsString="Glue;LinkTrayRoute;Sorting;SortingSCS;MezzanineSorting", Status=UserStatus.None}
+2024.07.18 20:22:08,993 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [Employee.CreateSession]
+	System.Collections.Generic.KeyValuePair`2[System.String,System.Object][] args:
+		Key=@EmplId;Value=0000072400
+		Key=@TerminalId;Value=73E65B7606490108011510102E7C0600
+		Key=@TerminalIp;Value=192.168.34.13
+		Key=@ClientVersion;Value=1.47.0.1064
+
+2024.07.18 20:22:08,996 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 0 строк; OutParams содержит 0 элементов.
+2024.07.18 20:22:08,999 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [AXInterop.CloseUserRequestsProcessedByAx]
+	System.Collections.Generic.KeyValuePair`2[System.String,System.Object][] args:
+		Key=@EmplId;Value=0000072400
+
+2024.07.18 20:22:09,001 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 0 строк; OutParams содержит 0 элементов.
+2024.07.18 20:22:09,021 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Service1.LogonUser успешно завершен. Возвращаемое значение: 0
+2024.07.18 20:22:09,079 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод CommonService.IsThereRequestUnprocessedByAx...
+Параметры метода: 
+	System.String employeeId: 0000072400
+
+2024.07.18 20:22:09,082 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [AXInterop.HasUserRequestUnrocessedByAx]
+	System.Collections.Generic.KeyValuePair`2[System.String,System.Object][] args:
+		Key=@EmplId;Value=0000072400
+
+2024.07.18 20:22:09,083 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 0 строк; OutParams содержит 0 элементов.
+2024.07.18 20:22:09,084 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод CommonService.IsThereRequestUnprocessedByAx успешно завершен. Возвращаемое значение: False
+2024.07.18 20:22:09,213 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод CommonService.IsThereUnfinishedTask...
+Параметры метода: 
+	System.String employeeId: 0000072400
+
+2024.07.18 20:22:09,215 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [Common.GetUnfinishedTasks]
+	System.Collections.Generic.KeyValuePair`2[System.String,System.Object][] args:
+		Key=@EmplId;Value=0000072400
+
+2024.07.18 20:22:09,216 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 0 строк; OutParams содержит 0 элементов.
+2024.07.18 20:22:09,217 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод CommonService.IsThereUnfinishedTask успешно завершен. Возвращаемое значение: False
+2024.07.18 20:22:29,990 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод SortingScsService.StartTask...
+Параметры метода: 
+	System.String employeeId: 0000072400
+	System.String terminalId: 73E65B7606490108011510102E7C0600
+	System.String cargoPackageId: 78579507
+	System.Nullable`1[System.Int32] taskType: 48
+	ScanCity.ConveyerTerminal.ApplicationService.Dtos.SortingScsTaskDto& task: не задано
+
+2024.07.18 20:22:29,999 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [Session.IsValidSession]
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[] args: ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[]
+
+2024.07.18 20:22:30,022 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 1 строк; OutParams содержит 0 элементов.
+2024.07.18 20:22:30,022 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [SortingScs.LoadTaskByCargoPackageId]
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[] args: ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[]
+
+2024.07.18 20:22:30,047 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 9 строк; OutParams содержит 0 элементов.
+2024.07.18 20:22:30,054 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Common4Services.GetEmployeeById...
+Параметры метода: 
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.ISession session: ScanCity.ConveyerTerminal.ApplicationService.Dao.Session
+	System.String employeeId: 0000072400
+
+2024.07.18 20:22:30,054 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [Employee.Load]
+	System.Collections.Generic.KeyValuePair`2[System.String,System.Object][] args:
+		Key=@EmplId;Value=0000072400
+
+2024.07.18 20:22:30,057 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 1 строк; OutParams содержит 0 элементов.
+2024.07.18 20:22:30,058 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Common4Services.GetEmployeeById успешно завершен. Возвращаемое значение: EmployeeDto={Barcode="2920009607", Id="0000072400", Name="Дьяков Алекс Владимирович", PermissionsString="Glue;LinkTrayRoute;Sorting;SortingSCS;MezzanineSorting", Status=UserStatus.None}
+2024.07.18 20:22:30,076 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [ManualTask.StartTask]
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[] args: ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[]
+
+2024.07.18 20:22:30,079 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 0 строк; OutParams содержит 0 элементов.
+2024.07.18 20:22:30,080 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [SortingScs.StartLine]
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[] args: ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[]
+
+2024.07.18 20:22:30,081 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 0 строк; OutParams содержит 0 элементов.
+2024.07.18 20:22:30,081 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [SortingScs.StartLine]
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[] args: ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[]
+
+2024.07.18 20:22:30,083 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 0 строк; OutParams содержит 0 элементов.
+2024.07.18 20:22:30,083 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [SortingScs.StartLine]
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[] args: ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[]
+
+2024.07.18 20:22:30,084 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 0 строк; OutParams содержит 0 элементов.
+2024.07.18 20:22:30,084 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [SortingScs.StartLine]
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[] args: ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[]
+
+2024.07.18 20:22:30,085 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 0 строк; OutParams содержит 0 элементов.
+2024.07.18 20:22:30,085 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [SortingScs.StartLine]
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[] args: ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[]
+
+2024.07.18 20:22:30,087 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 0 строк; OutParams содержит 0 элементов.
+2024.07.18 20:22:30,087 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [SortingScs.StartLine]
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[] args: ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[]
+
+2024.07.18 20:22:30,088 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 0 строк; OutParams содержит 0 элементов.
+2024.07.18 20:22:30,088 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [SortingScs.StartLine]
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[] args: ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[]
+
+2024.07.18 20:22:30,089 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 0 строк; OutParams содержит 0 элементов.
+2024.07.18 20:22:30,090 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [SortingScs.StartLine]
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[] args: ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[]
+
+2024.07.18 20:22:30,091 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 0 строк; OutParams содержит 0 элементов.
+2024.07.18 20:22:30,091 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [SortingScs.StartLine]
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[] args: ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[]
+
+2024.07.18 20:22:30,092 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 0 строк; OutParams содержит 0 элементов.
+2024.07.18 20:22:30,092 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [SortingScs.ClearTrayForSorting]
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[] args: ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[]
+
+2024.07.18 20:22:30,095 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 0 строк; OutParams содержит 0 элементов.
+2024.07.18 20:22:30,107 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод SortingScsService.StartTask успешно завершен. Возвращаемое значение: 0
+2024.07.18 20:22:30,387 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод SortingScsService.GetLinesQty...
+Параметры метода: 
+	System.String taskId: MK71671532
+	Int32& qty: 0
+
+2024.07.18 20:22:30,393 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSql...
+Параметры метода: 
+	System.String text: select sum(Qty) from tsd_SortingTaskLineSCS where TaskId = @TaskId
+	System.Collections.Generic.KeyValuePair`2[System.String,System.Object][] args:
+		Key=@TaskId;Value=MK71671532
+
+2024.07.18 20:22:30,415 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSql успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 1 строк; OutParams содержит 0 элементов.
+2024.07.18 20:22:30,417 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод SortingScsService.GetLinesQty успешно завершен. Возвращаемое значение: 0
+2024.07.18 20:22:30,494 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод SortingScsService.GetUnfinishedLines...
+Параметры метода: 
+	System.String employeeId: 0000072400
+	System.String terminalId: 73E65B7606490108011510102E7C0600
+	System.String taskId: MK71671532
+	Int32& lineCount: 0
+	System.String& message: не задано
+
+2024.07.18 20:22:30,496 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [Session.IsValidSession]
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[] args: ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[]
+
+2024.07.18 20:22:30,499 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 1 строк; OutParams содержит 0 элементов.
+2024.07.18 20:22:30,499 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [SortingScs.GetUnfinishedLines]
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[] args: ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[]
+
+2024.07.18 20:22:30,515 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 9 строк; OutParams содержит 0 элементов.
+2024.07.18 20:22:30,516 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод SortingScsService.GetUnfinishedLines успешно завершен. Возвращаемое значение: -2
+2024.07.18 20:24:06,207 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод SortingScsService.OnItemBarcodeEnter...
+Параметры метода: 
+	System.String employeeId: 0000072400
+	System.String terminalId: 73E65B7606490108011510102E7C0600
+	System.String taskId: MK71671532
+	Int32 taskType: 48
+	System.String itemBarcode: 4607012144119
+	Int32& itemQty: 0
+	System.Decimal& givenQty: 0
+	System.String& itemName: не задано
+	System.String& itemId: не задано
+	System.Nullable`1[System.DateTime]& expiryDate: не задано
+	System.String& wmsLocationId: не задано
+	System.String& orderId: не задано
+	System.String& subOrderId: не задано
+	Boolean& eShopAssemblyPriority: False
+	System.String& boxNumber: не задано
+	System.String& hostOrderId: не задано
+	System.String& sortingStation: не задано
+	System.Decimal& itemGivenQtySum: 0
+	System.Decimal& itemQtySum: 0
+	System.String& message: не задано
+
+2024.07.18 20:24:06,209 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [Session.IsValidSession]
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[] args: ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[]
+
+2024.07.18 20:24:06,212 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 1 строк; OutParams содержит 0 элементов.
+2024.07.18 20:24:06,212 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [Nomenclature.LoadByBarcode]
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[] args: ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[]
+
+2024.07.18 20:24:06,241 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 1 строк; OutParams содержит 0 элементов.
+2024.07.18 20:24:06,242 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [SortingScs.SearchToteMarried]
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[] args: ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[]
+
+2024.07.18 20:24:06,285 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 0 строк; OutParams содержит 1 элементов.
+2024.07.18 20:24:06,293 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод SortingScsService.OnItemBarcodeEnter успешно завершен. Возвращаемое значение: -5
+2024.07.18 20:24:58,611 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод SortingScsService.OnItemBarcodeEnter...
+Параметры метода: 
+	System.String employeeId: 0000072400
+	System.String terminalId: 73E65B7606490108011510102E7C0600
+	System.String taskId: MK71671532
+	Int32 taskType: 48
+	System.String itemBarcode: MPL235358
+	Int32& itemQty: 0
+	System.Decimal& givenQty: 0
+	System.String& itemName: не задано
+	System.String& itemId: не задано
+	System.Nullable`1[System.DateTime]& expiryDate: не задано
+	System.String& wmsLocationId: не задано
+	System.String& orderId: не задано
+	System.String& subOrderId: не задано
+	Boolean& eShopAssemblyPriority: False
+	System.String& boxNumber: не задано
+	System.String& hostOrderId: не задано
+	System.String& sortingStation: не задано
+	System.Decimal& itemGivenQtySum: 0
+	System.Decimal& itemQtySum: 0
+	System.String& message: не задано
+
+2024.07.18 20:24:58,614 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [Session.IsValidSession]
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[] args: ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[]
+
+2024.07.18 20:24:58,616 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 1 строк; OutParams содержит 0 элементов.
+2024.07.18 20:24:58,616 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [Nomenclature.LoadByBarcode]
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[] args: ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[]
+
+2024.07.18 20:24:58,617 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 1 строк; OutParams содержит 0 элементов.
+2024.07.18 20:24:58,617 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [SortingScs.SearchToteMarried]
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[] args: ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[]
+
+2024.07.18 20:24:58,754 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 1 строк; OutParams содержит 1 элементов.
+2024.07.18 20:24:58,761 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод SortingScsService.GetItemSums...
+Параметры метода: 
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.ISession session: ScanCity.ConveyerTerminal.ApplicationService.Dao.Session
+	System.String taskId: MK71671532
+	System.String itemId: MPL235358
+	System.String wmsLocationId: 1K09-002-3
+	System.String orderId: 000349192
+	System.String subOrderId: 51
+	System.Nullable`1[System.DateTime] expiryDate: 23.03.2026 0:00:00
+	Boolean eShopAssemblyPriority: False
+	System.Decimal& itemGivenQtySum: 0
+	System.Decimal& itemQtySum: 0
+
+2024.07.18 20:24:58,762 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSql...
+Параметры метода: 
+	System.String text: select sum(GivenQty) as GivenQtySum, sum(Qty) as QtySum 
+from tsd_SortingTaskLineSCS 
+where TaskId = @TaskId 
+    and TaskStatus = 2 
+    and ItemId = @ItemId
+    and WmsLocationId = @WmsLocationId
+    and OrderId = @OrderId
+    and SubOrderId = @SubOrderId
+    and ( ExpiryDate = @ExpiryDate or ( ExpiryDate is null and @ExpiryDate is null ) )
+    and EShopAssemblyPriority = @EShopAssemblyPriority
+	System.Collections.Generic.KeyValuePair`2[System.String,System.Object][] args:
+		Key=@TaskId;Value=MK71671532
+		Key=@ItemId;Value=MPL235358
+		Key=@WmsLocationId;Value=1K09-002-3
+		Key=@OrderId;Value=000349192
+		Key=@SubOrderId;Value=51
+		Key=@ExpiryDate;Value=23.03.2026 0:00:00
+		Key=@EShopAssemblyPriority;Value=False
+
+2024.07.18 20:24:58,809 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSql успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 1 строк; OutParams содержит 0 элементов.
+2024.07.18 20:24:58,809 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод SortingScsService.GetItemSums успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:24:58,809 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [SortingScs.GetNomenclature]
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[] args: ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[]
+
+2024.07.18 20:24:58,815 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 1 строк; OutParams содержит 0 элементов.
+2024.07.18 20:24:58,832 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод SortingScsService.OnItemBarcodeEnter успешно завершен. Возвращаемое значение: 0
+2024.07.18 20:24:58,911 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод SortingScsService.GetLinesQty...
+Параметры метода: 
+	System.String taskId: MK71671532
+	Int32& qty: 0
+
+2024.07.18 20:24:58,913 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSql...
+Параметры метода: 
+	System.String text: select sum(Qty) from tsd_SortingTaskLineSCS where TaskId = @TaskId
+	System.Collections.Generic.KeyValuePair`2[System.String,System.Object][] args:
+		Key=@TaskId;Value=MK71671532
+
+2024.07.18 20:24:58,928 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSql успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 1 строк; OutParams содержит 0 элементов.
+2024.07.18 20:24:58,929 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод SortingScsService.GetLinesQty успешно завершен. Возвращаемое значение: 0
+2024.07.18 20:25:10,655 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод SortingScsService.OnQtyEnter...
+Параметры метода: 
+	System.String employeeId: 0000072400
+	System.String terminalId: 73E65B7606490108011510102E7C0600
+	System.String taskId: MK71671532
+	System.Decimal qty: 1
+	System.String& message: не задано
+
+2024.07.18 20:25:10,657 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [Session.IsValidSession]
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[] args: ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[]
+
+2024.07.18 20:25:10,659 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 1 строк; OutParams содержит 0 элементов.
+2024.07.18 20:25:10,661 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSql...
+Параметры метода: 
+	System.String text: select ConsWave from tsd_ManualTaskTable where TaskId = @TaskId and TaskType in (45, 46, 48)
+	System.Collections.Generic.KeyValuePair`2[System.String,System.Object][] args:
+		Key=@TaskId;Value=MK71671532
+
+2024.07.18 20:25:10,671 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSql успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 1 строк; OutParams содержит 0 элементов.
+2024.07.18 20:25:10,672 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод SortingScsService.OnQtyEnter успешно завершен. Возвращаемое значение: 0
+2024.07.18 20:25:45,725 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод SortingScsService.SearchToteMarriedByValues...
+Параметры метода: 
+	System.String taskId: MK71671532
+	System.String wmsLocationId: 1K09-002-3
+	System.String orderId: 000349192
+	System.String subOrderId: 51
+	System.Nullable`1[System.Int32] taskType: 48
+	System.String& boxNumber: не задано
+	System.String& message: не задано
+
+2024.07.18 20:25:45,729 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSql...
+Параметры метода: 
+	System.String text: select ConsWave from tsd_ManualTaskTable where TaskId = @TaskId and TaskType in (45, 46, 48)
+	System.Collections.Generic.KeyValuePair`2[System.String,System.Object][] args:
+		Key=@TaskId;Value=MK71671532
+
+2024.07.18 20:25:45,731 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSql успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 1 строк; OutParams содержит 0 элементов.
+2024.07.18 20:25:45,731 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSql...
+Параметры метода: 
+	System.String text: select *
+	from
+		tsd_CNVToteMarried
+	where
+		Geo_Code = @WmsLocationId
+		and Order_Id = @OrderID
+	System.Collections.Generic.KeyValuePair`2[System.String,System.Object][] args:
+		Key=@WmsLocationId;Value=1K09-002-3
+		Key=@OrderID;Value=000349192
+
+2024.07.18 20:25:45,738 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSql успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 1 строк; OutParams содержит 0 элементов.
+2024.07.18 20:25:45,739 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод SortingScsService.SearchToteMarriedByValues успешно завершен. Возвращаемое значение: 0
+2024.07.18 20:25:45,859 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод SortingScsService.OnBarcodeEnter...
+Параметры метода: 
+	System.String employeeId: 0000072400
+	System.String terminalId: 73E65B7606490108011510102E7C0600
+	System.String taskId: MK71671532
+	System.Decimal qty: 1
+	System.String boxNumber: 50002770
+	System.String itemId: MPL235358
+	System.String wmsLocationId: 1K09-002-3
+	System.String orderId: 000349192
+	System.String subOrderId: 51
+	System.Nullable`1[System.DateTime] expiryDate: 23.03.2026 0:00:00
+	Boolean eShopAssemblyPriority: False
+	System.String cargoPackageId: 78579507
+	System.String& message: не задано
+
+2024.07.18 20:25:45,862 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [Session.IsValidSession]
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[] args: ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[]
+
+2024.07.18 20:25:45,864 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 1 строк; OutParams содержит 0 элементов.
+2024.07.18 20:25:45,864 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSql...
+Параметры метода: 
+	System.String text: select ConsWave from tsd_ManualTaskTable where TaskId = @TaskId and TaskType in (45, 46, 48)
+	System.Collections.Generic.KeyValuePair`2[System.String,System.Object][] args:
+		Key=@TaskId;Value=MK71671532
+
+2024.07.18 20:25:45,865 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSql успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 1 строк; OutParams содержит 0 элементов.
+2024.07.18 20:25:45,865 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSql...
+Параметры метода: 
+	System.String text: select LineId, Qty, GivenQty
+    from tsd_SortingTaskLineSCS
+	where
+		TaskStatus = 2
+		and TaskId = @TaskId
+		and WMSLocationId = @WmsLocationId
+		and OrderId = @OrderId
+		and SubOrderId = @SubOrderId
+		and ( ExpiryDate = @ExpiryDate or ( ExpiryDate is null and @ExpiryDate is null ) )
+		and EShopAssemblyPriority = @EShopAssemblyPriority
+		and ItemId = @ItemId
+    order by LineId asc
+	System.Collections.Generic.KeyValuePair`2[System.String,System.Object][] args:
+		Key=@TaskId;Value=MK71671532
+		Key=@WmsLocationId;Value=1K09-002-3
+		Key=@OrderId;Value=000349192
+		Key=@SubOrderId;Value=51
+		Key=@ExpiryDate;Value=23.03.2026 0:00:00
+		Key=@EShopAssemblyPriority;Value=False
+		Key=@ItemId;Value=MPL235358
+
+2024.07.18 20:25:45,893 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSql успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 1 строк; OutParams содержит 0 элементов.
+2024.07.18 20:25:45,894 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - ...Осталось распределить 1
+2024.07.18 20:25:45,894 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - ...В строке 1539820 qty=0,000, givenQty=1,000, часть количества 1
+2024.07.18 20:25:45,894 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSql...
+Параметры метода: 
+	System.String text: update 
+		tsd_SortingTaskLineSCS
+	set
+		Qty = Qty + @PartQty,
+        SortingTray = @BoxNumber			
+	where
+		LineId = @LineId
+	System.Collections.Generic.KeyValuePair`2[System.String,System.Object][] args:
+		Key=@PartQty;Value=1
+		Key=@BoxNumber;Value=50002770
+		Key=@LineId;Value=1539820
+
+2024.07.18 20:25:45,908 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSql успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 0 строк; OutParams содержит 0 элементов.
+2024.07.18 20:25:45,908 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSql...
+Параметры метода: 
+	System.String text: update 
+		tsd_SortingTaskLineSCS
+	set
+		TaskStatus = 14			
+	where
+		Qty >= GivenQty
+		and TaskStatus = 2
+		and TaskId = @TaskId
+		and WMSLocationId = @WmsLocationId
+		and OrderId = @OrderId
+		and SubOrderId = @SubOrderId
+		and ( ExpiryDate = @ExpiryDate or ( ExpiryDate is null and @ExpiryDate is null ) )
+		and EShopAssemblyPriority = @EShopAssemblyPriority
+		and ItemId = @ItemId
+	System.Collections.Generic.KeyValuePair`2[System.String,System.Object][] args:
+		Key=@Qty;Value=1
+		Key=@BoxNumber;Value=50002770
+		Key=@TaskId;Value=MK71671532
+		Key=@WmsLocationId;Value=1K09-002-3
+		Key=@OrderId;Value=000349192
+		Key=@SubOrderId;Value=51
+		Key=@ExpiryDate;Value=23.03.2026 0:00:00
+		Key=@EShopAssemblyPriority;Value=False
+		Key=@ItemId;Value=MPL235358
+
+2024.07.18 20:25:46,002 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSql успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 0 строк; OutParams содержит 0 элементов.
+2024.07.18 20:25:46,003 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [SortingScs.GetUnfinishedLines]
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[] args: ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[]
+
+2024.07.18 20:25:46,020 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 8 строк; OutParams содержит 0 элементов.
+2024.07.18 20:25:46,059 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод SortingScsService.ExportDataToOrderPickResp...
+Параметры метода: 
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.ISession session: ScanCity.ConveyerTerminal.ApplicationService.Dao.Session
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.ISession axSession: ScanCity.ConveyerTerminal.ApplicationService.Dao.Session
+	System.String taskId: MK71671532
+
+2024.07.18 20:25:46,059 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSql...
+Параметры метода: 
+	System.String text: SELECT
+		ItemId AS ArticleId,
+		SortingTray AS BoxNumber,
+		ExpiryDate,
+		WMSLocationId AS GeoCode,
+		HostLineId,
+		HostOrderId,
+		OrderId,
+		Qty AS PickedUnits,
+		SortingStation AS StationName,
+		CONVERT(NVARCHAR(32), ISNULL(cast('' as xml).value('sql:column("CargoPackageId") cast as xs:int ?', 'nvarchar(32)'),0)) AS StorageToteId,
+		SubOrderId,
+		( SELECT TOP 1 Barcode FROM dbo.tsd_EmplTable WHERE EmplId = mtt.EmplId ) AS UserRef,
+		GivenQty AS UnitsToPick
+	FROM 
+		dbo.tsd_SortingTaskLineSCS stl
+	LEFT JOIN
+		dbo.tsd_ManualTaskTable mtt
+	ON
+		stl.TaskId = mtt.TaskId
+	WHERE
+		stl.TaskId = @TaskId
+		AND	stl.TaskStatus = 14;
+	System.Collections.Generic.KeyValuePair`2[System.String,System.Object][] args:
+		Key=@TaskId;Value=MK71671532
+
+2024.07.18 20:25:46,149 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSql успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 1 строк; OutParams содержит 0 элементов.
+2024.07.18 20:25:46,157 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [MoveDataToOrderPickResp]
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[] args: ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[]
+
+2024.07.18 20:25:46,448 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 0 строк; OutParams содержит 0 элементов.
+2024.07.18 20:25:46,449 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSql...
+Параметры метода: 
+	System.String text: update
+		tsd_SortingTaskLineSCS
+	set
+		TaskStatus = 16
+	where
+		TaskId = @TaskId
+		and TaskStatus = 14
+	System.Collections.Generic.KeyValuePair`2[System.String,System.Object][] args:
+		Key=@TaskId;Value=MK71671532
+
+2024.07.18 20:25:46,522 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSql успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 0 строк; OutParams содержит 0 элементов.
+2024.07.18 20:25:46,522 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод SortingScsService.ExportDataToOrderPickResp успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:25:46,540 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод SortingScsService.OnBarcodeEnter успешно завершен. Возвращаемое значение: 0
+2024.07.18 20:25:46,614 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод SortingScsService.GetLinesQty...
+Параметры метода: 
+	System.String taskId: MK71671532
+	Int32& qty: 0
+
+2024.07.18 20:25:46,616 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSql...
+Параметры метода: 
+	System.String text: select sum(Qty) from tsd_SortingTaskLineSCS where TaskId = @TaskId
+	System.Collections.Generic.KeyValuePair`2[System.String,System.Object][] args:
+		Key=@TaskId;Value=MK71671532
+
+2024.07.18 20:25:46,632 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSql успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 1 строк; OutParams содержит 0 элементов.
+2024.07.18 20:25:46,634 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод SortingScsService.GetLinesQty успешно завершен. Возвращаемое значение: 0
+2024.07.18 20:25:46,695 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод SortingScsService.GetUnfinishedLines...
+Параметры метода: 
+	System.String employeeId: 0000072400
+	System.String terminalId: 73E65B7606490108011510102E7C0600
+	System.String taskId: MK71671532
+	Int32& lineCount: 0
+	System.String& message: не задано
+
+2024.07.18 20:25:46,697 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [Session.IsValidSession]
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[] args: ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[]
+
+2024.07.18 20:25:46,700 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 1 строк; OutParams содержит 0 элементов.
+2024.07.18 20:25:46,700 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [SortingScs.GetUnfinishedLines]
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[] args: ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[]
+
+2024.07.18 20:25:46,714 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 8 строк; OutParams содержит 0 элементов.
+2024.07.18 20:25:46,716 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод SortingScsService.GetUnfinishedLines успешно завершен. Возвращаемое значение: -2
+2024.07.18 20:25:53,646 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод SortingScsService.OnFinishButton...
+Параметры метода: 
+	System.String employeeId: 0000072400
+	System.String terminalId: 73E65B7606490108011510102E7C0600
+	System.String taskId: MK71671532
+	Int32 taskType: 48
+	System.String& message: не задано
+
+2024.07.18 20:25:53,648 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [Session.IsValidSession]
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[] args: ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[]
+
+2024.07.18 20:25:53,650 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 1 строк; OutParams содержит 0 элементов.
+2024.07.18 20:25:53,650 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSql...
+Параметры метода: 
+	System.String text: select ConsWave from tsd_ManualTaskTable where TaskId = @TaskId and TaskType in (45, 46, 48)
+	System.Collections.Generic.KeyValuePair`2[System.String,System.Object][] args:
+		Key=@TaskId;Value=MK71671532
+
+2024.07.18 20:25:53,652 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSql успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 1 строк; OutParams содержит 0 элементов.
+2024.07.18 20:25:53,652 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSql...
+Параметры метода: 
+	System.String text: update
+		tsd_SortingTaskLineSCS
+	set
+		TaskStatus = 14
+	where
+		TaskId = @TaskId
+		and TaskStatus = 2
+        and Qty > 0
+	System.Collections.Generic.KeyValuePair`2[System.String,System.Object][] args:
+		Key=@TaskId;Value=MK71671532
+
+2024.07.18 20:25:53,737 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSql успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 0 строк; OutParams содержит 0 элементов.
+2024.07.18 20:25:53,740 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод SortingScsService.ExportDataToOrderPickResp...
+Параметры метода: 
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.ISession session: ScanCity.ConveyerTerminal.ApplicationService.Dao.Session
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.ISession axSession: ScanCity.ConveyerTerminal.ApplicationService.Dao.Session
+	System.String taskId: MK71671532
+
+2024.07.18 20:25:53,740 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSql...
+Параметры метода: 
+	System.String text: SELECT
+		ItemId AS ArticleId,
+		SortingTray AS BoxNumber,
+		ExpiryDate,
+		WMSLocationId AS GeoCode,
+		HostLineId,
+		HostOrderId,
+		OrderId,
+		Qty AS PickedUnits,
+		SortingStation AS StationName,
+		CONVERT(NVARCHAR(32), ISNULL(cast('' as xml).value('sql:column("CargoPackageId") cast as xs:int ?', 'nvarchar(32)'),0)) AS StorageToteId,
+		SubOrderId,
+		( SELECT TOP 1 Barcode FROM dbo.tsd_EmplTable WHERE EmplId = mtt.EmplId ) AS UserRef,
+		GivenQty AS UnitsToPick
+	FROM 
+		dbo.tsd_SortingTaskLineSCS stl
+	LEFT JOIN
+		dbo.tsd_ManualTaskTable mtt
+	ON
+		stl.TaskId = mtt.TaskId
+	WHERE
+		stl.TaskId = @TaskId
+		AND	stl.TaskStatus = 14;
+	System.Collections.Generic.KeyValuePair`2[System.String,System.Object][] args:
+		Key=@TaskId;Value=MK71671532
+
+2024.07.18 20:25:53,757 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSql успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 1 строк; OutParams содержит 0 элементов.
+2024.07.18 20:25:53,758 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSp...
+Параметры метода: 
+	System.String name: [MoveDataToOrderPickResp]
+	ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[] args: ScanCity.ConveyerTerminal.ApplicationService.Dao.StoredProcedureParameterValue[]
+
+2024.07.18 20:25:53,762 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSp успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 0 строк; OutParams содержит 0 элементов.
+2024.07.18 20:25:53,763 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSql...
+Параметры метода: 
+	System.String text: update
+		tsd_SortingTaskLineSCS
+	set
+		TaskStatus = 16
+	where
+		TaskId = @TaskId
+		and TaskStatus = 14
+	System.Collections.Generic.KeyValuePair`2[System.String,System.Object][] args:
+		Key=@TaskId;Value=MK71671532
+
+2024.07.18 20:25:53,827 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSql успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 0 строк; OutParams содержит 0 элементов.
+2024.07.18 20:25:53,827 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод SortingScsService.ExportDataToOrderPickResp успешно завершен. Возвращаемое значение: отсутствует
+2024.07.18 20:25:53,828 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - >>> Вызван метод Session.ExecuteSql...
+Параметры метода: 
+	System.String text: update
+		tsd_SortingTaskLineSCS
+	set
+		TaskStatus = 15
+	where
+		TaskId = @TaskId
+		and TaskStatus = 2;
+	update
+		tsd_ManualTaskTable
+	set
+		FinishDate = getdate(),
+		TaskStatus = 14
+	where
+		TaskId = @TaskId
+        and TaskType = @TaskType
+	System.Collections.Generic.KeyValuePair`2[System.String,System.Object][] args:
+		Key=@TaskId;Value=MK71671532
+		Key=@TaskType;Value=48
+
+2024.07.18 20:25:53,915 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод Session.ExecuteSql успешно завершен. Возвращаемое значение: SpResult: ReturnCode=0; ResultSet содержит 0 строк; OutParams содержит 0 элементов.
+2024.07.18 20:25:53,925 [thrd=10][ip=192.168.34.13][port=49160][1.48.0.1065] DEBUG - <<< Метод SortingScsService.OnFinishButton успешно завершен. Возвращаемое значение: 0
