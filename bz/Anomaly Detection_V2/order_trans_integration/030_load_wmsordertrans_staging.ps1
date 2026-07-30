@@ -96,6 +96,35 @@ if ($nullCount -ne 0 -or $emptyCount -ne 0 -or $nonNumericCount -ne 0 -or $trimM
 }
 Write-Host "RECID safety gate passed: fixed length=$minLength, numeric, no spaces."
 
+# Read-only conversion validation for fields that are text in RAW but typed in staging.
+# This prevents a chunk from failing after it starts writing.
+Write-Host 'Running typed-column conversion validation (read-only)...'
+$conversionQuality = Invoke-PsqlText @"
+BEGIN READ ONLY;
+SET LOCAL statement_timeout='${StatementTimeoutMinutes}min';
+SELECT concat_ws('|',
+    count(*) FILTER (WHERE NULLIF(btrim(qty), '') IS NOT NULL AND (NOT pg_input_is_valid(btrim(qty), 'numeric') OR lower(btrim(qty)) IN ('nan','infinity','+infinity','-infinity','inf','+inf','-inf'))),
+    count(*) FILTER (WHERE NULLIF(btrim(wms_givenqty), '') IS NOT NULL AND (NOT pg_input_is_valid(btrim(wms_givenqty), 'numeric') OR lower(btrim(wms_givenqty)) IN ('nan','infinity','+infinity','-infinity','inf','+inf','-inf'))),
+    count(*) FILTER (WHERE NULLIF(btrim(wms_defectqty), '') IS NOT NULL AND (NOT pg_input_is_valid(btrim(wms_defectqty), 'numeric') OR lower(btrim(wms_defectqty)) IN ('nan','infinity','+infinity','-infinity','inf','+inf','-inf'))),
+    count(*) FILTER (WHERE NULLIF(btrim(modifieddatetime), '') IS NOT NULL AND NOT pg_input_is_valid(btrim(modifieddatetime), 'timestamp without time zone')),
+    count(*) FILTER (WHERE NULLIF(btrim(createddatetime), '') IS NOT NULL AND NOT pg_input_is_valid(btrim(createddatetime), 'timestamp without time zone'))
+)
+FROM raw_ax.wmsordertrans;
+ROLLBACK;
+"@
+$conversionLine = ($conversionQuality -split "`r?`n" | Where-Object { $_ -match '^\d+\|\d+\|\d+\|\d+\|\d+$' } | Select-Object -Last 1)
+if (-not $conversionLine) { throw "Unexpected typed-column validation result: $conversionQuality" }
+$c = $conversionLine.Split('|')
+$invalidQty = [long]$c[0]
+$invalidPickedQty = [long]$c[1]
+$invalidWasteQty = [long]$c[2]
+$invalidModified = [long]$c[3]
+$invalidCreated = [long]$c[4]
+if ($invalidQty -ne 0 -or $invalidPickedQty -ne 0 -or $invalidWasteQty -ne 0 -or $invalidModified -ne 0 -or $invalidCreated -ne 0) {
+    throw "Typed-column safety gate failed: qty=$invalidQty picked_qty=$invalidPickedQty waste_qty=$invalidWasteQty modified_datetime=$invalidModified created_datetime=$invalidCreated. No staging rows were written."
+}
+Write-Host 'Typed-column safety gate passed: standard and scientific numeric notation accepted.'
+
 $lastRecid = ''
 $totalRows = 0L
 if (Test-Path -LiteralPath $CheckpointFile) {
@@ -151,13 +180,13 @@ WITH src AS (
         NULLIF(btrim(inventtransid), ''),
         NULLIF(btrim(itemid), ''),
         NULLIF(btrim(inventdimid), ''),
-        qty,
-        wms_givenqty,
-        wms_defectqty,
+        NULLIF(btrim(qty), '')::numeric,
+        NULLIF(btrim(wms_givenqty), '')::numeric,
+        NULLIF(btrim(wms_defectqty), '')::numeric,
         NULLIF(btrim(routeid), ''),
         NULLIF(btrim(palletidpicked), ''),
-        modifieddatetime,
-        createddatetime,
+        NULLIF(btrim(modifieddatetime), '')::timestamp without time zone,
+        NULLIF(btrim(createddatetime), '')::timestamp without time zone,
         NULLIF(btrim(dataareaid), '')
     FROM src
     ON CONFLICT (recid_bigint) DO UPDATE
