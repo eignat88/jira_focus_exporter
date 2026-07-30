@@ -1,11 +1,11 @@
-#requires -Version 5.1
+﻿#requires -Version 5.1
 [CmdletBinding()]
 param(
     [string]$HostName = 'localhost',
     [int]$Port = 5432,
     [string]$Database = 'wms_analysis',
     [string]$UserName = 'postgres',
-    [string]$PgPassword = '',
+    [string]$PgPassword = '123',
     [string]$PsqlPath = 'C:\Program Files\PostgreSQL\17\bin\psql.exe',
     [int]$BatchSize = 500000,
     [string]$OutputDirectory = 'D:\py_pro\jira_focus_exporter\bz\Anomaly Detection_V2\logs\2',
