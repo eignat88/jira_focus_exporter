@@ -46,6 +46,7 @@ def build_stage_spec(stage_config: dict, pipeline_config: dict) -> tuple[Pipelin
         target_schema=target["schema"],
         target_table=target["table"],
         key_column=source["key_column"],
+        chunk_strategy=execution.get("chunk_strategy", "numeric_range"),
         batch_size=execution.get("batch_size", pipeline_config.get("default_batch_size", 250000)),
         count_mode=execution.get("count_mode", "estimate"),
         load_mode="resume",
@@ -266,4 +267,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
