@@ -88,6 +88,11 @@ class RawToDdsAdapter:
         return spec.key_column
 
     def get_boundaries(self, data_conn, spec: PipelineSpec) -> tuple:
+        strategy = getattr(spec, "chunk_strategy", None)
+        if strategy == "full_table":
+            # One logical chunk; do not query MIN/MAX on a chunk key.
+            return 0, 1
+
         """Get MIN and MAX values of key column."""
         key_column = self._get_key_column(spec)
         key_expr = ident(key_column)

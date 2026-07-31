@@ -98,7 +98,11 @@ class PipelineRunner:
 
                 existing = chunk_manager.get_chunk_stats(run.run_id)
                 if not existing or existing.get("total_chunks", 0) == 0:
-                    lower, upper = adapter.get_boundaries(rt.data, spec)
+                    if spec.chunk_strategy == "full_table":
+                        # Full-table stages do not require source key boundaries.
+                        lower, upper = 0, 1
+                    else:
+                        lower, upper = adapter.get_boundaries(rt.data, spec)
                     ranges = adapter.build_ranges(lower, upper, spec.batch_size)
                     chunk_manager.create_chunks(
                         run.run_id, "numeric_range", spec.key_column, ranges
