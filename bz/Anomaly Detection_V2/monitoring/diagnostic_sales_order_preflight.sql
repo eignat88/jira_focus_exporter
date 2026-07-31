@@ -114,7 +114,7 @@ SELECT
     ord.ordinality AS column_position,
     COALESCE(
         att.attname,
-        pg_get_indexdef(i.indexrelid, ord.ordinality, true)
+        pg_get_indexdef(i.indexrelid, ord.ordinality::int, true)
     ) AS indexed_column_or_expression
 FROM pg_index i
 JOIN pg_class tbl

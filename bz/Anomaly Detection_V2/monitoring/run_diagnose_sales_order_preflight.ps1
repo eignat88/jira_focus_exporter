@@ -1,4 +1,7 @@
-﻿# Запускать из:
+﻿# При блокировке ExecutionPolicy запускайте:
+# powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\run_diagnose_sales_order_preflight.ps1
+#
+# Запускать из:
 # D:\py_pro\jira_focus_exporter\bz\Anomaly Detection_V2\monitoring
 
 [CmdletBinding()]

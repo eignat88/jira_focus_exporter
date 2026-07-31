@@ -374,7 +374,7 @@ def main() -> int:
                         ord.ordinality AS column_position,
                         COALESCE(
                             att.attname,
-                            pg_get_indexdef(i.indexrelid, ord.ordinality, true)
+                            pg_get_indexdef(i.indexrelid, ord.ordinality::int, true)
                         ) AS indexed_column_or_expression
                     FROM pg_index i
                     JOIN pg_class tbl ON tbl.oid = i.indrelid
@@ -643,8 +643,15 @@ def main() -> int:
                         )
 
                     cur.execute(explain_query, (low, high))
-                    lines = [row[0] for row in cur.fetchall()]
-                    plan_rows = [{"line_no": i + 1, "plan_line": line} for i, line in enumerate(lines)]
+                    explain_rows = cur.fetchall()
+                    lines = [
+                        str(next(iter(row.values())))
+                        for row in explain_rows
+                    ]
+                    plan_rows = [
+                        {"line_no": i + 1, "plan_line": line}
+                        for i, line in enumerate(lines)
+                    ]
                     plan_status, plan_details = identify_plan_status(lines)
                     add_summary(
                         summary,
