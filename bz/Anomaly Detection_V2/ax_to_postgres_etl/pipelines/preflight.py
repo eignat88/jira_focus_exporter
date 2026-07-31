@@ -651,7 +651,32 @@ class PreflightRunner:
 
     def check_indexes(self):
         cur = self.conn.cursor()
+        chunk_strategy = (
+            self.stage.get("execution", {}).get("chunk_strategy")
+            or self.stage.get("chunk_strategy")
+            or "numeric_range"
+        )
 
+        if chunk_strategy == "full_table":
+            self._ok(
+                "source_btree_index",
+                "B-tree chunk index is not required for full_table strategy",
+            )
+        else:
+            self._check_source_chunk_index(cur)
+
+        # Check unique constraint on target for conflict key
+        if self._conflict_key:
+            uq = _find_unique_constraint(cur, self._target_schema,
+                                         self._target_table, self._conflict_key)
+            if uq:
+                self._ok("target_unique_constraint",
+                         f"Unique constraint: {uq['name']}")
+            else:
+                self._error("target_unique_constraint",
+                            f"No unique constraint on {self._conflict_key}")
+
+    def _check_source_chunk_index(self, cur):
         # Check B-tree index on source for chunk key
         key_col = self._key_column
         if self._key_type == "bigint_text":
@@ -726,17 +751,6 @@ class PreflightRunner:
                 self._warn("source_btree_index",
                            f"No B-tree index found on '{key_col}' (small table)")
 
-        # Check unique constraint on target for conflict key
-        if self._conflict_key:
-            uq = _find_unique_constraint(cur, self._target_schema,
-                                         self._target_table, self._conflict_key)
-            if uq:
-                self._ok("target_unique_constraint",
-                         f"Unique constraint: {uq['name']}")
-            else:
-                self._error("target_unique_constraint",
-                            f"No unique constraint on {self._conflict_key}")
-
     # ── Query plan (EXPLAIN without ANALYZE) ────────────────────────
 
     def check_query_plan(self, batch_size: int):
@@ -760,7 +774,21 @@ class PreflightRunner:
         )
 
         try:
-            if chunk_strategy == "numeric_text_range" or self._key_type == "numeric_text":
+            if chunk_strategy == "full_table":
+                sql = (
+                    f"EXPLAIN (FORMAT JSON) "
+                    f"SELECT 1 FROM {self._source_schema}.{self._source_table}"
+                )
+                cur.execute(sql)
+                plan_json = cur.fetchone()[0]
+                node_type = self._extract_plan_node_type(plan_json)
+                self._ok(
+                    "query_plan",
+                    f"Full-table EXPLAIN completed; plan uses {node_type}",
+                )
+                return
+
+            if chunk_strategy == "numeric_text_range":
                 # Read the smallest text key through the existing B-tree index.
                 # ORDER BY ... LIMIT 1 avoids a full aggregate scan.
                 cur.execute(
@@ -817,7 +845,7 @@ class PreflightRunner:
             # For numeric-text chunking, an index scan alone is not enough.
             # The range predicate must appear in Index Cond, otherwise the
             # planner may scan most or all of the index and filter afterwards.
-            if chunk_strategy == "numeric_text_range" or self._key_type == "numeric_text":
+            if chunk_strategy == "numeric_text_range":
                 plan_compact = json.dumps(plan_json, ensure_ascii=False)
                 has_index_scan = node_type in (
                     "Index Scan",
