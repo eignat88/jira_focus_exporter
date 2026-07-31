@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
+r"""
 Read-only diagnostic preflight for:
     raw_ax.salestable -> dds.sales_order
 
@@ -104,12 +104,18 @@ def write_csv(path: Path, rows: Sequence[dict[str, Any]]) -> None:
 
 
 def fetch_all(cur: RealDictCursor, query: str, params: tuple[Any, ...] = ()) -> list[dict[str, Any]]:
-    cur.execute(query, params)
+    if params:
+        cur.execute(query, params)
+    else:
+        cur.execute(query)
     return [dict(row) for row in cur.fetchall()]
 
 
 def fetch_one(cur: RealDictCursor, query: str, params: tuple[Any, ...] = ()) -> dict[str, Any] | None:
-    cur.execute(query, params)
+    if params:
+        cur.execute(query, params)
+    else:
+        cur.execute(query)
     row = cur.fetchone()
     return dict(row) if row else None
 

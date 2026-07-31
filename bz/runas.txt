@@ -28,7 +28,7 @@ op$qCjPh1rynWJ
 
 
 
-
+Set-Location "D:\py_pro\jira_focus_exporter\bz\Anomaly Detection_V2\monitoring"
 
 powershell.exe -ExecutionPolicy Bypass `
     -File "D:\py_pro\DAX-11253\04_data\export_dax11253_sqlserver_fixed.ps1"
