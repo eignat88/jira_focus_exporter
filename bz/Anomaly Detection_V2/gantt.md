@@ -1,228 +1,87 @@
-# Диаграмма Ганта
+# ДИАГРАММА ГАНТА — UNIFIED ETL
 
-**Обновлено:** 2026-07-07
-
----
-
-## Mermaid-диаграмма
+**Обновлено:** 2026-07-31 19:24
 
 ```mermaid
 gantt
-    title Plan: Anomaly Detection Project
+    title Unified ETL AX 2012/WMS — план 01.08–07.08.2026
     dateFormat YYYY-MM-DD
     axisFormat %d.%m
 
-    section Preparation
-    Project structure (T1)              :done, t1, 2026-07-01, 1d
-    README and plan                     :done, t2, 2026-07-01, 1d
-    Task description (T5)               :done, t5, 2026-07-01, 1d
+    section Runtime baseline
+    Pytest 111 passed / 3 failed          :done, baseline_tests, 2026-07-31, 1d
+    Full RAW to DDS preflight             :done, baseline_pre, 2026-07-31, 1d
+    Pipeline status snapshot              :done, baseline_status, 2026-07-31, 1d
 
-    section Agents and Analysis
-    SQL queries (T7-T9)                 :done, t7, 2026-07-08, 2d
-    Export scripts (T10-T11)            :done, t10, 2026-07-08, 1d
+    section 01.08 Tests and failed runs
+    Fix RetryPolicy jitter test           :crit, retry_test, 2026-08-01, 1d
+    Mark SQL Server tests integration     :crit, int_mark, 2026-08-01, 1d
+    Replace bool returns with asserts     :warn_fix, 2026-08-01, 1d
+    Diagnose runs 38 and 45               :crit, failed_runs, 2026-08-01, 1d
 
-    section PostgreSQL
-    Setup PostgreSQL (T12)              :done, t12, 2026-07-08, 1d
-    Load Stage 1+2 (T13-T14)           :done, t13, 2026-07-08, 2d
+    section 02.08 purchase_order
+    Inspect raw purchtable columns        :crit, po_cols, 2026-08-02, 1d
+    Fix full_table preflight              :crit, po_pre_fix, 2026-08-02, 1d
+    Fix purchase_order mappings           :crit, po_map, 2026-08-02, 1d
+    Load and validate purchase_order      :po_load, after po_pre_fix, 1d
 
-    section Data Structure
-    raw_ax + DDS + mart (T17)           :done, t17, 2026-07-08, 2d
-    Deduplication (T17.5)               :done, t175, 2026-07-09, 1d
+    section 03.08 sales_order
+    Diagnose failed run 45                :crit, so_fail, 2026-08-03, 1d
+    Compare batch 100k and 250k plans     :so_plan, 2026-08-03, 1d
+    Resume or restart sales_order         :so_run, after so_fail, 1d
+    Reconcile sales_order                 :so_val, after so_run, 1d
 
-    section Data Analysis
-    EDA (T15)                           :done, t15, 2026-07-09, 1d
-    Feature Engineering (T16)           :done, t16, 2026-07-09, 1d
+    section 04.08 READY stages
+    Validate picking_route                :pick_val, 2026-08-04, 1d
+    Explain RAW/DDS count difference      :pick_diff, 2026-08-04, 1d
+    Validate pack_task                    :pack_val, 2026-08-04, 1d
+    Check duplicate and conflict behavior :pack_diff, 2026-08-04, 1d
 
-    section Models
-    Isolation Forest (T18)              :done, t18, 2026-07-09, 1d
+    section 05.08 order_trans
+    Inspect actual RAW columns            :crit, ot_cols, 2026-08-05, 1d
+    Fix order_trans mappings              :crit, ot_map, 2026-08-05, 1d
+    Select indexed chunk strategy         :crit, ot_strategy, 2026-08-05, 1d
+    Preflight order_trans                 :ot_pre, after ot_strategy, 1d
 
-    section Encoding and Optimization
-    Fix encoding (T26)                  :done, t26b, 2026-07-09, 1d
-    Recreate DDS (T27)                  :done, t27, 2026-07-09, 1d
-    Recreate mart (T28)                 :done, t28, 2026-07-09, 1d
-    Recalculate FE (T16.1)              :done, t161, 2026-07-09, 1d
-    Profile AX tables (T29)             :done, t29, 2026-07-10, 1d
-    Incremental loading (T30)           :done, t30, 2026-07-10, 1d
+    section 06.08 ALK_MARKSERIAL
+    Fix normalization preflight contract  :crit, norm_pre, 2026-08-06, 1d
+    Compare source key staging and CTAS   :crit, norm_compare, 2026-08-06, 1d
+    Estimate disk WAL rollback and resume :crit, norm_risk, 2026-08-06, 1d
+    Approve benchmark plan 100k to 1M     :bench_plan, 2026-08-06, 1d
 
-    section Benchmark
-    Benchmark fetch (T34)               :done, t34, 2026-07-12, 1d
-
-    section ETL v2
-    ETL v2 refactoring                  :done, t60, 2026-07-13, 2d
-    Code cleanup (b82-b91)              :done, t82, 2026-07-15, 2d
-
-    section ETL Resume V2
-    Migration tables (Et1)              :done, et1, 2026-07-16, 1d
-    Core modules (Et2-3)                :done, et2, 2026-07-16, 1d
-    ParallelLoaderV2 (Et4)              :done, et4, 2026-07-16, 1d
-    Testing (Et5)                       :done, et5, 2026-07-16, 1d
-    main.py integration (Et6)           :done, et6, 2026-07-16, 1d
-    Documentation (Et7)                 :done, et7, 2026-07-16, 1d
-
-    section Enhancements
-    P0-P15 — 65 tasks                    :done, p0p15, 2026-07-16, 5d
-    Refactoring V2                      :done, refv2, 2026-07-18, 1d
-    SQL monitoring (4 scripts)          :done, sqlmon, 2026-07-21, 1d
-    Auto-export CSV                     :done, csvexp, 2026-07-21, 1d
-    Jupyter notebooks                   :done, jupyter, 2026-07-21, 1d
-
-    section Data Loading
-    INVENTTABLE reload needed           :crit, t31a2, 2026-07-16, 1d
-    WMSORDERTRANS partial               :active, t31c, 2026-07-15, 2d
-    ALK_MARKSERIAL (151M)               :active, t31b, 2026-07-17, 5d
-
-    section Layer Updates
-    DDS update (T32)                    : t32, after t31b, 1d
-    Mart update (T33)                   : t33, after t32, 1d
-
-    section ML Pipeline
-    LOF (T50)                           :done, t50, 2026-07-22, 2d
-    Autoencoder (T51)                   :done, t51, 2026-07-24, 3d
-    LSTM Autoencoder (T52)              : t52, 2026-08-04, 4d
-
-    section QA and Tests
-    QA testing (T20)                    :done, t20, 2026-07-09, 1d
-    Jupyter notebooks (T21)             :done, t21, 2026-07-09, 1d
-
-    section Architecture
-    Architecture analysis (T40)         :done, t40, 2026-07-10, 1d
-    Phase 1 — Foundation (T41)           :done, t41, 2026-07-10, 1d
-    Phase 2 — ETL hardening (T42)        :done, t42, 2026-07-11, 1d
-
-    section Project Cleanup
-    Project restructuring               :done, cleanup, 2026-07-07, 1d
-    Project scanner                     :done, scanner, 2026-07-07, 1d
+    section 07.08 Weekly gate
+    Full unit test run                    :crit, gate_tests, 2026-08-07, 1d
+    Separate integration test result      :gate_int, 2026-08-07, 1d
+    Full preflight and status             :crit, gate_pre, 2026-08-07, 1d
+    Update project documents              :gate_docs, 2026-08-07, 1d
 ```
 
----
+## Текущий readiness
 
-## Статус задач
-
-| Задача | Статус | Дата |
-|--------|--------|------|
-| T1-T21 | ✅ Готово | 2026-07-01 - 2026-07-09 |
-| T26-T30 | ✅ Готово | 2026-07-09 - 2026-07-10 |
-| T34 | ✅ Готово | 2026-07-12 |
-| T60-T78 | ✅ Готово | 2026-07-13 - 2026-07-14 |
-| b82-b91 | ✅ Готово | 2026-07-15 |
-| **ETL Resume V2** | ✅ **Готово** | **2026-07-16** |
-| **P0-P15 Enhancements** | ✅ **Готово** | **2026-07-16 - 2026-07-21** |
-| **SQL Monitoring** | ✅ **Готово** | **2026-07-21** |
-| **Auto-export CSV** | ✅ **Готово** | **2026-07-21** |
-| **Jupyter Notebooks** | ✅ **Готово** | **2026-07-21** |
-| **T50 LOF** | ✅ **Готово** | **2026-07-22** |
-| **T51 Autoencoder** | ✅ **Готово** | **2026-07-24** |
-| **Project Cleanup** | ✅ **Готово** | **2026-07-07** |
-| **Project Scanner** | ✅ **Готово** | **2026-07-07** |
-| INVENTTABLE | ⚠️ Требует reload | 634,248 / 1,047,184 (60.6%) |
-| WMSORDERTRANS | ⏳ Частично (ошибка сети) | ~37M / 45.7M (~81%) |
-| ALK_MARKSERIAL | ⏳ Загружается (run 19) | ~107M / 151M (~70%) |
-| T32 (DDS) | 📋 Ожидает | После загрузки |
-| T33 (Mart) | 📋 Ожидает | После T32 |
-| T52 (LSTM Autoencoder) | 📋 Ожидает | 2026-08-04 |
-
----
-
-## P0-P15 Enhancements — Детали
-
-| Приоритет | Задачи | Тесты | Статус |
-|-----------|--------|-------|--------|
-| P0 | Протокол сообщений, staging, атомарность | 14 | ✅ |
-| P1 | Recovery, RECID, PG per worker | 0 | ✅ |
-| P2 | Preflight перед TRUNCATE | 0 | ✅ |
-| P3 | Сетевые ретраи, supervisor, верификация | 0 | ✅ |
-| P4 | Прогресс %, тесты P3, config YAML, PG pool | 8 | ✅ |
-| P5 | Streaming COPY, max_attempts, отчёт | 0 | ✅ |
-| P6 | Streaming threshold, jitter, метрики | 0 | ✅ |
-| P7 | Health checks, shutdown, память | 0 | ✅ |
-| P8 | Dead letter, HTML report, audit | 0 | ✅ |
-| P9 | Profiler, quality checks, scheduler | 0 | ✅ |
-| P10 | Metrics exporter, load retry, auto-tune | 0 | ✅ |
-| P11 | Webhook, compression, incremental | 0 | ✅ |
-| P12 | CLI, query cache, Grafana | 30 | ✅ |
-| P13 | Connection pool, batch retry, config validator | 0 | ✅ |
-| P14 | Pipeline orchestrator, load balancer, Excel | 0 | ✅ |
-| P15 | Job queue, dependency graph, lineage, PDF | 0 | ✅ |
-| **Итого** | **65 задач** | **68 тестов** | ✅ |
-
----
-
-## Критический путь
-
-```
-ETL v2 ✅ → Refactoring ✅ → Resume V2 ✅ → P0-P15 ✅ → SQL мониторинг ✅ → Jupyter ✅ → LOF ✅ → Autoencoder ✅ → Load tables → DDS → Mart → LSTM
-[DONE]        [DONE]         [DONE]         [DONE]       [DONE]           [DONE]      [DONE]     [DONE]         [IN PROGRESS] [TODO] [TODO] [TODO]
+```text
+READY:               picking_route, pack_task
+READY_WITH_WARNINGS: sales_order
+BLOCKED:             purchase_order, order_trans,
+                     serial_mark_normalization, serial_mark
 ```
 
----
+## Критический путь недели
 
-## Прогресс
-
-```
-[████████████████████████████████████████████░] 96%
-```
-
----
-
-## Технический статус
-
-| Компонент | Статус |
-|-----------|--------|
-| ETL v2 (T60-T78) | ✅ Завершён |
-| Рефакторинг (b82-b91) | ✅ Завершён |
-| **ETL Resume V2** | ✅ Готов к использованию |
-| **P0-P15 Enhancements** | ✅ Завершены (34 модуля) |
-| **SQL Monitoring** | ✅ 4 скрипта |
-| **Auto-export CSV** | ✅ Настроен |
-| **Jupyter Notebooks** | ✅ 5 ноутбуков |
-| **LOF (T50)** | ✅ 3 модели |
-| **Autoencoder (T51)** | ✅ 3 модели |
-| Unit тесты | ✅ 9 тестовых файлов |
-| Signal handling | ✅ Реализован (P7) |
-| Resume после crash | ✅ Реализован (v2) |
-| Project Scanner | ✅ Создан |
-
----
-
-## Использование
-
-```cmd
-# V2 (оригинал с рефакторингом)
-python -m ax_to_postgres_etl.main --use-v2 --table ALK_MARKSERIAL --mode resume
-
-# V2T (P0-P15 enhancements)
-python -m ax_to_postgres_etl.main --use-v2t --table ALK_MARKSERIAL --mode resume
-
-# Авто-экспорт CSV (ежечасно)
-powershell -ExecutionPolicy Bypass -File export_completed_chunks.ps1
-
-# SQL-мониторинг
-psql -h localhost -U postgres -d wms_analysis -f ax_to_postgres_etl/etl_monitoring/etl_monitor_fast.sql
-
-# Project Scanner
-python project_scanner.py --output project_scan.json --markdown project_scan.md
+```text
+pytest stabilization
+→ purchase_order READY
+→ sales_order recovery
+→ validation of picking_route and pack_task
+→ order_trans indexed design
+→ serial_mark architecture decision
+→ full weekly gate
 ```
 
----
+## Условия перехода
 
-## Последние события
-
-| Дата | Событие |
-|------|---------|
-| 2026-07-07 | Проект реструктурирован, старые файлы в archive/ |
-| 2026-07-07 | Создан Project Scanner |
-| 2026-07-24 | T51 Autoencoder реализован (3 модели) |
-| 2026-07-22 | T50 LOF реализован (3 модели) |
-| 2026-07-22 | T33 Mart update завершён (6 витрин) |
-| 2026-07-22 | T32 DDS update завершён (6 таблиц) |
-| 2026-07-21 | SQL-мониторинг (4 скрипта) создан |
-| 2026-07-21 | Авто-экспорт CSV настроен |
-| 2026-07-21 | Jupyter ноутбуки созданы |
-| 2026-07-21 | Баг table_config исправлен |
-| 2026-07-21 | Баг case sensitivity исправлен |
-| 2026-07-21 | Баг start_threads исправлен |
-| 2026-07-21 | P0-P15 завершены, рефакторинг V2 применён |
-| 2026-07-18 | Зависание writer исправлено (heartbeat в отдельном потоке) |
-| 2026-07-16 | **ETL Resume V2 завершён** — готов к использованию |
-| 2026-07-16 | P0-P15: 65 задач, 68 тестов, 34 модуля |
-| 2026-07-15 | b82-b91 рефакторинг завершён |
+- blocked stage запрещено запускать в `full`;
+- `sales_order` нельзя повторно запускать до разбора run 45;
+- `purchase_order` запускается только после исчезновения обращения к `recid_bigint` и исправления mappings;
+- `order_trans` не переводится в загрузку при Seq Scan или отсутствующем chunk key;
+- `serial_mark` не изменяет RAW массовым UPDATE;
+- любой изменяющий запуск предваряется проверкой диска, WAL, activity, vacuum, index progress и locks.
