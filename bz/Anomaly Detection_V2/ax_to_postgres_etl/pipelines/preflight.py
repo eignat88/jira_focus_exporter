@@ -527,10 +527,21 @@ class PreflightRunner:
             or "numeric_range"
         )
         if key_type:
-            compatible, message = self._check_chunk_key_compatibility(
-                key_type,
-                chunk_strategy,
-            )
+            if (
+                self._key_type == "bigint_text_expression"
+                and chunk_strategy == "numeric_range"
+                and key_type in {"text", "varchar", "character varying"}
+            ):
+                compatible, message = (
+                    True,
+                    "Source RECID is text; numeric_range uses "
+                    "btrim(recid)::bigint",
+                )
+            else:
+                compatible, message = self._check_chunk_key_compatibility(
+                    key_type,
+                    chunk_strategy,
+                )
             if compatible:
                 self._ok("key_type_compatible", message)
             else:
@@ -646,7 +657,49 @@ class PreflightRunner:
         if self._key_type == "bigint_text":
             key_col = "recid_bigint"
 
-        idx = _find_btree_index(cur, self._source_schema, self._source_table, key_col)
+        if self._key_type == "bigint_text_expression":
+            cur.execute(
+                """
+                SELECT
+                    idx.relname,
+                    pg_get_indexdef(idx.oid),
+                    i.indisvalid,
+                    i.indisready
+                FROM pg_index i
+                JOIN pg_class tbl ON tbl.oid = i.indrelid
+                JOIN pg_namespace ns ON ns.oid = tbl.relnamespace
+                JOIN pg_class idx ON idx.oid = i.indexrelid
+                JOIN pg_am am ON am.oid = idx.relam
+                WHERE ns.nspname = %s
+                  AND tbl.relname = %s
+                  AND am.amname = 'btree'
+                  AND lower(pg_get_expr(i.indexprs, i.indrelid))
+                      LIKE '%%btrim(recid)%%bigint%%'
+                ORDER BY i.indisvalid DESC, i.indisready DESC
+                LIMIT 1
+                """,
+                (self._source_schema, self._source_table),
+            )
+            row = cur.fetchone()
+            idx = (
+                {
+                    "name": row[0],
+                    "definition": row[1],
+                    "is_valid": row[2],
+                    "is_ready": row[3],
+                    "usable_for_chunking": bool(row[2] and row[3]),
+                }
+                if row
+                else None
+            )
+            key_col = "btrim(recid)::bigint"
+        else:
+            idx = _find_btree_index(
+                cur,
+                self._source_schema,
+                self._source_table,
+                key_col,
+            )
         if idx:
             status_msg = (f"Index: {idx['name']}\n"
                          f"Definition: {idx['definition']}\n"
@@ -697,6 +750,8 @@ class PreflightRunner:
         key_col = self._key_column
         if self._key_type == "bigint_text":
             key_col = "recid_bigint"
+        elif self._key_type == "bigint_text_expression":
+            key_col = f"(btrim({self._key_column}))::bigint"
 
         chunk_strategy = (
             self.stage.get("execution", {}).get("chunk_strategy")

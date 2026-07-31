@@ -38,6 +38,14 @@ KEY_TYPE_HANDLERS = {
         "param_type": "bigint",
         "key_column_override": "recid_bigint",
     },
+    "bigint_text_expression": {
+        # AX RECID is stored as text; use the exact functional-index expression.
+        "value_expr": "(btrim({key}))::bigint",
+        "min_expr": "MIN((btrim({key}))::bigint)",
+        "max_expr": "MAX((btrim({key}))::bigint)",
+        "filter_expr": "(btrim(src.{key}))::bigint > %(start_key)s AND (btrim(src.{key}))::bigint <= %(end_key)s",
+        "param_type": "bigint",
+    },
     "numeric_text": {
         # Numeric values are stored as text with equal width.
         # Keep the source column uncast in WHERE so PostgreSQL can use
@@ -83,13 +91,14 @@ class RawToDdsAdapter:
         """Get MIN and MAX values of key column."""
         key_column = self._get_key_column(spec)
         key_expr = ident(key_column)
+        value_expr = self._key_handler.get("value_expr", "{key}").format(key=key_expr)
         min_sql = self._key_handler["min_expr"].format(key=key_expr)
         max_sql = self._key_handler["max_expr"].format(key=key_expr)
 
         sql = f"""
             SELECT {min_sql}, {max_sql}
             FROM {ident(spec.source_schema)}.{ident(spec.source_table)}
-            WHERE {key_expr} IS NOT NULL
+            WHERE {value_expr} IS NOT NULL
         """
 
         with data_conn.cursor() as cur:
@@ -132,8 +141,16 @@ class RawToDdsAdapter:
         # For numeric_text the source column must remain uncast in WHERE;
         # chunk boundaries are converted to strings before binding.
         key_column = self._get_key_column(spec)
-        filter_key = f"src.{ident(key_column)}"
-        where_clause = f"{filter_key} > %s AND {filter_key} <= %s"
+        where_template = self._key_handler.get(
+            "filter_expr",
+            "src.{key} > %(start_key)s AND src.{key} <= %(end_key)s",
+        )
+        where_clause = where_template.format(key=ident(key_column))
+        where_clause = (
+            where_clause
+            .replace("%(start_key)s", "%s")
+            .replace("%(end_key)s", "%s")
+        )
 
         conflict = ""
         if self.conflict_column:

@@ -1,4 +1,4 @@
-pipeline:
+﻿pipeline:
   name: raw_to_dds
   advisory_lock_key: 1734500127
   default_batch_size: 100000
@@ -252,40 +252,46 @@ stages:
       schema: raw_ax
       table: salestable
       key_column: recid
-      key_type: bigint_text
+      key_type: bigint_text_expression
 
     target:
       schema: dds
       table: sales_order
-      conflict_key: sales_order_id
+      conflict_key: source_recid
 
     execution:
       strategy: postgres_insert_select
-      chunk_strategy: full_table
+      chunk_strategy: numeric_range
+      batch_size: 250000
       count_mode: estimate
 
     columns:
+      - target: source_recid
+        expression: "btrim(src.recid)::bigint"
       - target: sales_id
-        expression: "src.salesid"
+        expression: "NULLIF(btrim(src.salesid), '')"
       - target: customer_account
-        expression: "src.custaccount"
+        expression: "NULLIF(btrim(src.custaccount), '')"
       - target: invoice_date
-        expression: "CASE WHEN src.invoicedate IS NOT NULL THEN src.invoicedate::timestamp END"
+        expression: "NULL::timestamp without time zone"
       - target: delivery_date
-        expression: "CASE WHEN src.deliverydate IS NOT NULL THEN src.deliverydate::timestamp END"
+        expression: "CASE WHEN NULLIF(btrim(src.deliverydate), '') IS NULL OR btrim(src.deliverydate) IN ('1900-01-01', '1900-01-01 00:00:00') THEN NULL ELSE btrim(src.deliverydate)::timestamp END"
       - target: currency_code
-        expression: "src.currencycode"
+        expression: "NULLIF(btrim(src.currencycode), '')"
       - target: sales_status
-        expression: "src.salesstatus"
+        expression: "NULLIF(btrim(src.salesstatus), '')"
       - target: modified_datetime
-        expression: "CASE WHEN src.modifieddatetime IS NOT NULL THEN src.modifieddatetime::timestamp END"
+        expression: "CASE WHEN NULLIF(btrim(src.modifieddatetime), '') IS NULL THEN NULL ELSE btrim(src.modifieddatetime)::timestamp END"
       - target: created_datetime
-        expression: "CASE WHEN src.createddatetime IS NOT NULL THEN src.createddatetime::timestamp END"
+        expression: "CASE WHEN NULLIF(btrim(src.createddatetime), '') IS NULL THEN NULL ELSE btrim(src.createddatetime)::timestamp END"
       - target: data_area_id
-        expression: "src.dataareaid"
+        expression: "NULLIF(btrim(src.dataareaid), '')"
 
     validation:
       target_not_empty: true
+      preflight_required: true
+      require_index_condition: true
+      expected_source_index: idx_salestable_recid_bigint
 
     post_actions:
       analyze: true
@@ -335,3 +341,4 @@ stages:
 
     post_actions:
       analyze: true
+
