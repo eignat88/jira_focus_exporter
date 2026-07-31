@@ -13,6 +13,7 @@ class PipelineSpec:
     target_schema: str
     target_table: str
     key_column: str
+    chunk_strategy: str = "numeric_range"
     batch_size: int = 250_000
     count_mode: str = "estimate"
     load_mode: str = "resume"
