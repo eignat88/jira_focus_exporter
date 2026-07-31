@@ -109,7 +109,7 @@ class RawToDdsAdapter:
             return 0, -1
 
         # Convert to appropriate type
-        if self.key_type in ("bigint", "bigint_text", "numeric_text"):
+        if self.key_type in ("bigint", "bigint_text", "bigint_text_expression", "numeric_text"):
             return int(row[0]), int(row[1])
         return row[0], row[1]
 
@@ -119,7 +119,7 @@ class RawToDdsAdapter:
             return []
 
         ranges = []
-        if self.key_type in ("bigint", "bigint_text", "numeric_text"):
+        if self.key_type in ("bigint", "bigint_text", "bigint_text_expression", "numeric_text"):
             lower = int(start) - 1
             numeric_end = int(end)
             while lower < numeric_end:
@@ -416,3 +416,4 @@ class RawToDdsAdapter:
                 })
 
         return results
+
