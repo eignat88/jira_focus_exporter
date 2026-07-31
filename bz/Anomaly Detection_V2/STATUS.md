@@ -1,194 +1,160 @@
 # ЕДИНЫЙ СТАТУС ПРОЕКТА
 
 **Проект:** Anomaly Detection / Unified ETL для AX 2012 и WMS  
-**Обновлено:** 2026-07-31  
-**Основание:** скан ветки `main`, последних коммитов, PR, конфигурации `config/raw_to_dds.yaml` и ETL-кода.
-
-> Важно: документ отражает состояние кода в GitHub. Фактическое состояние данных PostgreSQL необходимо подтверждать командами `preflight`, `status` и запросами к `etl.load_run` / `etl.load_chunk`.
+**Обновлено:** 2026-07-31 19:24  
+**Основание:** ветка `main`, pytest, полный RAW → DDS preflight и `dds_cli --mode status`.
 
 ---
 
 ## 1. Фактическое состояние
 
-Основной контур проекта:
+Основной контур:
 
 ```text
 SQL Server AX 2012/WMS → raw_ax → stage_ax (при необходимости) → dds → mart/mart_ax → аналитика/ML
 ```
 
-Unified ETL реализует:
+Unified ETL реализует `PipelineRunner`, `RunManager`, `ChunkManager`, `RetryPolicy`, `PostgresRuntime`, `RawToDdsAdapter`, advisory lock, heartbeat, resume, отмену Ctrl+C и CLI-режимы `preflight`, `full`, `resume`, `restart-stage`, `validate-only`, `status`.
 
-- `PipelineRunner`;
-- `RunManager`;
-- `ChunkManager`;
-- `RetryPolicy`;
-- `PostgresRuntime`;
-- `RawToDdsAdapter`;
-- advisory lock, heartbeat, resume и обработку Ctrl+C;
-- режимы CLI `preflight`, `full`, `resume`, `restart-stage`, `validate-only`, `status`.
-
-RAW → DDS выполняется внутри PostgreSQL через `INSERT ... SELECT`. Передача больших таблиц через pandas не используется.
+RAW → DDS выполняется внутри PostgreSQL через `INSERT ... SELECT`. Массовое преобразование данных через pandas не используется.
 
 ---
 
-## 2. Последние изменения
+## 2. Результат тестов 2026-07-31
 
-### 2026-07-31 — PR #9
+Команда:
 
-Исправлен preflight для stages со стратегией `full_table`:
+```powershell
+python -m pytest tests -q `
+    --import-mode=importlib `
+    --ignore=tests/test_parallel_inventtable.py
+```
 
-- больше не требуется B-tree chunk-индекс источника;
-- `EXPLAIN (FORMAT JSON)` выполняется без диапазонного `WHERE`;
-- логика `numeric_text_range` зависит от `chunk_strategy`, а не только от типа ключа;
-- добавлены регрессионные тесты;
-- исправление предназначено прежде всего для `purchase_order`.
+Результат:
 
-Оставшийся блокер `purchase_order`: необходимо сверить колонки `vendaccount` и `orderdate` с фактической структурой `raw_ax.purchtable`.
+```text
+111 passed
+3 failed
+5 warnings
+Время: 2.33 s
+```
 
-### 2026-07-31 — PR #10
+### Классификация ошибок
 
-Исправлена передача `chunk_strategy` из конфигурации stage в `PipelineSpec` и далее в исполняемый pipeline. Это критично для корректного разделения стратегий:
+| Тест | Тип проблемы | Фактическая причина | Статус |
+|---|---|---|---|
+| `test_integration_inventtable.py::test_full_load` | Окружение / интеграция | SQL Server не создаёт SSPI-контекст | BLOCKED BY ENVIRONMENT |
+| `test_integration_inventtable.py::test_resume` | Окружение / интеграция | SQL Server не создаёт SSPI-контекст | BLOCKED BY ENVIRONMENT |
+| `test_resume_v2.py::test_retry_policy` | Ошибка ожидания теста | В `RetryPolicy` используется jitter; тест ожидает строго `5.0`, получено `4.142799...` | TEST DEFECT |
 
-- `numeric_range`;
-- `numeric_text_range`;
-- `lexical_range`;
-- `full_table`.
+Два integration-теста не подтверждают дефект ETL-кода: соединение падает до выполнения сценария загрузки. Их необходимо отделить маркером `integration` и запускать только при доступном SQL Server и валидной Windows/Kerberos-аутентификации.
 
-Без этого исправления stage мог выполняться или проверяться по стратегии по умолчанию.
+Тест `test_retry_policy` должен проверять допустимый диапазон jitter либо использовать отключённый/детерминированный jitter.
 
-### 2026-07-30–31
+### Предупреждения pytest
 
-Добавлены и доработаны диагностики `sales_order` и `purchase_order`, конфигурация RAW → DDS и обработка полного чтения небольшой таблицы `purchtable`.
-
----
-
-## 3. Реестр stages RAW → DDS
-
-| Stage | Источник | Цель | Стратегия chunks | Состояние кода |
-|---|---|---|---|---|
-| `serial_mark_normalization` | `raw_ax.alk_markserial` | `stage_ax.alk_markserial_normalized` | `lexical_range` | Реализован, требует runtime-проверки |
-| `serial_mark` | `raw_ax.alk_markserial` | `dds.serial_mark` | `numeric_range` | Реализован, загрузка большой таблицы требует завершения и валидации |
-| `picking_route` | `raw_ax.wmspickingroute` | `dds.picking_route` | `numeric_range` | Реализован, требуется preflight/status |
-| `pack_task` | `raw_ax.lfl_scspacktask` | `dds.pack_task` | `numeric_text_range` | Реализован, требуется подтверждение Index Cond |
-| `order_trans` | `raw_ax.wmsordertrans` | `dds.order_trans` | `numeric_range` | Реализован, требуется runtime-проверка ключа и индекса |
-| `sales_order` | `raw_ax.salestable` | `dds.sales_order` | `numeric_range`, batch 250k | Реализован, диагностика добавлена |
-| `purchase_order` | `raw_ax.purchtable` | `dds.purchase_order` | `full_table` | Preflight исправлен; колонки источника требуют сверки |
+Пять тестов возвращают `bool` вместо использования `assert` и возврата `None`. Это не блокирует прогон, но тесты необходимо привести к стандартному контракту pytest.
 
 ---
 
-## 4. Критические риски
+## 3. Результат полного preflight
 
-### `raw_ax.alk_markserial`
+Preflight был read-only: записи в `etl.load_run` не создавались, `INSERT` и `UPDATE` не выполнялись.
 
-Таблица содержит около 152 млн строк. Запрещено без отдельного плана выполнять массовый `UPDATE` всей RAW-таблицы для преобразования `recid`.
+| Stage | Результат | Ключевые факты | Блокеры / предупреждения |
+|---|---|---|---|
+| `serial_mark_normalization` | BLOCKED | источник `raw_ax.alk_markserial` | отсутствует `columns` mapping для preflight |
+| `serial_mark` | BLOCKED | RAW ~153.2 млн строк, 78.8 GB; DDS ~151.7 млн строк, 36.3 GB; свободно 1.4 TB | `recid` text при `numeric_range`; нет `recid_bigint` B-tree; Seq Scan; нет ANALYZE |
+| `picking_route` | READY | `recid_bigint int8`; индекс `idx_wmspickingroute_recid_bigint`; Index Only Scan; RAW ~6.99 млн, DDS ~6.53 млн | нет |
+| `pack_task` | READY | `numeric_text_range`; индекс `idx_lfl_scspacktask_recid`; диапазон находится в `Index Cond`; RAW ~7.62 млн, DDS ~7.62 млн | нет |
+| `order_trans` | BLOCKED | RAW ~44.36 млн, 23.7 GB; DDS ~45.75 млн, 9.8 GB | `recid` text при `numeric_range`; нет `recid_bigint`; отсутствуют mapping-колонки `ordertransid`, `pickedqty`, `wastedqty`; нет ANALYZE |
+| `sales_order` | READY_WITH_WARNINGS | functional index `idx_salestable_recid_bigint`; RAW ~3.65 млн, DDS ~3.65 млн | Bitmap Heap Scan; требуется проверить селективность batch 250k |
+| `purchase_order` | BLOCKED | RAW ~257.8 тыс., 292.8 MB; стратегия `full_table`; target практически пуст | отсутствуют `vendaccount`, `orderdate`; preflight всё ещё ошибочно обращается к `recid_bigint`; нет ANALYZE |
 
-Основные риски:
+### Сводка readiness
 
-- большой объём WAL;
-- новые версии всех строк и dead tuples;
-- длительный rollback;
-- рост `pg_wal` и риск заполнения диска;
-- последующий тяжёлый VACUUM;
-- блокировки и деградация I/O.
+```text
+READY:               2 stages
+READY_WITH_WARNINGS: 1 stage
+BLOCKED:             4 stages
+```
 
-Предпочтительный путь: нормализованная staging-таблица или числовой ключ, сформированный при SQL Server → RAW.
+К изменяющему запуску сейчас допускаются только:
 
-### Конфигурация ключей
-
-Для каждого stage необходимо подтвердить полное совпадение:
-
-- выражения фильтрации;
-- типа параметров границ;
-- выражения/колонки индекса;
-- `Index Cond` в плане;
-- conflict key и уникального ограничения DDS.
-
-### `full_table`
-
-Допустим только для реально небольшой таблицы. Стратегия не поддерживает полноценный resume внутри одного полного чтения и должна применяться после оценки размера таблицы и WAL.
+1. `picking_route`;
+2. `pack_task`;
+3. `sales_order` — после отдельной оценки Bitmap Heap Scan и batch size.
 
 ---
 
-## 5. Текущий статус готовности
+## 4. Состояние ETL runs
+
+`dds_cli --mode status` показывает:
+
+| Run ID | Stage / source | Target | Статус | Начало |
+|---:|---|---|---|---|
+| 45 | `salestable` | `sales_order` | failed | 2026-07-31 17:31:59 |
+| 38 | `purchtable` | `purchase_order` | failed | 2026-07-31 16:03:16 |
+| 37 | `salestable` | `sales_order` | completed | 2026-07-31 15:04:11 |
+| 36 | `salestable` | `sales_order` | completed | 2026-07-31 14:25:49 |
+| 35 | `salestable` | `sales_order` | completed | 2026-07-31 14:14:31 |
+
+`purchase_order` не загружен. Для `sales_order` есть успешные runs, но последний run завершился ошибкой. До нового запуска необходимо разобрать ошибку run 45 и подтвердить идемпотентность повторного выполнения.
+
+---
+
+## 5. Статус компонентов
 
 | Компонент | Статус |
 |---|---|
 | SQL Server → RAW | Работает; не переписывать без веской причины |
-| Архитектура Unified ETL | Реализована |
-| Read-only preflight | Реализован; исправлена поддержка `full_table` |
-| Передача `chunk_strategy` | Исправлена в PR #10 |
-| Resume/heartbeat/chunks | Реализованы |
-| WAL monitoring | Реализован отдельным collector-скриптом |
-| Анализ WAL CSV | Выполняется notebook без подключения к PostgreSQL |
-| Полная RAW → DDS интеграция | Не подтверждена для всех stages |
-| MART/ML на актуальном полном DDS | Зависит от завершения и валидации RAW → DDS |
-
-Оценивать общий процент готовности без runtime-данных некорректно. Кодовая база близка к рабочему контуру, но промышленная готовность определяется успешным preflight, полной загрузкой, resume-тестами и сверкой данных.
-
----
-
-## 6. Безопасная последовательность следующих действий
-
-### Диагностика — read-only
-
-```powershell
-cd "D:\py_pro\jira_focus_exporter\bz\Anomaly Detection_V2"
-
-python -m ax_to_postgres_etl.pipelines.dds_cli --mode preflight
-python -m ax_to_postgres_etl.pipelines.dds_cli --mode status
-python -m pytest tests -q --import-mode=importlib --ignore=tests/test_parallel_inventtable.py
-```
-
-Отдельно проверить stages:
-
-```powershell
-python -m ax_to_postgres_etl.pipelines.dds_cli --mode preflight --stage purchase_order --batch-size 100000
-python -m ax_to_postgres_etl.pipelines.dds_cli --mode preflight --stage sales_order --batch-size 250000
-python -m ax_to_postgres_etl.pipelines.dds_cli --mode preflight --stage pack_task --batch-size 100000
-python -m ax_to_postgres_etl.pipelines.dds_cli --mode preflight --stage serial_mark --batch-size 500000
-```
-
-### Перед изменяющим запуском
-
-Проверить:
-
-1. свободное место на диске PostgreSQL;
-2. `pg_stat_activity`;
-3. `pg_stat_progress_create_index`;
-4. `pg_stat_progress_vacuum`;
-5. `pg_stat_user_tables`;
-6. `pg_stat_wal` и `pg_stat_checkpointer`;
-7. существующие индексы и уникальные ограничения;
-8. отсутствие активного run для того же stage.
-
-### Изменяющие операции
-
-Запускать по одному stage только после успешного preflight. Для большой таблицы использовать измеренный batch size и WAL monitor:
-
-```powershell
-python monitoring\postgres_wal_monitor.py --interval 60 --duration 8h
-python -m ax_to_postgres_etl.pipelines.dds_cli --mode full --stage serial_mark --batch-size 500000
-```
-
-При прерывании продолжать через:
-
-```powershell
-python -m ax_to_postgres_etl.pipelines.dds_cli --mode resume --stage serial_mark
-```
+| Unified ETL core | Реализован |
+| Read-only preflight | Работает, но остаётся дефект `full_table` для `purchase_order` |
+| Unit/regression tests | 111 прошли; 1 тест требует исправления ожидания jitter |
+| Integration tests SQL Server | Не выполнены из-за SSPI |
+| `picking_route` | READY |
+| `pack_task` | READY |
+| `sales_order` | READY_WITH_WARNINGS; последний run failed |
+| `purchase_order` | BLOCKED |
+| `order_trans` | BLOCKED |
+| `serial_mark_normalization` | BLOCKED |
+| `serial_mark` | BLOCKED; существующая DDS содержит около 151.7 млн строк, но pipeline не готов к безопасному повторному запуску |
+| MART/ML на актуальном DDS | Не подтверждены |
 
 ---
 
-## 7. Критерии завершения stage
+## 6. Основные причины текущих блокировок
 
-Stage считается завершённым только когда:
+1. Конфигурация стратегий не соответствует фактическому типу chunk key для `serial_mark` и `order_trans`.
+2. Для крупных RAW-таблиц отсутствует индексируемый числовой ключ, ожидаемый текущим `numeric_range`.
+3. YAML mappings содержат имена колонок, которых нет в RAW.
+4. Ветка `full_table` исправлена не полностью: `purchase_order` всё ещё формирует проверку по `recid_bigint`.
+5. Integration-тесты смешаны с unit-набором и зависят от внешнего SQL Server.
+6. Тест retry policy не учитывает jitter.
 
-- `etl.load_run.status = COMPLETED`;
-- отсутствуют `FAILED` и незавершённые chunks;
-- heartbeat и finish time корректны;
-- целевая таблица не пустая;
-- отсутствуют дубликаты по conflict key;
-- отсутствуют недопустимые `NULL` в обязательных ключах;
-- проверены min/max ключа и контрольные диапазоны;
-- повторный запуск не создаёт дубликаты;
-- выполнена сверка RAW и DDS;
-- после загрузки нет критичного роста WAL, dead tuples и нехватки диска.
+---
+
+## 7. Правила безопасности
+
+Для `raw_ax.alk_markserial` запрещён массовый `UPDATE` 153 млн строк без отдельной оценки WAL, диска, rollback и времени. Предпочтительные варианты:
+
+- числовой ключ при SQL Server → RAW;
+- отдельная staging/normalized-таблица;
+- `CREATE TABLE AS SELECT` для одноразовой реорганизации;
+- functional index только при полном совпадении выражения запроса и индекса.
+
+Перед тяжёлой операцией обязательны проверки `pg_stat_activity`, `pg_stat_progress_create_index`, `pg_stat_progress_vacuum`, `pg_stat_user_tables`, `pg_stat_wal`, `pg_stat_checkpointer`, размеров таблиц/индексов и свободного диска.
+
+---
+
+## 8. Ближайшая контрольная точка
+
+К концу недели должны быть достигнуты следующие результаты:
+
+- pytest unit-набор проходит без failures и предупреждений о возврате `bool`;
+- integration-тесты вынесены отдельно и корректно skip при недоступном SQL Server;
+- `purchase_order` preflight = READY;
+- `order_trans` имеет утверждённую индексируемую стратегию chunking;
+- `picking_route` и `pack_task` валидированы через `validate-only` либо безопасный идемпотентный прогон;
+- `sales_order` run 45 разобран, повторный запуск подтверждён;
+- по `serial_mark` принято архитектурное решение без массового UPDATE RAW.
