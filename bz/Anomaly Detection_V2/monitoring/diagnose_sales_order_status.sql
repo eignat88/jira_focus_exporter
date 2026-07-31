@@ -1,33 +1,28 @@
-BEGIN TRANSACTION READ ONLY;
+﻿\set ON_ERROR_STOP on
+\pset pager off
+\pset null '[NULL]'
 
-SET LOCAL statement_timeout = '60s';
-SET LOCAL lock_timeout = '3s';
-SET LOCAL idle_in_transaction_session_timeout = '5min';
+\echo 'VERSION: diagnose_sales_order_status_v3_20260730'
+\echo 'READ ONLY: только SELECT и EXPLAIN'
 
--- ============================================================
--- 01. Существование RAW и DDS
--- ============================================================
+SET default_transaction_read_only = on;
+SET statement_timeout = '60s';
+SET lock_timeout = '3s';
 
+\echo ''
+\echo '01. Таблицы'
 SELECT
-    '01_table_exists' AS section,
     to_regclass('raw_ax.salestable') AS raw_table,
     to_regclass('dds.sales_order') AS dds_table,
     CASE
-        WHEN to_regclass('raw_ax.salestable') IS NULL
-            THEN 'BLOCKED: raw_ax.salestable отсутствует'
-        WHEN to_regclass('dds.sales_order') IS NULL
-            THEN 'BLOCKED: dds.sales_order отсутствует'
-        ELSE 'OK: обе таблицы существуют'
+        WHEN to_regclass('raw_ax.salestable') IS NULL THEN 'BLOCKED_RAW_MISSING'
+        WHEN to_regclass('dds.sales_order') IS NULL THEN 'BLOCKED_DDS_MISSING'
+        ELSE 'OK'
     END AS status;
 
-
--- ============================================================
--- 02. Размеры таблиц
--- Не сканирует содержимое таблиц
--- ============================================================
-
+\echo ''
+\echo '02. Размеры'
 SELECT
-    '02_table_sizes' AS section,
     n.nspname AS schema_name,
     c.relname AS table_name,
     pg_size_pretty(pg_relation_size(c.oid)) AS heap_size,
@@ -37,22 +32,16 @@ SELECT
     pg_indexes_size(c.oid) AS indexes_bytes,
     pg_total_relation_size(c.oid) AS total_bytes
 FROM pg_class c
-JOIN pg_namespace n
-    ON n.oid = c.relnamespace
+JOIN pg_namespace n ON n.oid = c.relnamespace
 WHERE (n.nspname, c.relname) IN (
     ('raw_ax', 'salestable'),
     ('dds', 'sales_order')
 )
 ORDER BY n.nspname, c.relname;
 
-
--- ============================================================
--- 03. Оценочная статистика
--- n_live_tup не является точным COUNT(*)
--- ============================================================
-
+\echo ''
+\echo '03. Статистика'
 SELECT
-    '03_table_statistics' AS section,
     schemaname,
     relname,
     n_live_tup,
@@ -60,11 +49,7 @@ SELECT
     last_analyze,
     last_autoanalyze,
     last_vacuum,
-    last_autovacuum,
-    analyze_count,
-    autoanalyze_count,
-    vacuum_count,
-    autovacuum_count
+    last_autovacuum
 FROM pg_stat_user_tables
 WHERE (schemaname, relname) IN (
     ('raw_ax', 'salestable'),
@@ -72,41 +57,44 @@ WHERE (schemaname, relname) IN (
 )
 ORDER BY schemaname, relname;
 
-
--- ============================================================
--- 04. Колонки RAW
--- ============================================================
-
+\echo ''
+\echo '04. Оценка строк'
 SELECT
-    '04_raw_columns' AS section,
+    n.nspname AS schema_name,
+    c.relname AS table_name,
+    c.reltuples::bigint AS estimated_rows,
+    c.relpages AS estimated_pages
+FROM pg_class c
+JOIN pg_namespace n ON n.oid = c.relnamespace
+WHERE (n.nspname, c.relname) IN (
+    ('raw_ax', 'salestable'),
+    ('dds', 'sales_order')
+)
+ORDER BY n.nspname, c.relname;
+
+\echo ''
+\echo '05. Ключевые колонки RAW'
+SELECT
     ordinal_position,
     column_name,
     data_type,
-    udt_name,
-    character_maximum_length,
-    numeric_precision,
-    numeric_scale,
-    is_nullable,
-    column_default
+    is_nullable
 FROM information_schema.columns
 WHERE table_schema = 'raw_ax'
   AND table_name = 'salestable'
+  AND column_name IN (
+      'recid','salesid','dataareaid','partition','custaccount',
+      'deliverydate','currencycode','salesstatus',
+      'modifieddatetime','createddatetime'
+  )
 ORDER BY ordinal_position;
 
-
--- ============================================================
--- 05. Колонки DDS
--- ============================================================
-
+\echo ''
+\echo '06. Колонки DDS'
 SELECT
-    '05_dds_columns' AS section,
     ordinal_position,
     column_name,
     data_type,
-    udt_name,
-    character_maximum_length,
-    numeric_precision,
-    numeric_scale,
     is_nullable,
     column_default
 FROM information_schema.columns
@@ -114,13 +102,9 @@ WHERE table_schema = 'dds'
   AND table_name = 'sales_order'
 ORDER BY ordinal_position;
 
-
--- ============================================================
--- 06. Индексы RAW и DDS
--- ============================================================
-
+\echo ''
+\echo '07. Индексы'
 SELECT
-    '06_indexes' AS section,
     schemaname,
     tablename,
     indexname,
@@ -132,55 +116,36 @@ WHERE (schemaname, tablename) IN (
 )
 ORDER BY schemaname, tablename, indexname;
 
-
--- ============================================================
--- 07. Ограничения DDS
--- Проверяем PK и UNIQUE, необходимые для ON CONFLICT
--- ============================================================
-
+\echo ''
+\echo '08. Ограничения DDS'
 SELECT
-    '07_dds_constraints' AS section,
     con.conname AS constraint_name,
     con.contype AS constraint_type,
-    CASE con.contype
-        WHEN 'p' THEN 'PRIMARY KEY'
-        WHEN 'u' THEN 'UNIQUE'
-        WHEN 'f' THEN 'FOREIGN KEY'
-        WHEN 'c' THEN 'CHECK'
-        WHEN 'x' THEN 'EXCLUSION'
-        ELSE con.contype::text
-    END AS constraint_type_name,
     pg_get_constraintdef(con.oid) AS constraint_definition
 FROM pg_constraint con
-JOIN pg_class cls
-    ON cls.oid = con.conrelid
-JOIN pg_namespace ns
-    ON ns.oid = cls.relnamespace
+JOIN pg_class cls ON cls.oid = con.conrelid
+JOIN pg_namespace ns ON ns.oid = cls.relnamespace
 WHERE ns.nspname = 'dds'
   AND cls.relname = 'sales_order'
 ORDER BY con.contype, con.conname;
 
-
--- ============================================================
--- 08. Индексные колонки RAW
--- Показывает порядок колонок в индексах
--- ============================================================
-
+\echo ''
+\echo '09. Индексные колонки RAW'
 SELECT
-    '08_raw_index_columns' AS section,
     idx.relname AS index_name,
+    i.indisvalid AS is_valid,
+    i.indisready AS is_ready,
     i.indisunique AS is_unique,
     i.indisprimary AS is_primary,
     ord.ordinality AS index_column_position,
-    COALESCE(att.attname, pg_get_indexdef(i.indexrelid, ord.ordinality, true))
-        AS indexed_column_or_expression
+    COALESCE(
+        att.attname,
+        pg_get_indexdef(i.indexrelid, ord.ordinality::integer, true)
+    ) AS indexed_column_or_expression
 FROM pg_index i
-JOIN pg_class tbl
-    ON tbl.oid = i.indrelid
-JOIN pg_namespace ns
-    ON ns.oid = tbl.relnamespace
-JOIN pg_class idx
-    ON idx.oid = i.indexrelid
+JOIN pg_class tbl ON tbl.oid = i.indrelid
+JOIN pg_namespace ns ON ns.oid = tbl.relnamespace
+JOIN pg_class idx ON idx.oid = i.indexrelid
 CROSS JOIN LATERAL
     unnest(i.indkey) WITH ORDINALITY AS ord(attnum, ordinality)
 LEFT JOIN pg_attribute att
@@ -190,23 +155,17 @@ WHERE ns.nspname = 'raw_ax'
   AND tbl.relname = 'salestable'
 ORDER BY idx.relname, ord.ordinality;
 
-
--- ============================================================
--- 09. Активные процессы по этим таблицам
--- ============================================================
-
+\echo ''
+\echo '10. Активные процессы'
 SELECT
-    '09_pg_stat_activity' AS section,
     pid,
     usename,
     application_name,
     state,
     wait_event_type,
     wait_event,
-    backend_xid,
-    backend_xmin,
     clock_timestamp() - query_start AS query_duration,
-    left(query, 1000) AS query_text
+    left(query, 1200) AS query_text
 FROM pg_stat_activity
 WHERE pid <> pg_backend_pid()
   AND (
@@ -217,91 +176,100 @@ WHERE pid <> pg_backend_pid()
       )
 ORDER BY query_start;
 
-
--- ============================================================
--- 10. История ETL
--- Не предполагает фиксированный набор колонок etl.load_run
--- ============================================================
-
+\echo ''
+\echo '11. Структура ETL'
 SELECT
-    '10_etl_load_run_structure' AS section,
+    table_name,
     ordinal_position,
     column_name,
-    data_type,
-    is_nullable
+    data_type
 FROM information_schema.columns
 WHERE table_schema = 'etl'
-  AND table_name = 'load_run'
-ORDER BY ordinal_position;
+  AND table_name IN ('load_run', 'load_chunk')
+ORDER BY table_name, ordinal_position;
 
-
--- Поиск запусков через JSONB позволяет не зависеть от точных названий
--- полей source_table / target_table / stage_name.
-
+\echo ''
+\echo '12. Наличие ETL-таблиц'
 SELECT
-    '11_etl_load_run_history' AS section,
-    to_jsonb(lr) AS load_run
-FROM etl.load_run lr
-WHERE to_jsonb(lr)::text ILIKE '%salestable%'
-   OR to_jsonb(lr)::text ILIKE '%sales_order%'
-ORDER BY to_jsonb(lr)::text DESC
-LIMIT 50;
+    CASE WHEN to_regclass('etl.load_run') IS NOT NULL THEN 1 ELSE 0 END AS has_load_run,
+    CASE WHEN to_regclass('etl.load_chunk') IS NOT NULL THEN 1 ELSE 0 END AS has_load_chunk
+\gset
 
+\if :has_load_run
+    \echo '12.1 История etl.load_run'
+    SELECT to_jsonb(lr) AS load_run
+    FROM etl.load_run lr
+    WHERE to_jsonb(lr)::text ILIKE '%salestable%'
+       OR to_jsonb(lr)::text ILIKE '%sales_order%'
+    ORDER BY to_jsonb(lr)::text DESC
+    LIMIT 50;
+\else
+    \echo 'SKIPPED: etl.load_run отсутствует'
+\endif
 
--- ============================================================
--- 12. История chunks
--- Выполняется только если таблица etl.load_chunk существует
--- ============================================================
+\if :has_load_chunk
+    \echo '12.2 История etl.load_chunk'
+    SELECT to_jsonb(lc) AS load_chunk
+    FROM etl.load_chunk lc
+    WHERE to_jsonb(lc)::text ILIKE '%salestable%'
+       OR to_jsonb(lc)::text ILIKE '%sales_order%'
+    ORDER BY to_jsonb(lc)::text DESC
+    LIMIT 100;
+\else
+    \echo 'SKIPPED: etl.load_chunk отсутствует'
+\endif
 
+\echo ''
+\echo '13. Небольшая выборка RAW'
+SELECT recid, salesid, dataareaid, partition
+FROM raw_ax.salestable
+ORDER BY recid
+LIMIT 20;
+
+\echo ''
+\echo '14. EXPLAIN текстового chunking'
+EXPLAIN (COSTS, VERBOSE, SETTINGS)
+SELECT recid, salesid, dataareaid, partition
+FROM raw_ax.salestable
+WHERE recid > '0'
+ORDER BY recid
+LIMIT 1000;
+
+\echo ''
+\echo '15. EXPLAIN числового chunking'
+EXPLAIN (COSTS, VERBOSE, SETTINGS)
+SELECT recid, salesid, dataareaid, partition
+FROM raw_ax.salestable
+WHERE trim(recid)::bigint > 0
+ORDER BY trim(recid)::bigint
+LIMIT 1000;
+
+\echo ''
+\echo '16. EXPLAIN максимального recid'
+EXPLAIN (COSTS, VERBOSE, SETTINGS)
+SELECT recid
+FROM raw_ax.salestable
+ORDER BY recid DESC
+LIMIT 1;
+
+\echo ''
+\echo '17. Итог'
 SELECT
-    '12_etl_load_chunk_structure' AS section,
-    ordinal_position,
-    column_name,
-    data_type,
-    is_nullable
-FROM information_schema.columns
-WHERE table_schema = 'etl'
-  AND table_name = 'load_chunk'
-ORDER BY ordinal_position;
+    CASE
+        WHEN to_regclass('raw_ax.salestable') IS NULL THEN 'BLOCKED_RAW_MISSING'
+        WHEN to_regclass('dds.sales_order') IS NULL THEN 'BLOCKED_DDS_MISSING'
+        WHEN pg_relation_size('dds.sales_order'::regclass) = 0
+            THEN 'TARGET_CREATED_DATA_NOT_LOADED'
+        ELSE 'DATA_PRESENT_REQUIRES_ETL_VALIDATION'
+    END AS integration_status,
+    pg_size_pretty(pg_relation_size('raw_ax.salestable'::regclass)) AS raw_heap_size,
+    pg_size_pretty(pg_relation_size('dds.sales_order'::regclass)) AS dds_heap_size,
+    (
+        SELECT n_live_tup
+        FROM pg_stat_user_tables
+        WHERE schemaname = 'dds'
+          AND relname = 'sales_order'
+    ) AS dds_estimated_rows;
 
-
-SELECT
-    '13_etl_load_chunk_history' AS section,
-    to_jsonb(lc) AS load_chunk
-FROM etl.load_chunk lc
-WHERE to_jsonb(lc)::text ILIKE '%salestable%'
-   OR to_jsonb(lc)::text ILIKE '%sales_order%'
-ORDER BY to_jsonb(lc)::text DESC
-LIMIT 100;
-
-
--- ============================================================
--- 14. Безопасный EXPLAIN RAW
--- EXPLAIN без ANALYZE не читает всю таблицу
--- ============================================================
-
-EXPLAIN (
-    COSTS,
-    VERBOSE,
-    SETTINGS,
-    FORMAT TEXT
-)
-SELECT *
-FROM raw_ax.salestable;
-
-
--- ============================================================
--- 15. Безопасный EXPLAIN DDS
--- ============================================================
-
-EXPLAIN (
-    COSTS,
-    VERBOSE,
-    SETTINGS,
-    FORMAT TEXT
-)
-SELECT *
-FROM dds.sales_order;
-
-
-ROLLBACK;
+\echo ''
+\echo 'Диагностика завершена.'

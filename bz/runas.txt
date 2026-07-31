@@ -4,7 +4,7 @@ runas /netonly /user:ALKOR\ignatchenko-adm cmd
 
 Затем в открывшейся консоли:
 
-cd /d D:\py_pro\jira_focus_exporter\bz\Anomaly Detection
+cd /d D:\py_pro\jira_focus_exporter\bz\Anomaly Detection_V2
    python -B ax_to_postgres_etl/main.py  
 
 	python -m ax_to_postgres_etl.main --use-v2 --table ALK_MARKSERIAL --mode full
@@ -13,9 +13,9 @@ cd /d D:\py_pro\jira_focus_exporter\bz\Anomaly Detection
 	
 	python -m ax_to_postgres_etl.main --use-v2 --table ALK_MARKSERIAL --mode resume
 	 
-	python -m ax_to_postgres_etl.main --use-v2 --table ALK_MARKSERIAL --mode resume
+	python -m ax_to_postgres_etl.main --use-v2 --table WMSORDERTRANS --mode resume
 
-
+	python -m ax_to_postgres_etl.main --use-v2 --table SALESTABLE  --mode resume
 
 python -m ax_to_postgres_etl.main --table INVENTTABLE --mode resume
  
@@ -27,9 +27,12 @@ op$qCjPh1rynWJ
 
 
 
-python scripts/table_profiler\profiler.py purchtable
 
 
 
-python -m ax_to_postgres_etl.main --table       │Продолжить загрузку (resume) │
-     │INVENTTABLE --mode resume   
+powershell.exe -ExecutionPolicy Bypass `
+    -File "D:\py_pro\DAX-11253\04_data\export_dax11253_sqlserver_fixed.ps1"
+	
+	
+	
+	cd "D:\py_pro\jira_focus_exporter\bz\Anomaly Detection"
