@@ -1208,6 +1208,54 @@ class PreflightRunner:
         self.check_pg_runtime()
         self.check_disk_space()
 
+        # Populate machine-readable summary fields from catalog-only data.
+        # These values were previously left empty even though the checks had
+        # already collected the same information.
+        cur = self.conn.cursor()
+        source_size = _get_table_size(
+            cur,
+            self._source_schema,
+            self._source_table,
+        )
+        target_size = _get_table_size(
+            cur,
+            self._target_schema,
+            self._target_table,
+        )
+        report.source_rows_estimate = _get_estimated_rows(
+            cur,
+            self._source_schema,
+            self._source_table,
+        )
+        report.source_total_size = _format_bytes(source_size["total"])
+        report.target_current_size = _format_bytes(target_size["total"])
+        average_width = (
+            source_size["heap"] // max(report.source_rows_estimate, 1)
+            if report.source_rows_estimate
+            else 100
+        )
+        report.wal_risk = _estimate_wal_risk(
+            report.source_rows_estimate,
+            average_width,
+            source_size["total"],
+        )
+        report.plan_summary = next(
+            (
+                check.message
+                for check in reversed(self.checks)
+                if check.name == "query_plan"
+            ),
+            "",
+        )
+        report.free_disk = next(
+            (
+                check.message
+                for check in reversed(self.checks)
+                if check.name == "disk_space"
+            ),
+            "",
+        )
+
         # Finalize report
         report.checks = self.checks
         report.warnings = sum(1 for c in self.checks if c.status == CheckStatus.WARN)
