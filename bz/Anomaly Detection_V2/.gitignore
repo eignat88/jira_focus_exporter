@@ -3,8 +3,8 @@
 .env.*
 
 # Logs
-logs/
-**/logs/
+logs/Архив
+
 
 # Data files (auto-generated)
 data/
