@@ -80,7 +80,7 @@ class PipelineRunner:
                         target_schema=spec.target_schema,
                         target_table=spec.target_table,
                         load_mode=spec.load_mode,
-                        chunk_strategy="numeric_range",
+                        chunk_strategy=spec.chunk_strategy,
                         chunk_column=spec.key_column,
                         config=asdict(spec),
                     )
@@ -105,7 +105,7 @@ class PipelineRunner:
                         lower, upper = adapter.get_boundaries(rt.data, spec)
                     ranges = adapter.build_ranges(lower, upper, spec.batch_size)
                     chunk_manager.create_chunks(
-                        run.run_id, "numeric_range", spec.key_column, ranges
+                        run.run_id, spec.chunk_strategy, spec.key_column, ranges
                     )
                     run_manager.update_run_counts(run.run_id, len(ranges))
 

@@ -5,39 +5,66 @@ pipeline:
   heartbeat_interval_seconds: 15
   max_attempts: 3
 stages:
-- false: 0
+- stage_no: 0
   name: serial_mark_normalization
   enabled: true
   source:
     schema: raw_ax
     table: alk_markserial
     key_column: recid
-    key_type: text
+    key_type: numeric_text
     chunk_order: lexical
   target:
     schema: stage_ax
     table: alk_markserial_normalized
+    conflict_key: recid_text
   normalization:
     source_key: recid
     normalized_key: recid_bigint
     normalized_type: bigint
   execution:
     strategy: normalized_staging
-    chunk_strategy: lexical_range
+    chunk_strategy: numeric_text_range
     batch_size: 100000
     count_mode: estimate
-  conflict_key:
-  - recid_text
+    bind_chunk_bounds_as: text
+    bounds_mode: dynamic
+  columns:
+  - target: recid_text
+    expression: src.recid
+  - target: recid_bigint
+    expression: btrim(src.recid)::bigint
+  - target: gtin
+    expression: src.gtin
+  - target: serialnumber
+    expression: src.serialid
+  - target: itemid
+    expression: src.itemid
+  - target: markcode
+    expression: src.markcode
+  - target: createddatetime
+    expression: CASE WHEN NULLIF(btrim(src.createddatetime), '') IS NULL THEN NULL ELSE btrim(src.createddatetime)::timestamptz END
+  - target: modifieddatetime
+    expression: CASE WHEN NULLIF(btrim(src.modifieddatetime), '') IS NULL THEN NULL ELSE btrim(src.modifieddatetime)::timestamptz END
+  - target: createdby
+    expression: src.createdby
+  - target: modifiedby
+    expression: src.modifiedby
+  validation:
+    target_not_empty: true
+    preflight_required: true
+    require_index_condition: true
+    expected_source_index: idx_alk_markserial_recid
   post_actions:
     create_numeric_index: true
-- false: 1
+- stage_no: 1
   name: serial_mark
   enabled: true
   source:
-    schema: raw_ax
-    table: alk_markserial
-    key_column: recid
-    key_type: bigint_text
+    schema: stage_ax
+    table: alk_markserial_normalized
+    key_column: recid_bigint
+    key_type: bigint
   target:
     schema: dds
     table: serial_mark
@@ -49,11 +76,11 @@ stages:
     count_mode: estimate
   columns:
   - target: rec_id
-    expression: CASE WHEN trim(src.recid) ~ '^[0-9]+$' THEN trim(src.recid)::bigint END
+    expression: src.recid_bigint
   - target: gtin
     expression: src.gtin
   - target: serial_number
-    expression: src.serialid
+    expression: src.serialnumber
   - target: item_id
     expression: src.itemid
   - target: mark_code
@@ -75,7 +102,7 @@ stages:
       - rec_id
   post_actions:
     analyze: true
-- false: 2
+- stage_no: 2
   name: picking_route
   enabled: true
   source:
@@ -121,7 +148,7 @@ stages:
     target_not_empty: true
   post_actions:
     analyze: true
-- false: 3
+- stage_no: 3
   name: pack_task
   enabled: true
   source:
@@ -166,49 +193,55 @@ stages:
     expected_source_index: idx_lfl_scspacktask_recid
   post_actions:
     analyze: true
-- false: 4
+- stage_no: 4
   name: order_trans
   enabled: true
   source:
-    schema: raw_ax
-    table: wmsordertrans
-    key_column: recid
-    key_type: bigint_text
+    schema: stage_ax
+    table: wmsordertrans_normalized
+    key_column: recid_bigint
+    key_type: bigint
   target:
     schema: dds
     table: order_trans
-    conflict_key: trans_id
+    conflict_key: rec_id
+    conflict_action: update
   execution:
     strategy: postgres_insert_select
     chunk_strategy: numeric_range
     batch_size: 100000
     count_mode: estimate
   columns:
+  - target: rec_id
+    expression: src.recid_bigint
   - target: order_id
-    expression: src.orderid
+    expression: src.order_id
   - target: order_trans_id
-    expression: src.ordertransid
+    expression: src.order_trans_id
   - target: item_id
-    expression: src.itemid
+    expression: src.item_id
   - target: invent_dim_id
-    expression: src.inventdimid
+    expression: src.invent_dim_id
   - target: qty
-    expression: CASE WHEN src.qty IS NOT NULL THEN src.qty::numeric END
+    expression: src.qty
   - target: picked_qty
-    expression: CASE WHEN src.pickedqty IS NOT NULL THEN src.pickedqty::numeric END
+    expression: src.picked_qty
   - target: waste_qty
-    expression: CASE WHEN src.wastedqty IS NOT NULL THEN src.wastedqty::numeric END
+    expression: src.waste_qty
   - target: modified_datetime
-    expression: CASE WHEN src.modifieddatetime IS NOT NULL THEN src.modifieddatetime::timestamp END
+    expression: src.modified_datetime
   - target: created_datetime
-    expression: CASE WHEN src.createddatetime IS NOT NULL THEN src.createddatetime::timestamp END
+    expression: src.created_datetime
   - target: data_area_id
-    expression: src.dataareaid
+    expression: src.data_area_id
   validation:
     target_not_empty: true
+    preflight_required: true
+    require_index_condition: true
+    expected_source_index: ux_stage_wmsordertrans_recid_bigint
   post_actions:
     analyze: true
-- false: 5
+- stage_no: 5
   name: sales_order
   enabled: true
   source:
@@ -253,7 +286,7 @@ stages:
     expected_source_index: idx_salestable_recid_bigint
   post_actions:
     analyze: true
-- false: 6
+- stage_no: 6
   name: purchase_order
   enabled: true
   source:

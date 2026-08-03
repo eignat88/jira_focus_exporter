@@ -1,6 +1,6 @@
 # ДОРОЖНАЯ КАРТА UNIFIED ETL
 
-**Обновлено:** 2026-08-03 15:23  
+**Обновлено:** 2026-08-03 16:02
 **Период детального плана:** 2026-08-03 — 2026-08-09.
 
 ---
@@ -12,7 +12,7 @@
 ```text
 purchase_order:
 - full completed, run 66
-- validate-only completed, run 67
+- run 67 completed with CLI label validate-only; old code used runtime path
 - repeat full completed, run 68
 
 sales_order:
@@ -43,6 +43,8 @@ BLOCKED:
 
 Главная цель периода — завершить reconciliation `purchase_order`, выполнить новый безопасный `sales_order full`, затем закрыть `picking_route` и `pack_task`.
 
+Implementation checkpoint опубликован в ветке `work/raw-dds-baseline`, но не применён на Windows-хосте PostgreSQL. Новых DB run IDs после 68 пока нет. Прежний CLI `validate-only`, использованный для run 67, шёл через runtime `PipelineRunner`; в checkpoint режим исправлен и теперь не создаёт ETL run/chunks и не выполняет `INSERT`.
+
 ---
 
 ## 2. Приоритеты
@@ -54,9 +56,9 @@ BLOCKED:
 | P0 | Validate `sales_order` | validate-only и RAW/DDS reconciliation выполнены |
 | P1 | Валидировать `picking_route` | Расхождение RAW/DDS объяснено |
 | P1 | Валидировать `pack_task` | Конфликтное поведение и counts подтверждены |
-| P1 | Разблокировать `order_trans` | Mapping исправлен, выбран индексируемый chunk key |
-| P1 | Исправить normalization preflight | Stage проходит полноценную read-only проверку |
-| P1 | Утвердить архитектуру `serial_mark` | Staging/CTAS/source-key без массового UPDATE RAW |
+| P1 | Разблокировать `order_trans` | Подготовленный staging mapping подтверждён preflight на реальной БД |
+| P1 | Исправить normalization preflight | Подготовленный columns contract проходит полноценную read-only проверку |
+| P1 | Подтвердить архитектуру `serial_mark` | Normalized staging + indexed `recid_bigint`, без массового UPDATE RAW |
 
 ---
 
@@ -70,7 +72,7 @@ BLOCKED:
 
 - preflight READY;
 - full run 66 completed;
-- validate-only run 67 completed;
+- run 67 с CLI-меткой validate-only completed, но старый код выполнял runtime path;
 - repeat full run 68 completed.
 
 Осталось:
@@ -254,3 +256,7 @@ purchase_order reconciliation
 - Не выполнять тяжёлый `EXPLAIN ANALYZE` без ограниченного диапазона.
 - Один тяжёлый stage за раз.
 - Любая загрузка должна быть идемпотентной, возобновляемой и отменяемой.
+
+### Подготовленный запуск
+
+`monitoring/run_raw_dds_stage_plan.ps1` выполняет runtime baseline, reconciliation runs 66–68, `sales_order` preflight/full 100k/read-only validation, проверки `picking_route` и `pack_task`, затем полный preflight baseline. Изменяющий `sales_order full` включается только switch `-ExecuteSalesOrderFull` после safety gate.

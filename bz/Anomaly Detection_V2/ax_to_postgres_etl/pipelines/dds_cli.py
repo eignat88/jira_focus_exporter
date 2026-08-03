@@ -186,6 +186,46 @@ def run_preflight(stages: list, pipeline_config: dict, dsn: str,
     return exit_code
 
 
+def run_validate_only(stages: list, pipeline_config: dict, dsn: str) -> int:
+    """Validate targets through a read-only connection.
+
+    This mode must never create etl.load_run/load_chunk rows and must never
+    execute the adapter's INSERT path.
+    """
+    import json
+    import psycopg2
+
+    print("\n" + "=" * 70)
+    print("RAW -> DDS VALIDATE ONLY")
+    print("=" * 70)
+    print("NOTE: Read-only target validation. No data will be modified.")
+
+    exit_code = 0
+    for stage_config in stages:
+        if not stage_config.get("enabled", True):
+            print(f"\n[{stage_config['name']}] SKIPPED (disabled)")
+            continue
+
+        conn = None
+        try:
+            conn = psycopg2.connect(dsn)
+            conn.set_session(readonly=True, autocommit=True)
+            spec, adapter = build_stage_spec(stage_config, pipeline_config)
+            result = adapter.validate(conn, spec)
+            print(f"\n[{stage_config['name']}] VALIDATED")
+            print(json.dumps(result, ensure_ascii=False, indent=2))
+        except Exception as exc:
+            print(f"\n[ERROR] {stage_config['name']}: {exc}")
+            exit_code = 1
+        finally:
+            if conn is not None:
+                conn.close()
+
+    print("No records created in etl.load_run or etl.load_chunk")
+    print("=" * 70)
+    return exit_code
+
+
 def main() -> int:
     args = parse_args()
     config = load_config(args.config)
@@ -224,6 +264,19 @@ def main() -> int:
     if not stages:
         print("ERROR: No stages defined")
         return 1
+
+    if args.mode == "validate-only":
+        preflight_exit = run_preflight(
+            stages,
+            pipeline_config,
+            dsn,
+            batch_size=args.batch_size,
+            count_mode=args.count_mode,
+        )
+        if preflight_exit != 0:
+            print("Validation blocked: mandatory preflight failed")
+            return preflight_exit
+        return run_validate_only(stages, pipeline_config, dsn)
 
     # Modification modes must pass the same read-only structural checks as
     # explicit preflight. A blocked stage must not create an ETL run or issue
