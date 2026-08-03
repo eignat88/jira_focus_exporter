@@ -1,8 +1,10 @@
 # ЕДИНЫЙ СТАТУС ПРОЕКТА
 
 **Проект:** Anomaly Detection / Unified ETL для AX 2012 и WMS  
-**Обновлено:** 2026-08-03 15:23  
-**Основание:** ветка `main`, полный read-only preflight от 2026-08-03, runtime-запуски `purchase_order` и read-only диагностика `sales_order` run 45.
+**Обновлено:** 2026-08-03 16:02
+**Основание:** ветка `main` на `9d75820`, полный read-only preflight от 2026-08-03, runtime-запуски `purchase_order`, диагностика `sales_order` run 45 и локальный implementation checkpoint плана stages 3–4.
+
+> Локальный implementation checkpoint ещё не опубликован и не применён на Windows-хосте PostgreSQL. Из текущей рабочей среды `localhost:5432` недоступен, поэтому новые runtime run IDs и результаты reconciliation пока не создавались.
 
 ---
 
@@ -42,7 +44,7 @@ raw_ax.purchtable → dds.purchase_order
 - составной conflict key `(purchase_id, data_area_id)` подтверждён;
 - unique index `ux_purchase_order_business_key` совпадает с conflict key;
 - первый полный запуск завершён: `run_id=66`;
-- `validate-only` завершён: `run_id=67`;
+- запуск с CLI-меткой `validate-only` завершён: `run_id=67`;
 - повторный полный запуск завершён: `run_id=68`;
 - повторный запуск не завершился ошибкой и подтверждает операционную идемпотентность;
 - WAL risk LOW;
@@ -54,6 +56,8 @@ raw_ax.purchtable → dds.purchase_order
 - отсутствие дублей по `(purchase_id, data_area_id)`;
 - отсутствие NULL/пустых business keys;
 - проверка метрик `rows_inserted`, `rows_updated`, `rows_conflicted` для runs 66–68.
+
+Уточнение по run 67: код `main` до текущего checkpoint не имел отдельного read-only пути для `validate-only`. Этот режим создавал run/chunks и проходил через обычный `PipelineRunner`, то есть мог повторно выполнить идемпотентный `INSERT ... SELECT`. Поэтому run 67 подтверждает runtime-повторяемость, но не считается независимой read-only validation.
 
 ### `sales_order` — READY FOR NEW FULL RUN
 
@@ -111,13 +115,13 @@ python -m ax_to_postgres_etl.pipelines.dds_cli `
 
 | Stage | Текущий статус | Следующее действие |
 |---|---|---|
-| `purchase_order` | RUNTIME COMPLETED, reconciliation required | Проверить runs 66–68 и точную сверку RAW/DDS |
-| `sales_order` | READY_WITH_WARNINGS, run 45 diagnosed | Новый `full` с batch 100k, затем validate-only |
+| `purchase_order` | RUNTIME COMPLETED, reconciliation pending | Выполнить подготовленную точную сверку runs 66–68 и RAW/DDS |
+| `sales_order` | READY_WITH_WARNINGS, run 45 diagnosed | На Windows-хосте: новый `full` 100k, затем исправленный read-only validate-only |
 | `picking_route` | READY | Validate-only и reconciliation |
 | `pack_task` | READY | Validate-only и reconciliation |
-| `order_trans` | BLOCKED | Исправить mapping и выбрать индексируемый chunk key |
-| `serial_mark_normalization` | BLOCKED | Исправить контракт preflight или добавить columns mapping |
-| `serial_mark` | BLOCKED | Утвердить staging/CTAS/source-key архитектуру без массового UPDATE RAW |
+| `order_trans` | CONFIG FIX PREPARED, DB BLOCKED | Создать/загрузить `stage_ax.wmsordertrans_normalized`, добавить `dds.order_trans.rec_id`, затем preflight |
+| `serial_mark_normalization` | CONFIG FIX PREPARED, DB PREFLIGHT PENDING | Проверить `numeric_text_range` по RAW index и контракт `stage_ax.alk_markserial_normalized` |
+| `serial_mark` | ARCHITECTURE SELECTED, DB PREFLIGHT PENDING | Загружать только из normalized staging по `recid_bigint`; RAW массово не обновлять |
 
 ---
 
@@ -128,6 +132,8 @@ READY:               purchase_order, picking_route, pack_task
 READY_WITH_WARNINGS: sales_order
 BLOCKED:             order_trans, serial_mark_normalization, serial_mark
 ```
+
+Это последний подтверждённый baseline БД до локального implementation checkpoint. Новый baseline должен быть снят на Windows-хосте после применения изменений; его результат заранее не считается подтверждённым.
 
 ### `picking_route`
 
@@ -191,6 +197,17 @@ No column mapping defined
 5. Разблокировать `order_trans` через исправление mapping и индексируемую chunk strategy.
 6. Исправить preflight `serial_mark_normalization`.
 7. Утвердить staging/CTAS/source-key решение для `serial_mark`.
+
+### Подготовлено в implementation checkpoint
+
+- `validate-only` отделён от runtime: read-only connection, без `etl.load_run`, chunks и `INSERT`;
+- добавлены точные reconciliation SQL для `purchase_order`, `sales_order`, `picking_route`, `pack_task`;
+- добавлен единый PowerShell runner с runtime safety gate, логами и `sales_order full` только по явному switch;
+- `order_trans` перенастроен на `stage_ax.wmsordertrans_normalized(recid_bigint)` и conflict key `dds.order_trans.rec_id`;
+- `serial_mark_normalization` получил полный columns mapping и indexed `numeric_text_range` по RAW `recid`;
+- `serial_mark` перенастроен на `stage_ax.alk_markserial_normalized(recid_bigint)`.
+
+Фактические DB-результаты этих изменений ещё не подтверждены.
 
 ---
 

@@ -1,6 +1,6 @@
 # ДИАГРАММА ГАНТА — UNIFIED ETL
 
-**Обновлено:** 2026-08-03 15:23
+**Обновлено:** 2026-08-03 16:02
 
 ```mermaid
 gantt
@@ -11,10 +11,11 @@ gantt
     section Completed runtime
     Full read-only preflight                 :done, full_pre, 2026-08-03, 1d
     purchase_order full run 66               :done, po66, 2026-08-03, 1d
-    purchase_order validate run 67           :done, po67, 2026-08-03, 1d
+    purchase_order CLI validate run 67       :done, po67, 2026-08-03, 1d
     purchase_order repeat full run 68        :done, po68, 2026-08-03, 1d
     Diagnose sales_order run 45              :done, so45, 2026-08-03, 1d
     Verify sales_order preflight batch 100k  :done, so_pre100, 2026-08-03, 1d
+    Prepare stage execution checkpoint       :done, checkpoint, 2026-08-03, 1d
 
     section 03.08 Current work
     Reconcile purchase_order runs 66-68      :crit, po_rec, 2026-08-03, 1d
@@ -72,7 +73,7 @@ BLOCKED:
 ```text
 purchase_order:
 - run 66 completed
-- run 67 validate-only completed
+- run 67 completed under validate-only CLI label but used runtime path
 - run 68 repeat full completed
 - final reconciliation remains
 
@@ -83,6 +84,12 @@ sales_order:
 - resume is not required
 - batch 100k preflight READY_WITH_WARNINGS
 - Bitmap Heap Scan uses Bitmap Index Scan
+
+implementation checkpoint:
+- DB execution pending on Windows host
+- validate-only fixed to a real read-only path
+- reconciliation SQL and guarded PowerShell runner prepared
+- order_trans and serial_mark staging mappings prepared
 ```
 
 ## Критический путь
