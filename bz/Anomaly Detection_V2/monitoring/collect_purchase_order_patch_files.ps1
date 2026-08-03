@@ -1,0 +1,301 @@
+﻿param(
+    [string]$ProjectDir = "D:\py_pro\jira_focus_exporter\bz\Anomaly Detection_V2",
+    [string]$OutputDir  = "D:\py_pro\jira_focus_exporter\bz\Anomaly Detection_V2\logs"
+)
+
+$ErrorActionPreference = "Stop"
+
+if (-not (Test-Path -LiteralPath $ProjectDir -PathType Container)) {
+    throw "РљР°С‚Р°Р»РѕРі РїСЂРѕРµРєС‚Р° РЅРµ РЅР°Р№РґРµРЅ: $ProjectDir"
+}
+
+if (-not (Test-Path -LiteralPath $OutputDir)) {
+    New-Item -Path $OutputDir -ItemType Directory -Force | Out-Null
+}
+
+$Timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
+$PackageName = "purchase_order_patch_context_$Timestamp"
+$TempDir = Join-Path $env:TEMP $PackageName
+$CollectedDir = Join-Path $TempDir "project_files"
+$ReportDir = Join-Path $TempDir "reports"
+$ArchivePath = Join-Path $OutputDir "$PackageName.zip"
+
+New-Item -Path $CollectedDir -ItemType Directory -Force | Out-Null
+New-Item -Path $ReportDir -ItemType Directory -Force | Out-Null
+
+$SummaryFile = Join-Path $ReportDir "summary.txt"
+$MatchesFile = Join-Path $ReportDir "search_matches.txt"
+$ManifestFile = Join-Path $ReportDir "collected_files.txt"
+$ErrorsFile = Join-Path $ReportDir "copy_errors.txt"
+$GitInfoFile = Join-Path $ReportDir "git_info.txt"
+
+$AllowedExtensions = @(
+    ".py",
+    ".yaml",
+    ".yml",
+    ".sql",
+    ".json",
+    ".toml",
+    ".ini",
+    ".cfg"
+)
+
+$ExcludedDirectories = @(
+    ".git",
+    ".idea",
+    ".vscode",
+    ".pytest_cache",
+    ".mypy_cache",
+    ".ruff_cache",
+    "__pycache__",
+    ".venv",
+    "venv",
+    "env",
+    "node_modules",
+    "logs",
+    "data",
+    "dist",
+    "build"
+)
+
+$SearchPatterns = @(
+    "purchase_order",
+    "purchtable",
+    "recid_bigint",
+    "full_table",
+    "preflight",
+    "range_key",
+    "range key",
+    "key_column",
+    "index_required",
+    "required_index",
+    "load_strategy",
+    "chunk_strategy"
+)
+
+@(
+    "PURCHASE_ORDER PATCH CONTEXT"
+    "Created:     $(Get-Date -Format yyyy-MM-dd_HH-mm-ss)"
+    "ProjectDir:  $ProjectDir"
+    "OutputDir:   $OutputDir"
+    "Archive:     $ArchivePath"
+    ""
+    "Purpose:"
+    "- collect purchase_order YAML configuration"
+    "- collect preflight implementation"
+    "- collect full_table and range/index logic"
+    "- collect recid_bigint references"
+    "- collect related regression tests"
+) | Set-Content -Path $SummaryFile -Encoding UTF8
+
+function Test-IsExcludedPath {
+    param([string]$FullName)
+
+    $RelativePath = $FullName.Substring($ProjectDir.Length).TrimStart(
+        [System.IO.Path]::DirectorySeparatorChar,
+        [System.IO.Path]::AltDirectorySeparatorChar
+    )
+
+    $Parts = $RelativePath -split '[\\/]'
+
+    foreach ($Part in $Parts) {
+        if ($ExcludedDirectories -contains $Part) {
+            return $true
+        }
+    }
+
+    return $false
+}
+
+function Copy-ProjectFile {
+    param([System.IO.FileInfo]$File)
+
+    try {
+        $RelativePath = $File.FullName.Substring($ProjectDir.Length).TrimStart(
+            [System.IO.Path]::DirectorySeparatorChar,
+            [System.IO.Path]::AltDirectorySeparatorChar
+        )
+
+        $Destination = Join-Path $CollectedDir $RelativePath
+        $DestinationDirectory = Split-Path $Destination -Parent
+
+        if (-not (Test-Path -LiteralPath $DestinationDirectory)) {
+            New-Item `
+                -Path $DestinationDirectory `
+                -ItemType Directory `
+                -Force | Out-Null
+        }
+
+        Copy-Item `
+            -LiteralPath $File.FullName `
+            -Destination $Destination `
+            -Force
+
+        return $RelativePath
+    }
+    catch {
+        "$($File.FullName): $($_.Exception.Message)" |
+            Add-Content -Path $ErrorsFile -Encoding UTF8
+
+        return $null
+    }
+}
+
+try {
+    Write-Host "РџРѕРёСЃРє С„Р°Р№Р»РѕРІ РїСЂРѕРµРєС‚Р°..." -ForegroundColor Cyan
+
+    $CandidateFiles = Get-ChildItem `
+        -LiteralPath $ProjectDir `
+        -File `
+        -Recurse `
+        -ErrorAction SilentlyContinue |
+        Where-Object {
+            ($AllowedExtensions -contains $_.Extension.ToLowerInvariant()) -and
+            (-not (Test-IsExcludedPath -FullName $_.FullName))
+        }
+
+    $SelectedFiles = New-Object System.Collections.Generic.List[System.IO.FileInfo]
+
+    foreach ($File in $CandidateFiles) {
+        $RelativePath = $File.FullName.Substring($ProjectDir.Length)
+
+        $NameMatched =
+            $File.Name -match '(?i)purchase|purchtable|preflight|dds|pipeline|adapter|config|mapping' -or
+            $RelativePath -match '(?i)tests?[\\/]'
+
+        $ContentMatched = $false
+
+        try {
+            $Matches = Select-String `
+                -LiteralPath $File.FullName `
+                -Pattern $SearchPatterns `
+                -SimpleMatch `
+                -ErrorAction Stop
+
+            if ($Matches) {
+                $ContentMatched = $true
+
+                foreach ($Match in $Matches) {
+                    $ShortPath = $File.FullName.Substring($ProjectDir.Length).
+                        TrimStart('\', '/')
+
+                    "$ShortPath`:$($Match.LineNumber): $($Match.Line.Trim())" |
+                        Add-Content -Path $MatchesFile -Encoding UTF8
+                }
+            }
+        }
+        catch {
+            "$($File.FullName): search failed: $($_.Exception.Message)" |
+                Add-Content -Path $ErrorsFile -Encoding UTF8
+        }
+
+        if ($NameMatched -or $ContentMatched) {
+            $SelectedFiles.Add($File)
+        }
+    }
+
+    # РЈР±РёСЂР°РµРј РґСѓР±Р»Рё РїРѕ РїРѕР»РЅРѕРјСѓ РїСѓС‚Рё.
+    $SelectedFiles = $SelectedFiles |
+        Sort-Object FullName -Unique
+
+    Write-Host "РљРѕРїРёСЂРѕРІР°РЅРёРµ РЅР°Р№РґРµРЅРЅС‹С… С„Р°Р№Р»РѕРІ..." -ForegroundColor Cyan
+
+    $CollectedPaths = foreach ($File in $SelectedFiles) {
+        Copy-ProjectFile -File $File
+    }
+
+    $CollectedPaths |
+        Where-Object { $_ } |
+        Sort-Object |
+        Set-Content -Path $ManifestFile -Encoding UTF8
+
+    # РРЅС„РѕСЂРјР°С†РёСЏ Git РїРѕРјРѕРіР°РµС‚ РѕРїСЂРµРґРµР»РёС‚СЊ С‚РѕС‡РЅСѓСЋ РІРµСЂСЃРёСЋ РёСЃС…РѕРґРЅРёРєРѕРІ.
+    $GitCommand = Get-Command git -ErrorAction SilentlyContinue
+
+    if ($GitCommand -and (Test-Path (Join-Path $ProjectDir ".git"))) {
+        Push-Location $ProjectDir
+
+        try {
+            @(
+                "=== CURRENT BRANCH ==="
+                (& git branch --show-current 2>&1)
+                ""
+                "=== LAST COMMIT ==="
+                (& git log -1 --decorate --oneline 2>&1)
+                ""
+                "=== WORKTREE STATUS ==="
+                (& git status --short 2>&1)
+                ""
+                "=== REMOTES ==="
+                (& git remote -v 2>&1)
+            ) | Set-Content -Path $GitInfoFile -Encoding UTF8
+        }
+        finally {
+            Pop-Location
+        }
+    }
+    else {
+        "Git metadata unavailable or .git directory not found." |
+            Set-Content -Path $GitInfoFile -Encoding UTF8
+    }
+
+    $FileCount = @($CollectedPaths | Where-Object { $_ }).Count
+    $MatchCount = 0
+
+    if (Test-Path $MatchesFile) {
+        $MatchCount = @(Get-Content $MatchesFile).Count
+    }
+
+    @(
+        ""
+        "=== RESULT ==="
+        "Selected files: $FileCount"
+        "Search matches: $MatchCount"
+        "Status:         COMPLETED"
+        "Completed:      $(Get-Date -Format yyyy-MM-dd_HH-mm-ss)"
+    ) | Add-Content -Path $SummaryFile -Encoding UTF8
+
+    if ($FileCount -eq 0) {
+        throw "РџРѕРґС…РѕРґСЏС‰РёРµ С„Р°Р№Р»С‹ РЅРµ РЅР°Р№РґРµРЅС‹. РџСЂРѕРІРµСЂСЊС‚Рµ РїСѓС‚СЊ Рє РїСЂРѕРµРєС‚Сѓ."
+    }
+
+    if (Test-Path -LiteralPath $ArchivePath) {
+        Remove-Item -LiteralPath $ArchivePath -Force
+    }
+
+    Compress-Archive `
+        -Path (Join-Path $TempDir "*") `
+        -DestinationPath $ArchivePath `
+        -CompressionLevel Optimal `
+        -Force
+
+    $Archive = Get-Item -LiteralPath $ArchivePath
+    $ArchiveSizeMb = [math]::Round($Archive.Length / 1MB, 2)
+
+    Write-Host ""
+    Write-Host "Collection completed successfully." -ForegroundColor Green
+    Write-Host "Files collected: $FileCount"
+    Write-Host "Search matches: $MatchCount"
+    Write-Host "Archive size: $ArchiveSizeMb MB"
+    Write-Host "Archive: $ArchivePath" -ForegroundColor Yellow
+}
+catch {
+    $FailureTime = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
+    $ErrorMessage = $_.Exception.Message
+
+    @(
+        ""
+        "=== FAILURE ==="
+        "Status: FAILED"
+        "Time:   $FailureTime"
+        "Error:  $ErrorMessage"
+    ) | Add-Content -LiteralPath $SummaryFile -Encoding UTF8
+
+    Write-Error $ErrorMessage
+    exit 1
+}
+finally {
+    if (Test-Path -LiteralPath $TempDir) {
+        Remove-Item -LiteralPath $TempDir -Recurse -Force -ErrorAction SilentlyContinue
+    }
+}
