@@ -264,30 +264,33 @@ stages:
   target:
     schema: dds
     table: purchase_order
-    conflict_key: purchase_order_id
+    conflict_key:
+    - purchase_id
+    - data_area_id
+    conflict_action: update
   execution:
     strategy: postgres_insert_select
     chunk_strategy: full_table
     count_mode: estimate
   columns:
   - target: purchase_id
-    expression: src.purchid
+    expression: NULLIF(btrim(src.purchid), '')
   - target: vendor_account
-    expression: src.vendaccount
+    expression: NULLIF(btrim(src.orderaccount), '')
   - target: order_date
-    expression: CASE WHEN src.orderdate IS NOT NULL THEN src.orderdate::timestamp END
+    expression: CASE WHEN NULLIF(btrim(src.createddatetime), '') IS NULL THEN NULL ELSE btrim(src.createddatetime)::timestamp END
   - target: delivery_date
-    expression: CASE WHEN src.deliverydate IS NOT NULL THEN src.deliverydate::timestamp END
+    expression: CASE WHEN NULLIF(btrim(src.deliverydate), '') IS NULL OR btrim(src.deliverydate) IN ('1900-01-01', '1900-01-01 00:00:00') THEN NULL ELSE btrim(src.deliverydate)::timestamp END
   - target: currency_code
-    expression: src.currencycode
+    expression: NULLIF(btrim(src.currencycode), '')
   - target: purchase_status
-    expression: src.purchstatus
+    expression: NULLIF(btrim(src.purchstatus), '')
   - target: modified_datetime
-    expression: CASE WHEN src.modifieddatetime IS NOT NULL THEN src.modifieddatetime::timestamp END
+    expression: CASE WHEN NULLIF(btrim(src.modifieddatetime), '') IS NULL THEN NULL ELSE btrim(src.modifieddatetime)::timestamp END
   - target: created_datetime
-    expression: CASE WHEN src.createddatetime IS NOT NULL THEN src.createddatetime::timestamp END
+    expression: CASE WHEN NULLIF(btrim(src.createddatetime), '') IS NULL THEN NULL ELSE btrim(src.createddatetime)::timestamp END
   - target: data_area_id
-    expression: src.dataareaid
+    expression: NULLIF(btrim(src.dataareaid), '')
   validation:
     target_not_empty: true
   post_actions:

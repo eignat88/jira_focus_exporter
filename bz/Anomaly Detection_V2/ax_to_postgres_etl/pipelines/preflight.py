@@ -221,80 +221,64 @@ def _find_btree_index(cur, schema: str, table: str, column: str) -> dict | None:
     return None
 
 
-def _find_unique_constraint(cur, schema: str, table: str, column: str) -> dict | None:
-    """Find unique constraint or unique index on column.
+def _find_unique_constraint(
+    cur,
+    schema: str,
+    table: str,
+    columns: str | list[str],
+) -> dict | None:
+    """Find an exact valid unique constraint/index for ordered columns."""
+    expected = [columns] if isinstance(columns, str) else list(columns)
+    if not expected:
+        return None
 
-    Accepts: primary key, unique constraint, or unique index
-    where the column is the first (and ideally only) key.
-    """
-    # 1) Check pg_constraint (primary key / unique constraint)
     cur.execute(
-        "SELECT c.conname, pg_get_constraintdef(c.oid) AS constraint_def, "
-        "c.convalidated, c.conkey "
-        "FROM pg_constraint c "
-        "JOIN pg_class cl ON cl.oid = c.conrelid "
-        "JOIN pg_namespace n ON n.oid = cl.relnamespace "
-        "WHERE n.nspname = %s AND cl.relname = %s "
-        "AND c.contype IN ('u', 'p') "
-        "ORDER BY c.contype",
+        """
+        SELECT
+            idx.relname AS index_name,
+            pg_get_indexdef(i.indexrelid) AS index_def,
+            i.indisvalid,
+            i.indisready,
+            COALESCE(con.convalidated, true) AS constraint_validated,
+            array_agg(att.attname ORDER BY key.ord)
+                FILTER (WHERE key.ord <= i.indnkeyatts) AS key_columns
+        FROM pg_index i
+        JOIN pg_class tbl ON tbl.oid = i.indrelid
+        JOIN pg_namespace ns ON ns.oid = tbl.relnamespace
+        JOIN pg_class idx ON idx.oid = i.indexrelid
+        CROSS JOIN LATERAL unnest(i.indkey::smallint[])
+            WITH ORDINALITY AS key(attnum, ord)
+        LEFT JOIN pg_attribute att
+          ON att.attrelid = i.indrelid
+         AND att.attnum = key.attnum
+        LEFT JOIN pg_constraint con
+          ON con.conindid = i.indexrelid
+         AND con.contype IN ('p', 'u')
+        WHERE ns.nspname = %s
+          AND tbl.relname = %s
+          AND i.indisunique
+        GROUP BY
+            idx.relname,
+            i.indexrelid,
+            i.indisvalid,
+            i.indisready,
+            con.convalidated
+        """,
         (schema, table),
     )
-    for row in cur.fetchall():
-        conname, condef, convalidated, conkey = row
-        # Resolve column names from conkey
-        cur.execute(
-            "SELECT attname FROM pg_attribute "
-            "WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = %s "
-            "AND relnamespace = (SELECT oid FROM pg_namespace WHERE nspname = %s)) "
-            "AND attnum = ANY(%s)",
-            (table, schema, conkey)
-        )
-        cols = [r[0] for r in cur.fetchall()]
-        if column in cols:
+    for name, definition, isvalid, isready, convalidated, key_columns in cur.fetchall():
+        if (
+            list(key_columns or []) == expected
+            and isvalid
+            and isready
+            and convalidated
+        ):
             return {
-                "name": conname,
-                "definition": condef,
-                "is_valid": bool(convalidated),
-            }
-
-    # 2) Check unique indexes (pg_index + pg_class)
-    cur.execute(
-        "SELECT c2.relname AS index_name, "
-        "pg_get_indexdef(i.indexrelid) AS index_def, "
-        "i.indisvalid, i.indisready, i.indisunique, i.indkey "
-        "FROM pg_index i "
-        "JOIN pg_class c ON c.oid = i.indrelid "
-        "JOIN pg_namespace n ON n.oid = c.relnamespace "
-        "JOIN pg_class c2 ON c2.oid = i.indexrelid "
-        "WHERE n.nspname = %s AND c.relname = %s "
-        "AND i.indisunique = true "
-        "ORDER BY i.indisprimary DESC",
-        (schema, table),
-    )
-    for row in cur.fetchall():
-        idx_name, idx_def, isvalid, isready, _, indkey = row
-        # Resolve first column of the index
-        first_key = _first_index_attnum(indkey)
-
-        cur.execute(
-            "SELECT attname FROM pg_attribute "
-            "WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = %s "
-            "AND relnamespace = (SELECT oid FROM pg_namespace WHERE nspname = %s)) "
-            "AND attnum = %s",
-            (table, schema, first_key)
-        )
-        col_row = cur.fetchone()
-        first_col = col_row[0] if col_row else ""
-
-        if first_col == column and isvalid and isready:
-            return {
-                "name": idx_name,
-                "definition": idx_def,
+                "name": name,
+                "definition": definition,
                 "is_valid": True,
             }
-
     return None
-
 
 def _get_table_size(cur, schema: str, table: str) -> dict:
     """Get relation sizes safely through regclass without scanning table data."""
@@ -430,6 +414,11 @@ class PreflightRunner:
         self._key_column = stage_config.get("source", {}).get("key_column", "")
         self._key_type = stage_config.get("source", {}).get("key_type", "bigint")
         self._conflict_key = stage_config.get("target", {}).get("conflict_key")
+        self._conflict_keys = (
+            [self._conflict_key]
+            if isinstance(self._conflict_key, str)
+            else list(self._conflict_key or [])
+        )
         self._columns = stage_config.get("columns", [])
 
     def _add(self, name: str, status: CheckStatus, message: str, details: str = ""):
@@ -460,6 +449,20 @@ class PreflightRunner:
             return
         if not s.get("columns"):
             self._error("config_columns", "No column mapping defined")
+            return
+
+        conflict_action = s.get("target", {}).get("conflict_action", "nothing")
+        if conflict_action not in {"nothing", "update", "do_nothing", "do_update"}:
+            self._error(
+                "config_conflict_action",
+                f"Unsupported conflict_action: {conflict_action!r}",
+            )
+            return
+        if conflict_action in {"update", "do_update"} and not self._conflict_keys:
+            self._error(
+                "config_conflict_key",
+                "conflict_action=update requires conflict_key",
+            )
             return
         self._ok("config_loaded", "Stage configuration loaded")
 
@@ -500,9 +503,11 @@ class PreflightRunner:
         # The target business/conflict key is independent from the source
         # chunk key. Do not require them to have the same name or type.
         target_cfg = self.stage.get("target", {})
-        target_key = target_cfg.get("conflict_key") or target_cfg.get("key_column")
+        target_keys = self._conflict_keys
+        if not target_keys and target_cfg.get("key_column"):
+            target_keys = [target_cfg["key_column"]]
 
-        if target_key:
+        for target_key in target_keys:
             target_key_type = _get_column_type(
                 cur,
                 self._target_schema,
@@ -511,12 +516,12 @@ class PreflightRunner:
             )
             if target_key_type is None:
                 self._error(
-                    "target_key_exists",
+                    f"target_key_exists:{target_key}",
                     f"Target key column '{target_key}' not found",
                 )
             else:
                 self._ok(
-                    "target_key_exists",
+                    f"target_key_exists:{target_key}",
                     f"Target key {target_key}: {target_key_type}",
                 )
 
@@ -547,14 +552,26 @@ class PreflightRunner:
             else:
                 self._error("key_type_compatible", message)
 
-        # Check all source columns from mapping
+        # Missing mapped source columns make the generated INSERT invalid.
+        # Report every missing physical column once even if several mappings
+        # reference it.
+        checked_source_columns: set[str] = set()
         for col in self._columns:
-            # Parse expression to find source columns (simple heuristic)
             src_cols = self._extract_source_columns(col.get("expression", ""))
-            for sc in src_cols:
-                if not _check_column_exists(cur, self._source_schema, self._source_table, sc):
-                    self._warn("source_column",
-                               f"Source column '{sc}' referenced in mapping not found")
+            for source_column in src_cols:
+                if source_column in checked_source_columns:
+                    continue
+                checked_source_columns.add(source_column)
+                if not _check_column_exists(
+                    cur,
+                    self._source_schema,
+                    self._source_table,
+                    source_column,
+                ):
+                    self._error(
+                        f"source_column:{source_column}",
+                        f"Source column '{source_column}' referenced in mapping not found",
+                    )
 
         # Check target columns
         for col in self._columns:
@@ -564,14 +581,23 @@ class PreflightRunner:
                 self._error("target_column",
                             f"Target column '{target_col}' not found")
 
-        # Check conflict key exists on target
-        if self._conflict_key:
-            if _check_column_exists(cur, self._target_schema, self._target_table, self._conflict_key):
-                self._ok("conflict_key_exists",
-                         f"Conflict key {self._conflict_key} exists on target")
+        # Check every column of a scalar or composite conflict key.
+        for conflict_key in self._conflict_keys:
+            if _check_column_exists(
+                cur,
+                self._target_schema,
+                self._target_table,
+                conflict_key,
+            ):
+                self._ok(
+                    f"conflict_key_exists:{conflict_key}",
+                    f"Conflict key {conflict_key} exists on target",
+                )
             else:
-                self._error("conflict_key_exists",
-                            f"Conflict key {self._conflict_key} not found on target")
+                self._error(
+                    f"conflict_key_exists:{conflict_key}",
+                    f"Conflict key {conflict_key} not found on target",
+                )
 
     def _check_chunk_key_compatibility(
         self,
@@ -665,16 +691,25 @@ class PreflightRunner:
         else:
             self._check_source_chunk_index(cur)
 
-        # Check unique constraint on target for conflict key
-        if self._conflict_key:
-            uq = _find_unique_constraint(cur, self._target_schema,
-                                         self._target_table, self._conflict_key)
+        # The unique key must match the complete ordered conflict key.
+        if self._conflict_keys:
+            uq = _find_unique_constraint(
+                cur,
+                self._target_schema,
+                self._target_table,
+                self._conflict_keys,
+            )
+            key_label = ", ".join(self._conflict_keys)
             if uq:
-                self._ok("target_unique_constraint",
-                         f"Unique constraint: {uq['name']}")
+                self._ok(
+                    "target_unique_constraint",
+                    f"Unique constraint/index {uq['name']} on ({key_label})",
+                )
             else:
-                self._error("target_unique_constraint",
-                            f"No unique constraint on {self._conflict_key}")
+                self._error(
+                    "target_unique_constraint",
+                    f"No exact unique constraint/index on ({key_label})",
+                )
 
     def _check_source_chunk_index(self, cur):
         # Check B-tree index on source for chunk key
@@ -775,16 +810,22 @@ class PreflightRunner:
 
         try:
             if chunk_strategy == "full_table":
+                mapped_expressions = ", ".join(
+                    column.get("expression", "")
+                    for column in self._columns
+                )
                 sql = (
                     f"EXPLAIN (FORMAT JSON) "
-                    f"SELECT 1 FROM {self._source_schema}.{self._source_table}"
+                    f"SELECT {mapped_expressions} "
+                    f"FROM {self._source_schema}.{self._source_table} src"
                 )
                 cur.execute(sql)
                 plan_json = cur.fetchone()[0]
                 node_type = self._extract_plan_node_type(plan_json)
                 self._ok(
                     "query_plan",
-                    f"Full-table EXPLAIN completed; plan uses {node_type}",
+                    "Full mapped SELECT passed EXPLAIN without ANALYZE; "
+                    f"plan uses {node_type}",
                 )
                 return
 
@@ -1166,6 +1207,54 @@ class PreflightRunner:
         self.check_data_volume(count_mode)
         self.check_pg_runtime()
         self.check_disk_space()
+
+        # Populate machine-readable summary fields from catalog-only data.
+        # These values were previously left empty even though the checks had
+        # already collected the same information.
+        cur = self.conn.cursor()
+        source_size = _get_table_size(
+            cur,
+            self._source_schema,
+            self._source_table,
+        )
+        target_size = _get_table_size(
+            cur,
+            self._target_schema,
+            self._target_table,
+        )
+        report.source_rows_estimate = _get_estimated_rows(
+            cur,
+            self._source_schema,
+            self._source_table,
+        )
+        report.source_total_size = _format_bytes(source_size["total"])
+        report.target_current_size = _format_bytes(target_size["total"])
+        average_width = (
+            source_size["heap"] // max(report.source_rows_estimate, 1)
+            if report.source_rows_estimate
+            else 100
+        )
+        report.wal_risk = _estimate_wal_risk(
+            report.source_rows_estimate,
+            average_width,
+            source_size["total"],
+        )
+        report.plan_summary = next(
+            (
+                check.message
+                for check in reversed(self.checks)
+                if check.name == "query_plan"
+            ),
+            "",
+        )
+        report.free_disk = next(
+            (
+                check.message
+                for check in reversed(self.checks)
+                if check.name == "disk_space"
+            ),
+            "",
+        )
 
         # Finalize report
         report.checks = self.checks
