@@ -54,11 +54,13 @@ def build_stage_spec(stage_config: dict, pipeline_config: dict) -> tuple[Pipelin
 
     columns = [ColumnMap(c["target"], c["expression"]) for c in stage_config.get("columns", [])]
     conflict_column = target.get("conflict_key")
+    conflict_action = target.get("conflict_action", "nothing")
 
     adapter = RawToDdsAdapter(
         columns=columns,
         conflict_column=conflict_column,
         key_type=key_type,
+        conflict_action=conflict_action,
     )
     return spec, adapter
 
@@ -222,6 +224,21 @@ def main() -> int:
     if not stages:
         print("ERROR: No stages defined")
         return 1
+
+    # Modification modes must pass the same read-only structural checks as
+    # explicit preflight. A blocked stage must not create an ETL run or issue
+    # INSERT/UPDATE statements.
+    if args.mode in {"full", "resume"}:
+        preflight_exit = run_preflight(
+            stages,
+            pipeline_config,
+            dsn,
+            batch_size=args.batch_size,
+            count_mode=args.count_mode,
+        )
+        if preflight_exit != 0:
+            print("Load blocked: mandatory preflight failed")
+            return preflight_exit
 
     # Recover stale runs before starting
     runner = PipelineRunner(dsn)

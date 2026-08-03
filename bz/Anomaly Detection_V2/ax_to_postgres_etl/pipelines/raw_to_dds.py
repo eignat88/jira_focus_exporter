@@ -73,10 +73,30 @@ KEY_TYPE_HANDLERS = {
 class RawToDdsAdapter:
     """Executes PostgreSQL-internal INSERT..SELECT without moving rows via Python."""
 
-    def __init__(self, columns: list[ColumnMap], conflict_column: str | None = None,
-                 key_type: str = "bigint"):
+    def __init__(
+        self,
+        columns: list[ColumnMap],
+        conflict_column: str | list[str] | None = None,
+        key_type: str = "bigint",
+        conflict_action: str = "nothing",
+    ):
         self.columns = columns
-        self.conflict_column = conflict_column
+        self.conflict_columns = (
+            [conflict_column]
+            if isinstance(conflict_column, str)
+            else list(conflict_column or [])
+        )
+        # Backward-compatible attribute for callers that still inspect it.
+        self.conflict_column = (
+            self.conflict_columns[0] if len(self.conflict_columns) == 1 else None
+        )
+        normalized_action = conflict_action.lower().removeprefix("do_")
+        if normalized_action not in {"nothing", "update"}:
+            raise ValueError(
+                "conflict_action must be 'nothing' or 'update', "
+                f"got {conflict_action!r}"
+            )
+        self.conflict_action = normalized_action
         self.key_type = key_type
         self._key_handler = KEY_TYPE_HANDLERS.get(key_type, KEY_TYPE_HANDLERS["bigint"])
 
@@ -137,54 +157,83 @@ class RawToDdsAdapter:
 
         return ranges
 
+    def _build_conflict_clause(self) -> str:
+        if not self.conflict_columns:
+            return ""
+
+        conflict_targets = ", ".join(ident(c) for c in self.conflict_columns)
+        if self.conflict_action == "nothing":
+            return f" ON CONFLICT ({conflict_targets}) DO NOTHING"
+
+        key_set = set(self.conflict_columns)
+        update_columns = [c.target for c in self.columns if c.target not in key_set]
+        if not update_columns:
+            return f" ON CONFLICT ({conflict_targets}) DO NOTHING"
+
+        assignments = ",\n                ".join(
+            f"{ident(column)} = EXCLUDED.{ident(column)}"
+            for column in update_columns
+        )
+        current_values = ", ".join(f"dst.{ident(column)}" for column in update_columns)
+        excluded_values = ", ".join(
+            f"EXCLUDED.{ident(column)}" for column in update_columns
+        )
+        return (
+            f" ON CONFLICT ({conflict_targets}) DO UPDATE SET\n"
+            f"                {assignments}\n"
+            f"            WHERE ({current_values}) IS DISTINCT FROM "
+            f"({excluded_values})"
+        )
+
     def execute_batch(self, data_conn, spec: PipelineSpec, start, end) -> BatchResult:
         """Execute INSERT ... SELECT for a batch."""
         targets = ", ".join(ident(c.target) for c in self.columns)
         expressions = ",\n                ".join(c.expression for c in self.columns)
 
-        # Build WHERE clause based on the effective key column.
-        # For numeric_text the source column must remain uncast in WHERE;
-        # chunk boundaries are converted to strings before binding.
-        key_column = self._get_key_column(spec)
-        where_template = self._key_handler.get(
-            "filter_expr",
-            "src.{key} > %(start_key)s AND src.{key} <= %(end_key)s",
-        )
-        where_clause = where_template.format(key=ident(key_column))
-        where_clause = (
-            where_clause
-            .replace("%(start_key)s", "%s")
-            .replace("%(end_key)s", "%s")
-        )
+        query_params: tuple[Any, ...]
+        where_sql = ""
+        if getattr(spec, "chunk_strategy", None) == "full_table":
+            # A full-table stage is one resumable logical chunk. Applying the
+            # synthetic (0, 1] boundary here would silently skip source rows.
+            query_params = ()
+        else:
+            key_column = self._get_key_column(spec)
+            where_template = self._key_handler.get(
+                "filter_expr",
+                "src.{key} > %(start_key)s AND src.{key} <= %(end_key)s",
+            )
+            where_clause = where_template.format(key=ident(key_column))
+            where_clause = (
+                where_clause
+                .replace("%(start_key)s", "%s")
+                .replace("%(end_key)s", "%s")
+            )
+            where_sql = f"WHERE {where_clause}"
+            query_params = (
+                (str(start), str(end))
+                if self.key_type == "numeric_text"
+                else (start, end)
+            )
 
-        conflict = ""
-        if self.conflict_column:
-            conflict = f" ON CONFLICT ({ident(self.conflict_column)}) DO NOTHING"
-
+        conflict = self._build_conflict_clause()
         sql = f"""
-            INSERT INTO {ident(spec.target_schema)}.{ident(spec.target_table)} ({targets})
+            INSERT INTO {ident(spec.target_schema)}.{ident(spec.target_table)} AS dst ({targets})
             SELECT
                 {expressions}
             FROM {ident(spec.source_schema)}.{ident(spec.source_table)} src
-            WHERE {where_clause}
+            {where_sql}
             {conflict}
         """
 
-        query_params = (
-            (str(start), str(end))
-            if self.key_type == "numeric_text"
-            else (start, end)
-        )
-
         with data_conn.cursor() as cur:
             cur.execute(sql, query_params)
-            inserted = max(cur.rowcount, 0)
+            affected = max(cur.rowcount, 0)
 
         data_conn.commit()
 
         return BatchResult(
-            rows_read=inserted,
-            rows_inserted=inserted,
+            rows_read=affected,
+            rows_inserted=affected,
             last_processed_key=str(end),
         )
 
@@ -193,19 +242,18 @@ class RawToDdsAdapter:
         results = {}
 
         with data_conn.cursor() as cur:
-            # Target count
             cur.execute(
                 f"SELECT COUNT(*) FROM {ident(spec.target_schema)}.{ident(spec.target_table)}"
             )
             results["target_count"] = int(cur.fetchone()[0])
 
-            # Check for duplicates if conflict column defined
-            if self.conflict_column:
+            if self.conflict_columns:
+                group_columns = ", ".join(ident(c) for c in self.conflict_columns)
                 cur.execute(f"""
                     SELECT COUNT(*) FROM (
-                        SELECT {ident(self.conflict_column)}, COUNT(*)
+                        SELECT {group_columns}, COUNT(*)
                         FROM {ident(spec.target_schema)}.{ident(spec.target_table)}
-                        GROUP BY {ident(self.conflict_column)}
+                        GROUP BY {group_columns}
                         HAVING COUNT(*) > 1
                     ) t
                 """)
@@ -398,21 +446,61 @@ class RawToDdsAdapter:
                 })
                 results["passed"] = False
 
-            # Check conflict key has unique index
-            if self.conflict_column:
+            # Check every conflict-key column and require one exact unique key.
+            if self.conflict_columns:
+                for conflict_column in self.conflict_columns:
+                    cur.execute("""
+                        SELECT EXISTS (
+                            SELECT 1 FROM information_schema.columns
+                            WHERE table_schema = %s
+                              AND table_name = %s
+                              AND column_name = %s
+                        )
+                    """, (spec.target_schema, spec.target_table, conflict_column))
+                    exists = cur.fetchone()[0]
+                    results["checks"].append({
+                        "name": f"Conflict column {conflict_column}",
+                        "passed": exists,
+                        "message": "OK" if exists else "Missing on target",
+                    })
+                    if not exists:
+                        results["passed"] = False
+
                 cur.execute("""
                     SELECT EXISTS (
-                        SELECT 1 FROM pg_indexes
-                        WHERE schemaname = %s AND tablename = %s
-                        AND indexdef LIKE '%%UNIQUE%%' || %s || '%%'
+                        SELECT 1
+                        FROM pg_index i
+                        JOIN pg_class tbl ON tbl.oid = i.indrelid
+                        JOIN pg_namespace ns ON ns.oid = tbl.relnamespace
+                        WHERE ns.nspname = %s
+                          AND tbl.relname = %s
+                          AND i.indisunique
+                          AND i.indisvalid
+                          AND i.indisready
+                          AND (
+                              SELECT array_agg(a.attname ORDER BY key.ord)
+                              FROM unnest(i.indkey::smallint[])
+                                   WITH ORDINALITY AS key(attnum, ord)
+                              JOIN pg_attribute a
+                                ON a.attrelid = i.indrelid
+                               AND a.attnum = key.attnum
+                              WHERE key.ord <= i.indnkeyatts
+                          ) = %s::text[]
                     )
-                """, (spec.target_schema, spec.target_table, self.conflict_column))
+                """, (
+                    spec.target_schema,
+                    spec.target_table,
+                    self.conflict_columns,
+                ))
                 has_unique = cur.fetchone()[0]
+                key_label = ", ".join(self.conflict_columns)
                 results["checks"].append({
-                    "name": f"Unique index on {self.conflict_column}",
+                    "name": f"Unique index on ({key_label})",
                     "passed": has_unique,
-                    "message": "OK" if has_unique else f"No unique index on {self.conflict_column}"
+                    "message": "OK" if has_unique else f"No exact unique index on ({key_label})",
                 })
+                if not has_unique:
+                    results["passed"] = False
             else:
                 results["checks"].append({
                     "name": "Conflict column",

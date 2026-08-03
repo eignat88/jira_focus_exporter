@@ -29,7 +29,15 @@ def test_preflight_has_explicit_full_table_index_handling():
     assert "B-tree chunk index is not required" in source
 
 
-def test_preflight_has_full_table_explain_without_range_predicate():
+def test_preflight_explains_all_full_table_mapping_expressions():
     source = _source()
-    assert "Full-table EXPLAIN" in source
-    assert "SELECT 1 FROM" in source
+    assert "Full mapped SELECT passed EXPLAIN without ANALYZE" in source
+    assert 'column.get("expression", "")' in source
+    assert "SELECT {mapped_expressions}" in source
+
+
+def test_missing_mapped_source_columns_are_blocking_and_deduplicated():
+    source = _source()
+    assert "checked_source_columns: set[str] = set()" in source
+    assert 'self._error(' in source
+    assert 'f"source_column:{source_column}"' in source
