@@ -1,8 +1,8 @@
 # ЕДИНЫЙ СТАТУС ПРОЕКТА
 
 **Проект:** Anomaly Detection / Unified ETL для AX 2012 и WMS  
-**Обновлено:** 2026-08-03 14:25  
-**Основание:** ветка `main` и полный read-only preflight всех RAW → DDS stages от 2026-08-03 14:24 с `batch_size=250000` и `count_mode=estimate`.
+**Обновлено:** 2026-08-03 15:23  
+**Основание:** ветка `main`, полный read-only preflight от 2026-08-03, runtime-запуски `purchase_order` и read-only диагностика `sales_order` run 45.
 
 ---
 
@@ -11,57 +11,23 @@
 Основной контур:
 
 ```text
-SQL Server AX 2012/WMS
-        ↓
-raw_ax
-        ↓
-stage_ax (при необходимости)
-        ↓
-dds
-        ↓
-mart / mart_ax
-        ↓
-аналитика и ML
+SQL Server AX 2012/WMS → raw_ax → stage_ax → dds → mart/mart_ax → аналитика/ML
 ```
 
 SQL Server → RAW работает. RAW → DDS выполняется внутри PostgreSQL через `INSERT INTO ... SELECT FROM ...`; pandas на этом этапе не используется.
 
-Полный preflight был read-only: он проверил конфигурацию, таблицы, колонки, типы ключей, индексы, уникальные ограничения, `EXPLAIN` без `ANALYZE`, блокировки, autovacuum, создание индексов, долгие транзакции и свободное место.
+На момент последнего preflight:
 
-На момент проверки:
-
-- конфликтующих ETL runs нет;
-- конфликтующих locks на target нет;
-- autovacuum на target не активен;
-- `CREATE INDEX` не выполняется;
+- конфликтующих ETL runs и locks нет;
+- autovacuum и CREATE INDEX на target не выполняются;
 - долгих транзакций нет;
 - свободно около 1.4 TB.
 
 ---
 
-## 2. Сводка полного preflight
+## 2. Подтверждённый runtime-статус
 
-```text
-READY:               3 stages
-READY_WITH_WARNINGS: 1 stage
-BLOCKED:             3 stages
-```
-
-| Stage | Результат | RAW | DDS / stage target | План и ключевые факты |
-|---|---|---:|---:|---|
-| `purchase_order` | READY | ~258,518 строк, 293.3 MB | ~257,817 строк, 68.8 MB | настоящий `full_table`; mapped SELECT проходит EXPLAIN; Seq Scan допустим для таблицы такого размера; WAL LOW |
-| `sales_order` | READY_WITH_WARNINGS | ~3,653,448 строк, 3.7 GB | ~3,652,685 строк, 821.0 MB | functional index используется; план Bitmap Heap Scan; WAL LOW |
-| `picking_route` | READY | ~6,986,292 строк, 14.0 GB | ~6,529,987 строк, 1.5 GB | `recid_bigint int8`; B-tree; Index Only Scan; WAL MEDIUM |
-| `pack_task` | READY | ~7,622,862 строк, 3.1 GB | ~7,622,335 строк, 871.1 MB | `numeric_text_range`; range находится в Index Cond; Index Only Scan; WAL LOW |
-| `order_trans` | BLOCKED | ~44,359,952 строк, 23.7 GB | ~45,750,463 строк, 9.8 GB | 6 ошибок: text key при `numeric_range`, 3 отсутствующие RAW-колонки, нет `recid_bigint` index, EXPLAIN не выполняется |
-| `serial_mark_normalization` | BLOCKED | не оценено | не оценено | отсутствует columns mapping для текущего контракта preflight |
-| `serial_mark` | BLOCKED | ~153,227,536 строк, 78.8 GB | ~151,698,873 строк, 36.3 GB | text key при `numeric_range`; нет `recid_bigint` B-tree; блокирующий Seq Scan; WAL HIGH |
-
----
-
-## 3. Подробный статус stages
-
-### 3.1. `purchase_order` — READY
+### `purchase_order` — RUNTIME COMPLETED
 
 Источник и target:
 
@@ -71,24 +37,25 @@ raw_ax.purchtable → dds.purchase_order
 
 Подтверждено:
 
-- стратегия `full_table` корректно допускает source key `recid text`;
-- B-tree chunk index не требуется;
-- составной business key `(purchase_id, data_area_id)` существует;
-- уникальный индекс `ux_purchase_order_business_key` полностью совпадает с conflict key;
-- mapped SELECT проходит `EXPLAIN` без `ANALYZE`;
-- источник около 293.3 MB и 258.5 тыс. строк;
+- preflight = `READY`;
+- `full_table` корректно работает без `recid_bigint`;
+- составной conflict key `(purchase_id, data_area_id)` подтверждён;
+- unique index `ux_purchase_order_business_key` совпадает с conflict key;
+- первый полный запуск завершён: `run_id=66`;
+- `validate-only` завершён: `run_id=67`;
+- повторный полный запуск завершён: `run_id=68`;
+- повторный запуск не завершился ошибкой и подтверждает операционную идемпотентность;
 - WAL risk LOW;
-- свободно 1.4 TB.
+- Seq Scan допустим, поскольку `full_table` читает сравнительно небольшую таблицу около 293 MB.
 
-Seq Scan здесь ожидаем и допустим, поскольку `full_table` должен прочитать всю сравнительно небольшую таблицу. Stage готов к изменяющему runtime-запуску после контрольной проверки activity/WAL/disk.
+Осталось выполнить финальную reconciliation:
 
-Следующий шаг:
+- точные counts RAW/DDS;
+- отсутствие дублей по `(purchase_id, data_area_id)`;
+- отсутствие NULL/пустых business keys;
+- проверка метрик `rows_inserted`, `rows_updated`, `rows_conflicted` для runs 66–68.
 
-```text
-full → validate-only → повторный запуск → проверка DO UPDATE и отсутствия дублей
-```
-
-### 3.2. `sales_order` — READY_WITH_WARNINGS
+### `sales_order` — READY FOR NEW FULL RUN
 
 Источник и target:
 
@@ -96,124 +63,140 @@ full → validate-only → повторный запуск → проверка 
 raw_ax.salestable → dds.sales_order
 ```
 
-Подтверждено:
-
-- выражение chunking `btrim(recid)::bigint` соответствует functional index;
-- индекс `idx_salestable_recid_bigint` valid, ready и пригоден для chunking;
-- target имеет unique key по `source_recid`;
-- ошибок preflight нет;
-- WAL risk LOW.
-
-Предупреждение:
+Read-only диагностика run 45 установила точную причину:
 
 ```text
-Plan uses Bitmap Heap Scan (depends on selectivity)
+'PipelineSpec' object has no attribute 'chunk_strategy'
 ```
 
-Stage структурно готов, но перед resume/restart необходимо завершить диагностику run 45 и сравнить планы batch 100k и 250k. Новый изменяющий запуск без разбора причины run 45 не выполнять.
+Факты по run 45:
 
-### 3.3. `picking_route` — READY
+- run завершился ошибкой до создания chunks;
+- `total_chunks=0`;
+- `rows_read=0`;
+- `rows_inserted=0`;
+- данные не изменялись;
+- `resume` run 45 не требуется.
+
+Новый preflight с `batch_size=100000`:
+
+```text
+READY_WITH_WARNINGS
+errors: 0
+warnings: 1
+```
 
 Подтверждено:
 
-- source key `recid_bigint int8` совместим с `numeric_range`;
-- индекс `idx_wmspickingroute_recid_bigint` valid и ready;
-- план использует Index Only Scan;
-- target имеет unique index по `picking_route_id`;
-- WAL risk MEDIUM.
-
-Оценочная разница RAW/DDS составляет около 456 тыс. строк. Она не доказывает потерю данных: необходимо выполнить reconciliation с учётом преобразований, конфликтов и оценочного характера статистики.
-
-### 3.4. `pack_task` — READY
-
-Подтверждено:
-
-- `numeric_text_range` совместим с `recid text`;
-- unique index `idx_lfl_scspacktask_recid` используется для chunking;
-- план использует Index Only Scan;
-- range predicate находится в Index Cond;
-- target имеет primary key по `task_id`;
+- functional index `idx_salestable_recid_bigint` valid и ready;
+- выражение `(btrim(recid))::bigint` совпадает с выражением индекса;
+- unique key `uq_sales_order_source_recid` существует;
+- Seq Scan отсутствует;
+- планы 100k и 250k используют `Bitmap Heap Scan → Bitmap Index Scan`;
+- range predicate находится в `Index Cond`;
 - WAL risk LOW.
 
-Оценочная разница RAW/DDS — около 527 строк. Требуется reconciliation и проверка конфликтов/дублей.
+Рекомендуемый следующий запуск:
 
-### 3.5. `order_trans` — BLOCKED
+```powershell
+python -m ax_to_postgres_etl.pipelines.dds_cli `
+    --mode full `
+    --stage sales_order `
+    --batch-size 100000
+```
 
-Блокирующие ошибки:
+---
 
-1. `numeric_range` требует числовой source key, но `recid` имеет тип text.
-2. В mapping отсутствуют RAW-колонки `ordertransid`.
-3. В mapping отсутствует RAW-колонка `pickedqty`.
-4. В mapping отсутствует RAW-колонка `wastedqty`.
+## 3. Сводка RAW → DDS stages
+
+| Stage | Текущий статус | Следующее действие |
+|---|---|---|
+| `purchase_order` | RUNTIME COMPLETED, reconciliation required | Проверить runs 66–68 и точную сверку RAW/DDS |
+| `sales_order` | READY_WITH_WARNINGS, run 45 diagnosed | Новый `full` с batch 100k, затем validate-only |
+| `picking_route` | READY | Validate-only и reconciliation |
+| `pack_task` | READY | Validate-only и reconciliation |
+| `order_trans` | BLOCKED | Исправить mapping и выбрать индексируемый chunk key |
+| `serial_mark_normalization` | BLOCKED | Исправить контракт preflight или добавить columns mapping |
+| `serial_mark` | BLOCKED | Утвердить staging/CTAS/source-key архитектуру без массового UPDATE RAW |
+
+---
+
+## 4. Полный preflight baseline
+
+```text
+READY:               purchase_order, picking_route, pack_task
+READY_WITH_WARNINGS: sales_order
+BLOCKED:             order_trans, serial_mark_normalization, serial_mark
+```
+
+### `picking_route`
+
+- RAW ~6.99 млн строк, 14.0 GB;
+- source key `recid_bigint int8`;
+- Index Only Scan;
+- WAL risk MEDIUM;
+- требуется reconciliation оценочной разницы RAW/DDS.
+
+### `pack_task`
+
+- RAW ~7.62 млн строк, 3.1 GB;
+- `numeric_text_range` использует индекс `recid`;
+- range находится в `Index Cond`;
+- Index Only Scan;
+- WAL risk LOW;
+- требуется reconciliation оценочной разницы RAW/DDS.
+
+### `order_trans` — BLOCKED
+
+Блокеры:
+
+1. `recid text` несовместим с `numeric_range`.
+2. Отсутствует RAW-колонка `ordertransid`.
+3. Отсутствует RAW-колонка `pickedqty`.
+4. Отсутствует RAW-колонка `wastedqty`.
 5. Нет B-tree index по ожидаемому `recid_bigint`.
-6. `EXPLAIN` падает, потому что `recid_bigint` не существует.
+6. `EXPLAIN` обращается к несуществующему `recid_bigint`.
 
-Для таблицы около 44.4 млн строк и 23.7 GB запрещено устранять проблему массовым UPDATE RAW. Требуется исправить mapping и выбрать индексируемую chunk strategy.
+Таблица около 44.4 млн строк и 23.7 GB. Массовый UPDATE RAW запрещён без отдельной оценки WAL, disk, rollback и dead tuples.
 
-### 3.6. `serial_mark_normalization` — BLOCKED
+### `serial_mark_normalization` — BLOCKED
 
-Preflight остановлен на проверке конфигурации:
+Текущий блокер:
 
 ```text
 No column mapping defined
 ```
 
-Необходимо либо добавить явный mapping, либо выделить отдельный контракт preflight для normalization stage. Изменяющие операции не запускать.
+Необходимо добавить mapping либо отдельный preflight-контракт для normalization stage.
 
-### 3.7. `serial_mark` — BLOCKED
+### `serial_mark` — BLOCKED
 
-Блокеры:
-
-- source key `recid` имеет тип text, а стратегия задана как `numeric_range`;
-- отсутствует B-tree index по `recid_bigint`;
-- план использует блокирующий Seq Scan по таблице около 153.2 млн строк и 78.8 GB;
-- для source не зафиксирован ANALYZE;
+- RAW ~153.2 млн строк, 78.8 GB;
+- `recid` имеет тип text;
+- `numeric_range` ожидает числовой key;
+- B-tree index по `recid_bigint` отсутствует;
+- план использует блокирующий Seq Scan;
 - WAL risk HIGH.
 
-Существующая `dds.serial_mark` содержит оценочно около 151.7 млн строк, но это не делает pipeline безопасным для повторного запуска.
-
-Запрещён массовый UPDATE `raw_ax.alk_markserial`. Допустимые направления:
-
-- формирование числового RECID при SQL Server → RAW;
-- отдельная normalized/staging table;
-- одноразовый CTAS с последующим индексом;
-- functional index только при полном совпадении выражения запроса и индекса.
-
----
-
-## 4. Текущий readiness
-
-```text
-READY FOR RUNTIME LOAD / VALIDATION:
-- purchase_order
-- picking_route
-- pack_task
-
-READY WITH INVESTIGATION REQUIRED:
-- sales_order
-
-BLOCKED:
-- order_trans
-- serial_mark_normalization
-- serial_mark
-```
+Массовый UPDATE `raw_ax.alk_markserial` не выполнять.
 
 ---
 
 ## 5. Безопасная последовательность действий
 
-1. Выполнить `purchase_order full`, затем `validate-only` и повторный идемпотентный запуск.
-2. Запустить read-only диагностику `sales_order` run 45; только после неё выбрать `resume` или `restart-stage`.
-3. Выполнить `validate-only` и reconciliation для `picking_route` и `pack_task`.
-4. Для `order_trans` исправить mapping и утвердить индексируемую стратегию без массового UPDATE.
-5. Для `serial_mark_normalization` исправить контракт preflight.
-6. Для `serial_mark` утвердить staging/CTAS/source-key архитектуру и benchmark batch 100k, 250k, 500k и 1M.
+1. Выполнить reconciliation `purchase_order` для runs 66–68.
+2. Запустить новый `sales_order full` с batch 100k.
+3. После завершения выполнить `sales_order validate-only` и reconciliation.
+4. Валидировать `picking_route` и `pack_task`.
+5. Разблокировать `order_trans` через исправление mapping и индексируемую chunk strategy.
+6. Исправить preflight `serial_mark_normalization`.
+7. Утвердить staging/CTAS/source-key решение для `serial_mark`.
 
 ---
 
 ## 6. Правила безопасности
 
-Перед каждым изменяющим запуском проверить:
+Перед изменяющим запуском проверять:
 
 ```text
 pg_stat_activity
@@ -228,22 +211,9 @@ pg_stat_checkpointer
 
 Дополнительно:
 
-- blocked stage запрещено запускать в `full` или `resume`;
+- blocked stage не запускать в `full` или `resume`;
 - не считать `n_live_tup` точным count или прогрессом;
 - не выполнять `CREATE INDEX CONCURRENTLY` внутри транзакции;
-- не применять `VACUUM FULL` без окна полной блокировки и места для полного переписывания;
-- `EXPLAIN ANALYZE` на больших таблицах допускается только для безопасного ограниченного диапазона;
-- один тяжёлый stage за раз.
-
----
-
-## 7. Следующая контрольная точка
-
-После runtime-запусков сохранить:
-
-- новый `dds_cli --mode status`;
-- run IDs и статусы;
-- результаты `validate-only`;
-- reconciliation RAW/DDS;
-- фактические WAL delta и длительность;
-- актуальный pytest baseline.
+- не применять `VACUUM FULL` без окна полной блокировки и места для переписывания;
+- один тяжёлый stage за раз;
+- любой запуск должен быть идемпотентным, отменяемым и возобновляемым там, где chunk strategy это позволяет.
