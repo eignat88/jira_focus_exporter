@@ -4,7 +4,7 @@
 **Обновлено:** 2026-08-03 16:02
 **Основание:** ветка `main` на `9d75820`, полный read-only preflight от 2026-08-03, runtime-запуски `purchase_order`, диагностика `sales_order` run 45 и локальный implementation checkpoint плана stages 3–4.
 
-> Локальный implementation checkpoint ещё не опубликован и не применён на Windows-хосте PostgreSQL. Из текущей рабочей среды `localhost:5432` недоступен, поэтому новые runtime run IDs и результаты reconciliation пока не создавались.
+> Implementation checkpoint опубликован в ветке `work/raw-dds-baseline`, но ещё не применён на Windows-хосте PostgreSQL. Из текущей рабочей среды `localhost:5432` недоступен, поэтому новые runtime run IDs и результаты reconciliation пока не создавались.
 
 ---
 

@@ -43,7 +43,7 @@ BLOCKED:
 
 Главная цель периода — завершить reconciliation `purchase_order`, выполнить новый безопасный `sales_order full`, затем закрыть `picking_route` и `pack_task`.
 
-Implementation checkpoint подготовлен локально, но не применён на Windows-хосте PostgreSQL. Новых DB run IDs после 68 пока нет. Прежний CLI `validate-only`, использованный для run 67, шёл через runtime `PipelineRunner`; в checkpoint режим исправлен и теперь не создаёт ETL run/chunks и не выполняет `INSERT`.
+Implementation checkpoint опубликован в ветке `work/raw-dds-baseline`, но не применён на Windows-хосте PostgreSQL. Новых DB run IDs после 68 пока нет. Прежний CLI `validate-only`, использованный для run 67, шёл через runtime `PipelineRunner`; в checkpoint режим исправлен и теперь не создаёт ETL run/chunks и не выполняет `INSERT`.
 
 ---
 
