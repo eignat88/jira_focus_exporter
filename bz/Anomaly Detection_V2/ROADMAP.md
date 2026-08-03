@@ -1,24 +1,28 @@
 # ДОРОЖНАЯ КАРТА UNIFIED ETL
 
-**Обновлено:** 2026-08-03 14:15  
+**Обновлено:** 2026-08-03 14:25  
 **Период детального плана:** 2026-08-03 — 2026-08-09.
 
 ---
 
 ## 1. Текущая точка
 
-После обновления `main` фактическое состояние изменилось:
+Полный read-only preflight от 2026-08-03 14:24 подтвердил:
 
-- PR #11 с исправлением `purchase_order` объединён;
-- реализована настоящая стратегия `full_table`;
-- добавлены составные conflict keys и `ON CONFLICT DO UPDATE`;
-- `full/resume` теперь блокируются обязательным read-only preflight;
-- отсутствующие RAW mapping-колонки стали блокирующей ошибкой;
-- добавлены regression tests для `purchase_order`;
-- добавлен безопасный диагностический комплект для `sales_order` run 45;
-- новый полный runtime baseline после этих изменений ещё не зафиксирован.
+```text
+READY:               purchase_order, picking_route, pack_task
+READY_WITH_WARNINGS: sales_order
+BLOCKED:             order_trans, serial_mark_normalization, serial_mark
+```
 
-Главная цель периода — подтвердить изменения кодом не только на уровне unit/regression tests, но и фактическими preflight, ETL runs и reconciliation в PostgreSQL.
+Общие условия среды на момент проверки благоприятные:
+
+- конфликтующих ETL runs и locks нет;
+- autovacuum и CREATE INDEX на target не выполняются;
+- долгих транзакций нет;
+- свободно около 1.4 TB.
+
+Главная цель периода — выполнить runtime-валидацию READY stages и оформить технические решения для трёх blocked stages без массовых UPDATE больших RAW-таблиц.
 
 ---
 
@@ -26,121 +30,186 @@
 
 | Приоритет | Задача | Ожидаемый результат |
 |---|---|---|
-| P0 | Повторный полный pytest | Актуальные passed/failed и отделённые environment failures |
-| P0 | Проверить `purchase_order` после PR #11 | Preflight READY, run COMPLETED, повторный запуск идемпотентен |
-| P0 | Диагностировать `sales_order` run 45 | Установлена причина и выбран resume/restart-stage |
-| P1 | Закрыть `picking_route` и `pack_task` | validate-only и RAW/DDS reconciliation выполнены |
-| P1 | Утвердить chunk strategy `order_trans` | Индексируемый ключ, отсутствие Seq Scan |
-| P1 | Утвердить архитектуру `serial_mark` | Staging/CTAS/source-key без массового UPDATE RAW |
-| P2 | Обновить документы по runtime | STATUS/ROADMAP/gantt совпадают с фактическими runs |
+| P0 | Запустить `purchase_order` | run COMPLETED, validate-only успешен, repeat-run идемпотентен |
+| P0 | Диагностировать `sales_order` run 45 | причина установлена, выбран resume/restart-stage |
+| P1 | Валидировать `picking_route` | reconciliation объясняет оценочную разницу RAW/DDS |
+| P1 | Валидировать `pack_task` | reconciliation и конфликтное поведение подтверждены |
+| P1 | Разблокировать `order_trans` | mapping исправлен, выбран индексируемый chunk key |
+| P1 | Исправить normalization preflight | stage проходит полноценную read-only проверку |
+| P1 | Утвердить архитектуру `serial_mark` | staging/CTAS/source-key без массового UPDATE RAW |
+| P2 | Обновить runtime baseline | pytest, status, run IDs, WAL и длительность зафиксированы |
 
 ---
 
 ## 3. План работ
 
-### 3 августа — актуальный baseline и `sales_order`
+### 3 августа — `purchase_order` и `sales_order`
 
-1. Запустить полный unit/regression pytest.
-2. Отдельно классифицировать SQL Server integration failures.
-3. Запустить read-only диагностику run 45:
+#### `purchase_order`
+
+Preflight уже READY:
+
+- RAW: ~258,518 строк, 293.3 MB;
+- DDS: ~257,817 строк, 68.8 MB;
+- `full_table` корректен;
+- unique business key `(purchase_id, data_area_id)` подтверждён;
+- WAL risk LOW;
+- Seq Scan допустим, поскольку выполняется полное чтение небольшой таблицы.
+
+Перед запуском:
 
 ```powershell
-Set-Location "D:\py_pro\jira_focus_exporter\bz\Anomaly Detection_V2"
-
-.\monitoring\run_sales_order_run45_diagnostic.ps1
+python monitoring\postgres_wal_monitor.py --interval 60 --duration 2h
+python -m ax_to_postgres_etl.pipelines.dds_cli --mode status
 ```
 
-4. Проверить:
-   - `etl.load_run` и `etl.load_chunk`;
-   - активные процессы;
-   - vacuum/index progress;
-   - планы batch 100k и 250k;
-   - точную ошибку failed chunk.
-5. Не выполнять resume до фиксации причины.
-
-**Критерий готовности:** причина run 45 документирована, выбран безопасный сценарий продолжения.
-
----
-
-### 4 августа — `purchase_order`
-
-1. Проверить наличие миграции составного unique key.
-2. Выполнить preflight:
+Последовательность:
 
 ```powershell
 python -m ax_to_postgres_etl.pipelines.dds_cli `
-    --mode preflight `
+    --mode full `
+    --stage purchase_order `
+    --batch-size 250000
+
+python -m ax_to_postgres_etl.pipelines.dds_cli `
+    --mode validate-only `
     --stage purchase_order
+
+python -m ax_to_postgres_etl.pipelines.dds_cli `
+    --mode full `
+    --stage purchase_order `
+    --batch-size 250000
 ```
 
-3. Подтвердить:
-   - стратегия `full_table` не требует `recid_bigint`;
-   - все mapping-колонки существуют;
-   - составной conflict key полностью совпадает с unique index/constraint;
-   - mapped SELECT проходит `EXPLAIN` без `ANALYZE`.
-4. Перед изменяющим запуском проверить disk, WAL, activity и locks.
-5. Выполнить full load и `validate-only`.
-6. Повторить запуск для проверки `DO UPDATE` и отсутствия дублей.
+Критерии:
 
-**Критерий готовности:** новый run COMPLETED, target заполнен, повторный запуск идемпотентен.
+- новый run = COMPLETED;
+- target не содержит дублей по `(purchase_id, data_area_id)`;
+- повторный запуск не увеличивает логическое количество строк;
+- `DO UPDATE` работает предсказуемо;
+- WAL и длительность сохранены.
 
----
+#### `sales_order`
 
-### 5 августа — `picking_route` и `pack_task`
+Preflight = READY_WITH_WARNINGS. Functional index соответствует выражению, но план использует Bitmap Heap Scan.
 
-Для `picking_route`:
+Сначала выполнить только read-only диагностику:
 
-- подтвердить Index Only Scan;
-- проверить разницу RAW/DDS;
-- проверить conflict key;
-- выполнить validate-only.
+```powershell
+.\monitoring\run_sales_order_run45_diagnostic.ps1
+```
 
-Для `pack_task`:
-
-- подтвердить Index Cond;
-- проверить дубли RAW;
-- проверить поведение `ON CONFLICT`;
-- выполнить validate-only.
-
-**Критерий готовности:** оба stages имеют подтверждённый runtime-статус и документированную reconciliation.
+После анализа batch 100k/250k выбрать `resume` или `restart-stage`. До фиксации причины run 45 изменяющий запуск не выполнять.
 
 ---
 
-### 6 августа — `order_trans`
+### 4 августа — `picking_route` и `pack_task`
+
+#### `picking_route`
+
+Факты preflight:
+
+- RAW ~6.99 млн строк, 14.0 GB;
+- DDS ~6.53 млн строк, 1.5 GB;
+- key `recid_bigint int8`;
+- Index Only Scan;
+- WAL risk MEDIUM.
+
+Работы:
+
+1. Выполнить `validate-only`.
+2. Проверить min/max chunk key.
+3. Проверить NULL и дубли conflict key.
+4. Объяснить оценочную разницу около 456 тыс. строк.
+5. Только после reconciliation решать вопрос о full/resume.
+
+#### `pack_task`
+
+Факты preflight:
+
+- RAW ~7.62 млн строк, 3.1 GB;
+- DDS ~7.62 млн строк, 871.1 MB;
+- `numeric_text_range` использует unique index `recid`;
+- predicate находится в Index Cond;
+- WAL risk LOW.
+
+Работы:
+
+1. Выполнить `validate-only`.
+2. Проверить оценочную разницу около 527 строк.
+3. Проверить RAW duplicates и `ON CONFLICT`.
+4. Зафиксировать итоговый статус run.
+
+---
+
+### 5–6 августа — `order_trans`
+
+Preflight BLOCKED: 6 ошибок.
+
+Необходимо:
 
 1. Получить фактические RAW-колонки.
-2. Исправить mapping на реально существующие поля.
-3. Выбрать безопасную chunk strategy:
-   - числовой ключ во время SQL Server → RAW;
-   - normalized/staging table;
-   - functional index только при точном совпадении выражения.
-4. Не выполнять массовый UPDATE RAW.
-5. Выполнить `EXPLAIN` без `ANALYZE` для batch 100k и 250k.
-6. Подтвердить отсутствие Seq Scan.
-7. Оценить WAL, disk, rollback и resume.
+2. Исправить mappings `ordertransid`, `pickedqty`, `wastedqty`.
+3. Убрать ожидание несуществующего `recid_bigint` либо создать его безопасным архитектурным способом.
+4. Выбрать один подход:
+   - числовой ключ при SQL Server → RAW;
+   - отдельная normalized/staging table;
+   - functional index при полном совпадении выражения.
+5. Не выполнять массовый UPDATE 44+ млн строк.
+6. Получить `EXPLAIN` без `ANALYZE` для batch 100k и 250k.
+7. Подтвердить отсутствие Seq Scan и возможность resume.
+8. Оценить WAL, disk и rollback.
 
-**Критерий готовности:** preflight READY либо утверждён отдельный DDL/ETL-план.
+Критерий готовности: preflight READY либо утверждён отдельный технический план с DDL, индексом, оценкой места и сценарием отмены.
 
 ---
 
-### 7 августа — `serial_mark`
+### 7 августа — `serial_mark_normalization` и `serial_mark`
 
-1. Исправить контракт normalization stage, если он всё ещё требует обычный columns mapping.
-2. Сравнить:
-   - числовой RECID при SQL Server → RAW;
-   - отдельную normalized staging table;
-   - одноразовый CTAS + индекс.
-3. Для каждого варианта оценить:
-   - полное чтение RAW;
-   - место для новой таблицы и индекса;
-   - WAL;
-   - блокировки;
-   - rollback;
-   - resume;
-   - повторное использование.
-4. Использовать benchmark batch 100k, 250k, 500k и 1M.
+#### Normalization stage
 
-**Критерий готовности:** выбран и документирован один безопасный вариант без массового UPDATE `raw_ax.alk_markserial`.
+Текущий блокер:
+
+```text
+No column mapping defined
+```
+
+Необходимо решить, должен ли stage:
+
+- использовать обычный `columns` mapping;
+- либо иметь отдельный normalization-контракт preflight.
+
+После исправления preflight обязан read-only проверить source/target, выражение преобразования, ключ, индексируемость, EXPLAIN, размеры, WAL risk и disk.
+
+#### `serial_mark`
+
+Факты:
+
+- RAW ~153.2 млн строк, 78.8 GB;
+- DDS ~151.7 млн строк, 36.3 GB;
+- source `recid text` несовместим с `numeric_range`;
+- `recid_bigint` и индекс отсутствуют;
+- план использует блокирующий Seq Scan;
+- WAL risk HIGH.
+
+Сравнить варианты:
+
+1. Числовой RECID во время SQL Server → RAW.
+2. Отдельная normalized staging table.
+3. Одноразовый CTAS + индекс.
+
+Для каждого варианта оценить:
+
+- полное чтение 78.8 GB RAW;
+- место под новую таблицу и индекс;
+- WAL;
+- время;
+- блокировки;
+- rollback;
+- resume;
+- повторное использование.
+
+Массовый UPDATE `raw_ax.alk_markserial` запрещён без отдельного утверждённого плана.
 
 ---
 
@@ -150,18 +219,17 @@ python -m ax_to_postgres_etl.pipelines.dds_cli `
 2. Полный read-only preflight.
 3. `dds_cli --mode status`.
 4. Reconciliation завершённых stages.
-5. Обновление STATUS/ROADMAP/gantt по фактическим run IDs.
-6. Формирование backlog для MART и ML только после подтверждения DDS.
-
-**Критерий готовности:** минимум четыре stages подтверждены runtime-проверками, а блокеры больших таблиц оформлены как технические решения.
+5. Сводка WAL history.
+6. Обновление STATUS/ROADMAP/gantt по фактическим run IDs.
+7. Переход к MART только после подтверждения DDS.
 
 ---
 
-## 4. Текущий порядок stages
+## 4. Порядок выполнения
 
 ```text
-purchase_order runtime validation
-→ sales_order recovery
+purchase_order load and validation
+→ sales_order diagnosis and recovery
 → picking_route validation
 → pack_task validation
 → order_trans indexed design
@@ -172,12 +240,13 @@ purchase_order runtime validation
 → ML
 ```
 
-Для каждого stage:
+Для каждого изменяющего stage:
 
 ```text
 read-only diagnostics
 → preflight
 → disk/WAL/activity/index checks
+→ WAL monitor
 → full/resume/restart-stage
 → validate-only
 → status
@@ -187,40 +256,13 @@ read-only diagnostics
 
 ---
 
-## 5. Контрольные команды
+## 5. Ограничения безопасности
 
-```powershell
-cd "D:\py_pro\jira_focus_exporter\bz\Anomaly Detection_V2"
-
-python -m pytest tests -q `
-    --import-mode=importlib `
-    --ignore=tests/test_parallel_inventtable.py
-
-python -m ax_to_postgres_etl.pipelines.dds_cli --mode preflight
-python -m ax_to_postgres_etl.pipelines.dds_cli --mode status
-```
-
-WAL monitor:
-
-```powershell
-python monitoring\postgres_wal_monitor.py --interval 60 --duration 8h
-```
-
-Диагностика `sales_order` run 45:
-
-```powershell
-.\monitoring\run_sales_order_run45_diagnostic.ps1
-```
-
----
-
-## 6. Ограничения безопасности
-
+- Не запускать blocked stage в `full` или `resume`.
 - Не выполнять массовый UPDATE `raw_ax.alk_markserial` или `raw_ax.wmsordertrans`.
-- Не запускать blocked stage в `full`.
 - Не считать `n_live_tup` точным count или прогрессом.
 - Не выполнять `CREATE INDEX CONCURRENTLY` внутри транзакции.
 - Не применять `VACUUM FULL` без окна полной блокировки и места для переписывания.
-- Не выполнять `EXPLAIN ANALYZE` на большой таблице без ограниченного диапазона и оценки риска.
+- Не выполнять тяжёлый `EXPLAIN ANALYZE` без ограниченного диапазона.
 - Один тяжёлый stage за раз.
 - Любая загрузка должна быть идемпотентной, возобновляемой и отменяемой.
