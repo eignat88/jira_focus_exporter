@@ -4,7 +4,9 @@
 
 # Logs
 logs/Архив
-
+!bz/Anomaly Detection_V2/logs/
+!bz/Anomaly Detection_V2/logs/**
+bz/Anomaly Detection_V2/logs/Архив/
 
 # Data files (auto-generated)
 data/
